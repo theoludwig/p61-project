@@ -22,7 +22,7 @@ exports[`<HomePage /> renders correctly 1`] = `
     style={
       {
         "color": "#006CFF",
-        "fontFamily": "Georama",
+        "fontFamily": "Canterbury",
         "fontSize": 36,
         "marginVertical": 20,
       }
