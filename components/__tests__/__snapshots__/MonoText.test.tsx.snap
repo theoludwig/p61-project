@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MonoText /> renders correctly 1`] = `
+<Text
+  style={
+    [
+      undefined,
+      {
+        "fontFamily": "SpaceMono",
+      },
+    ]
+  }
+>
+  Awesome text!
+</Text>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ExternalLink /> renders correctly 1`] = `
+<Text
+  href="https://www.unistra.fr/"
+  onPress={[Function]}
+  role="link"
+>
+  Awesome Link!
+</Text>
+`;

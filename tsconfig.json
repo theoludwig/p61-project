@@ -1,0 +1,18 @@
+{
+  "extends": ["@tsconfig/strictest/tsconfig.json", "expo/tsconfig.base"],
+  "compilerOptions": {
+    "strict": true,
+    "exactOptionalPropertyTypes": false,
+    "allowJs": false,
+    "checkJs": false,
+    "types": [
+      "@total-typescript/ts-reset",
+      "jest",
+      "@testing-library/react-native/extend-expect"
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+}

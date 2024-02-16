@@ -1,0 +1,19 @@
+{
+  "preset": "jest-expo",
+  "roots": ["./"],
+  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.ts"],
+  "fakeTimers": {
+    "enableGlobally": true
+  },
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "coverageReporters": ["text", "text-summary", "cobertura"],
+  "collectCoverageFrom": [
+    "<rootDir>/**/*.{ts,tsx}",
+    "!<rootDir>/components/ExternalLink.tsx",
+    "!<rootDir>/.expo",
+    "!<rootDir>/app/+html.tsx",
+    "!<rootDir>/app/**/_layout.tsx",
+    "!**/*.d.ts"
+  ]
+}
