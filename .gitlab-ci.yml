@@ -1,0 +1,24 @@
+default:
+  image: "node:20.11.1"
+
+stages:
+  - "test"
+
+test:
+  stage: "test"
+  script:
+    - "npm clean-install"
+    - 'echo "${CI_COMMIT_MESSAGE}" | npm run lint:commit'
+    - "npm run lint:prettier"
+    - "npm run lint:eslint"
+    - "npm run lint:typescript"
+    - "npm run test"
+  artifacts:
+    paths:
+      - "coverage/"
+    reports:
+      coverage_report:
+        coverage_format: "cobertura"
+        path: "coverage/cobertura-coverage.xml"
+      junit: "junit.xml"
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
