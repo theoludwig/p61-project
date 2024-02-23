@@ -4,7 +4,10 @@
 
 Application mobile en React Native pour le projet du module P61 Développement avancé.
 
-[Sujet](./SUJET.md)
+Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours.
+
+- [Sujet](./SUJET.md)
+- [Cahier des charges](./CAHIER-DES-CHARGES.md)
 
 ## Membres du Groupe 7
 
