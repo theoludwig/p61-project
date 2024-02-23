@@ -37,8 +37,6 @@ Vous pouvez utiliser une feuille et un crayon, mais je recommande l'utilisation 
 
 A vos claviers !!
 
-![letscode](./resources/letscode.jpg)
-
 Pour ces deux dernières heures et la mise en place des composants essentiels du projet, je vous recommande de faire du [pair programming](https://fr.wikipedia.org/wiki/Programmation_en_bin%C3%B4me).
 
 ### 4.1 Structure du projet
