@@ -1,13 +1,18 @@
-import { StatusBar } from "expo-status-bar"
-import { StyleSheet, Text } from "react-native"
+import { StyleSheet } from "react-native"
+import { Button } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 const HomePage: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>P61 Project</Text>
-
-      <StatusBar style="auto" />
+      <Button
+        mode="contained"
+        onPress={() => {
+          return console.log("Pressed")
+        }}
+      >
+        Press me
+      </Button>
     </SafeAreaView>
   )
 }
@@ -17,12 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontFamily: "Canterbury",
-    fontSize: 36,
-    color: "#006CFF",
-    marginVertical: 20,
   },
 })
 
