@@ -6,6 +6,9 @@ stages:
 
 test:
   stage: "test"
+  only:
+    - "merge_requests"
+    - "develop"
   script:
     - "npm clean-install"
     - 'echo "${CI_COMMIT_MESSAGE}" | npm run lint:commit'
