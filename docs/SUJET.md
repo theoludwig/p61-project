@@ -1,13 +1,13 @@
 # PROJET 🚧
 
 Pas de temps à perdre, commençons dès aujourd'hui à travailler sur l'accompagnement du projet.
-Pour celà, commençons par découvrir le [cahier des charges du projet](https://docs.google.com/document/d/1P1pD_TsTa8Cn4XT-hU0YF_xMx2BGqbXxG7Ta2oNcnOk/edit).
+Pour celà, commençons par découvrir le [cahier des charges du projet](./CAHIER-DES-CHARGES.md).
 
 ## 1 🚀 KICKSTART
 
 ### 1.1 Mettez vous par groupe
 
-Renseignez ce fichier [Cahier des charges](./CAHIER-DES-CHARGES.md) avec le nom des étudiants de votre groupe
+Renseignez ce fichier [Google Sheets](https://docs.google.com/spreadsheets/d/1is3MSvOM94Gs6hfzfg-jJSGIqrrNzzBqDadrCNEQCok/edit#gid=0) avec le nom des étudiants de votre groupe
 
 ### 1.2 Créez votre projet
 
@@ -17,7 +17,7 @@ Choisissez une application `blank`
 ### 1.3 GitLab
 
 - Ajoutez ce projet sur le Gitlab de l'université
-- Ajoutez les profs (@joeybronner et @g.baldi) en tant que "Reporter"
+- Ajoutez les profs ([@joeybronner](https://git.unistra.fr/joeybronner) et [@g.baldi](https://git.unistra.fr/g.baldi)) en tant que "Reporter"
 - Ajoutez tous les membres de votre groupe au projet
 
 ## 2 📱 DESIGN
@@ -57,7 +57,7 @@ Un Splashscreen est toujours plus élégant qu'un écran de lancement "tout moch
 
 Implémentez le type de navigation que vous préférez et qui (d'après-vous) correspond le mieux à ce projet ⤵
 
-Pour rappel, la librairie est [React Native Navigation](https://reactnavigation.org/docs/getting-started/) et les 3 types de navigations sont :
+Pour rappel, la librairie est [React Native Navigation](https://reactnavigation.org/./docs/getting-started/) et les 3 types de navigations sont :
 
 - Stack _(à implémenter forcément)_
 - Drawer
@@ -96,7 +96,5 @@ Je recommande les librairies de composants suivantes :
 - [Paper](https://reactnativepaper.com/)
 
 N'hésitez pas à ajouter un de ceux-là (ou un autre) à votre projet et à en utiliser les composants.
-
----
 
 N'oubliez pas de faire des commits réguliers à la fin de chaque séance pour éviter les conflits Git.

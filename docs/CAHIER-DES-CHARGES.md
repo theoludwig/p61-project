@@ -51,4 +51,4 @@ Vous serez évalués sur les aspects suivants :
 
 ## Exemple d’interfaces
 
-![UI Example](./assets/images/ui-example.png)
+![UI Example](../assets/images/ui-example.png)
