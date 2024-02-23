@@ -45,9 +45,9 @@ Mettez-vous d'accord sur la structure et l'architecture du projet ⤵
 
 🔗 [Google Slide | Bien structurer son projet](https://docs.google.com/presentation/d/1W0b7Na9pcBiR0KUDhLtvlV6x6oNgFo9X6l7KKpaYibU/edit#slide=id.gf85a3fda8d_1_223)
 
-**!!  C'est important pour la suite et pour la maintenance du projet. !!**
+**!! C'est important pour la suite et pour la maintenance du projet. !!**
 
-### 4.2 SplashScreen *(optionnel mais recommandé =))*
+### 4.2 SplashScreen _(optionnel mais recommandé =))_
 
 Un Splashscreen est toujours plus élégant qu'un écran de lancement "tout moche", et en plus vous pouvez vous en servir pour charger des dépendances externes (fonts, check et initialisation serveur, etc...) ⤵
 
@@ -58,7 +58,8 @@ Un Splashscreen est toujours plus élégant qu'un écran de lancement "tout moch
 Implémentez le type de navigation que vous préférez et qui (d'après-vous) correspond le mieux à ce projet ⤵
 
 Pour rappel, la librairie est [React Native Navigation](https://reactnavigation.org/docs/getting-started/) et les 3 types de navigations sont :
-- Stack *(à implémenter forcément)*
+
+- Stack _(à implémenter forcément)_
 - Drawer
 - Tabs
 
@@ -68,7 +69,7 @@ Pour rappel, la librairie est [React Native Navigation](https://reactnavigation.
 
 Si l'API n'est pas encore prête, implémentez un écran de login fictif avec les champs "username", "password" et un bouton "se connecter".
 
-Le bouton "se connecter" ferait donc pour le moment une simple redirection vers l'écran d'accueil en attendant l'implémentation réelle du login/password *(quand l'API sera prête)*
+Le bouton "se connecter" ferait donc pour le moment une simple redirection vers l'écran d'accueil en attendant l'implémentation réelle du login/password _(quand l'API sera prête)_
 
 Quelques liens utiles pour comprendre... :
 
@@ -82,7 +83,7 @@ Quelques liens utiles pour comprendre... :
 
 ⚠️ Aucun de ces projets ci-dessus est considéré comme LA MARCHE à suivre, c'est simplement pour vous inspirer et comprendre l'implémentation de l'authentification en React Native.
 
-### 4.5 UI Framework ? *(optionnel)*
+### 4.5 UI Framework ? _(optionnel)_
 
 Tous les développeurs n'ont pas la touche "design", c'est un fait. Et si vous utilisiez un framework UI qui vous facilitera la vie et rendra votre application un peu plus jolie ?
 
@@ -96,6 +97,6 @@ Je recommande les librairies de composants suivantes :
 
 N'hésitez pas à ajouter un de ceux-là (ou un autre) à votre projet et à en utiliser les composants.
 
-_________________
+---
 
 N'oubliez pas de faire des commits réguliers à la fin de chaque séance pour éviter les conflits Git.
