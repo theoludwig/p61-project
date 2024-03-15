@@ -30,6 +30,24 @@ const TabLayout: React.FC = () => {
           },
         }}
       />
+      <Tabs.Screen
+        name="login"
+        options={{
+          title: "Login",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="sign-in" color={color} />
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="register"
+        options={{
+          title: "Register",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="user-plus" color={color} />
+          },
+        }}
+      />
     </Tabs>
   )
 }
