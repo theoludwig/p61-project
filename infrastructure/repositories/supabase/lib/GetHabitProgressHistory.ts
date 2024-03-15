@@ -1,17 +1,17 @@
-import type { GetHabitProgressesRepository } from "@/data/domain/repositories/GetHabitProgresses"
+import type { GetHabitProgressHistoryRepository } from "@/domain/repositories/GetHabitProgressHistory"
 import { SupabaseRepository } from "./_SupabaseRepository"
-import { HabitProgress } from "@/data/domain/entities/HabitProgress"
-import type { GoalProgress } from "@/data/domain/entities/Goal"
+import { HabitProgress } from "@/domain/entities/HabitProgress"
+import type { GoalProgress } from "@/domain/entities/Goal"
 import {
   GoalBooleanProgress,
   GoalNumericProgress,
-} from "@/data/domain/entities/Goal"
+} from "@/domain/entities/Goal"
 
-export class GetHabitProgressesSupabaseRepository
+export class GetHabitProgressHistorySupabaseRepository
   extends SupabaseRepository
-  implements GetHabitProgressesRepository
+  implements GetHabitProgressHistoryRepository
 {
-  execute: GetHabitProgressesRepository["execute"] = async (options) => {
+  execute: GetHabitProgressHistoryRepository["execute"] = async (options) => {
     const { habit } = options
     const { data, error } = await this.supabaseClient
       .from("habits_progresses")
@@ -20,7 +20,7 @@ export class GetHabitProgressesSupabaseRepository
     if (error != null) {
       throw new Error(error.message)
     }
-    const habitProgresses = data.map((item) => {
+    const habitProgressHistory = data.map((item) => {
       let goalProgress: GoalProgress | null = null
       if (habit.goal.isNumeric()) {
         goalProgress = new GoalNumericProgress({
@@ -44,6 +44,6 @@ export class GetHabitProgressesSupabaseRepository
       })
       return habitProgress
     })
-    return habitProgresses
+    return habitProgressHistory
   }
 }

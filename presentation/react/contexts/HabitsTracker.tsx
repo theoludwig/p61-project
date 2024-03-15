@@ -3,12 +3,11 @@ import { createContext, useContext, useEffect } from "react"
 import type {
   HabitsTrackerPresenter,
   HabitsTrackerPresenterState,
-} from "@/data/infrastructure/presenters/HabitsTrackerPresenter"
-import { usePresenterState } from "@/hooks/usePresenterState"
-import { habitsTrackerPresenter } from "@/data/infrastructure"
+} from "@/presentation/presenters/HabitsTracker"
+import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
+import { habitsTrackerPresenter } from "@/infrastructure"
 
-export interface HabitsTrackerContextValue {
-  habitsTrackerPresenterState: HabitsTrackerPresenterState
+export interface HabitsTrackerContextValue extends HabitsTrackerPresenterState {
   habitsTrackerPresenter: HabitsTrackerPresenter
 }
 
@@ -36,7 +35,10 @@ export const HabitsTrackerProvider: React.FC<HabitsTrackerProviderProps> = (
 
   return (
     <HabitsTrackerContext.Provider
-      value={{ habitsTrackerPresenterState, habitsTrackerPresenter }}
+      value={{
+        ...habitsTrackerPresenterState,
+        habitsTrackerPresenter,
+      }}
     >
       {children}
     </HabitsTrackerContext.Provider>

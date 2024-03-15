@@ -1,16 +1,14 @@
 import { StyleSheet, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { useHabitsTracker } from "@/contexts/HabitsTracker"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 
 const HabitsPage: React.FC = () => {
-  const { habitsTrackerPresenterState } = useHabitsTracker()
-  const { habitsTracker } = habitsTrackerPresenterState
-  const { habitProgressHistories } = habitsTracker
+  const { habitsTracker } = useHabitsTracker()
 
   return (
     <SafeAreaView style={styles.container}>
-      {habitProgressHistories.map((progressHistory) => {
+      {habitsTracker.habitsHistory.map((progressHistory) => {
         const { habit } = progressHistory
 
         return (

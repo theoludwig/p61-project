@@ -1,19 +1,16 @@
-// export const taskRepository = new TaskLocalStorageRepository()
-// export const taskService = new TaskService(taskRepository)
-// export const taskPresenter = new TaskPresenter(taskService)
-
 import { RetrieveHabitsTrackerUseCase } from "../domain/use-cases/RetrieveHabitsTracker"
-import { HabitsTrackerPresenter } from "./presenters/HabitsTrackerPresenter"
-import { GetHabitProgressesSupabaseRepository } from "./repositories/supabase/lib/GetHabitProgresses"
+import { HabitsTrackerPresenter } from "../presentation/presenters/HabitsTracker"
+import { GetHabitProgressHistorySupabaseRepository } from "./repositories/supabase/lib/GetHabitProgressHistory"
 import { GetHabitsByUserIdSupabaseRepository } from "./repositories/supabase/lib/GetHabitsByUserId"
 import { supabaseClient } from "./repositories/supabase/supabase"
 
 /**
  * Repositories
  */
-const getHabitProgressesRepository = new GetHabitProgressesSupabaseRepository({
-  supabaseClient,
-})
+const getHabitProgressesRepository =
+  new GetHabitProgressHistorySupabaseRepository({
+    supabaseClient,
+  })
 const getHabitsByUserIdRepository = new GetHabitsByUserIdSupabaseRepository({
   supabaseClient,
 })
@@ -22,7 +19,7 @@ const getHabitsByUserIdRepository = new GetHabitsByUserIdSupabaseRepository({
  * Use Cases
  */
 const retrieveHabitsTrackerUseCase = new RetrieveHabitsTrackerUseCase({
-  getHabitProgressesRepository,
+  getHabitProgressHistoryRepository: getHabitProgressesRepository,
   getHabitsByUserIdRepository,
 })
 

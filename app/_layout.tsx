@@ -8,10 +8,10 @@ import {
 } from "react-native-paper"
 import { StatusBar } from "expo-status-bar"
 
-import CanterburyFont from "../assets/fonts/Canterbury.ttf"
-import GeoramFont from "../assets/fonts/Georama-Black.ttf"
-import SpaceMonoFont from "../assets/fonts/SpaceMono-Regular.ttf"
-import { HabitsTrackerProvider } from "@/contexts/HabitsTracker"
+import CanterburyFont from "../presentation/assets/fonts/Canterbury.ttf"
+import GeoramFont from "../presentation/assets/fonts/Georama-Black.ttf"
+import SpaceMonoFont from "../presentation/assets/fonts/SpaceMono-Regular.ttf"
+import { HabitsTrackerProvider } from "@/presentation/react/contexts/HabitsTracker"
 
 export { ErrorBoundary } from "expo-router"
 

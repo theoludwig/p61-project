@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react-native"
 
-import { useBoolean } from "@/hooks/useBoolean"
+import { useBoolean } from "@/presentation/react/hooks/useBoolean"
 
 describe("hooks/useBoolean", () => {
   beforeEach(() => {

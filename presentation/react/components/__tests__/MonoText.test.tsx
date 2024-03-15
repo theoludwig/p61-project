@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer"
 
-import { MonoText } from "@/components/MonoText"
+import { MonoText } from "@/presentation/react/components/MonoText"
 
 describe("<MonoText />", () => {
   it("renders correctly", () => {

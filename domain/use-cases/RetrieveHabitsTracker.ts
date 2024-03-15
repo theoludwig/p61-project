@@ -1,12 +1,12 @@
-import { HabitProgressHistory } from "../entities/HabitProgressHistory"
+import { HabitHistory } from "../entities/HabitHistory"
 import { HabitsTracker } from "../entities/HabitsTracker"
 import type { User } from "../entities/User"
-import type { GetHabitProgressesRepository } from "../repositories/GetHabitProgresses"
+import type { GetHabitProgressHistoryRepository } from "../repositories/GetHabitProgressHistory"
 import type { GetHabitsByUserIdRepository } from "../repositories/GetHabitsByUserId"
 
 export interface RetrieveHabitsTrackerUseCaseDependencyOptions {
   getHabitsByUserIdRepository: GetHabitsByUserIdRepository
-  getHabitProgressesRepository: GetHabitProgressesRepository
+  getHabitProgressHistoryRepository: GetHabitProgressHistoryRepository
 }
 
 export interface RetrieveHabitsTrackerUseCaseOptions {
@@ -17,11 +17,12 @@ export class RetrieveHabitsTrackerUseCase
   implements RetrieveHabitsTrackerUseCaseDependencyOptions
 {
   public getHabitsByUserIdRepository: GetHabitsByUserIdRepository
-  public getHabitProgressesRepository: GetHabitProgressesRepository
+  public getHabitProgressHistoryRepository: GetHabitProgressHistoryRepository
 
   public constructor(options: RetrieveHabitsTrackerUseCaseDependencyOptions) {
     this.getHabitsByUserIdRepository = options.getHabitsByUserIdRepository
-    this.getHabitProgressesRepository = options.getHabitProgressesRepository
+    this.getHabitProgressHistoryRepository =
+      options.getHabitProgressHistoryRepository
   }
 
   public async execute(
@@ -31,15 +32,16 @@ export class RetrieveHabitsTrackerUseCase
     const habits = await this.getHabitsByUserIdRepository.execute({ userId })
     const habitProgressHistories = await Promise.all(
       habits.map(async (habit) => {
-        const habitProgresses = await this.getHabitProgressesRepository.execute(
-          {
+        const progressHistory =
+          await this.getHabitProgressHistoryRepository.execute({
             habit,
-          },
-        )
-        return new HabitProgressHistory({ habit, habitProgresses })
+          })
+        return new HabitHistory({ habit, progressHistory })
       }),
     )
-    const habitsTracker = new HabitsTracker({ habitProgressHistories })
+    const habitsTracker = new HabitsTracker({
+      habitsHistory: habitProgressHistories,
+    })
     return habitsTracker
   }
 }

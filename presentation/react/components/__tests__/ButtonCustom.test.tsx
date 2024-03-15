@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer"
 
-import { ButtonCustom } from "@/components/ButtonCustom"
+import { ButtonCustom } from "@/presentation/react/components/ButtonCustom"
 
 describe("<ButtonCustom />", () => {
   it("renders correctly", () => {

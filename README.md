@@ -15,10 +15,9 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 ### Documentation
 
-- [Sujet du projet](./docs/SUJET.md)
-- [Cahier des charges](./docs/CAHIER-DES-CHARGES.md)
+- [Sujet](./docs/SUJET.md) + [Cahier des charges](./docs/CAHIER-DES-CHARGES.md)
 - [Modèle Logique des Données (MLD)](./docs/MLD.md)
-- [Clean Architecture](./docs/ARCHITECTURE.md)
+- [Architecture](./docs/ARCHITECTURE.md)
 - [Conventions développement informatique](./docs/CONVENTIONS.md)
 
 #### Principaux Outils Informatiques Utilisés
@@ -26,8 +25,10 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 - [React Native](https://reactnative.dev/) + [Expo](https://expo.io/): Framework pour le développement d'applications mobiles.
 - [TypeScript](https://www.typescriptlang.org/): Langage de programmation.
 - [React Native Paper](https://callstack.github.io/react-native-paper/): Bibliothèque de composants pour React Native.
-<!-- - [WatermelonDB](https://nozbe.github.io/WatermelonDB/): Base de données locale, pour permettre une utilisation hors-ligne de l'application. -->
 - [Supabase](https://supabase.io/): Backend, serveur d'API pour le stockage des données.
+<!--
+- [WatermelonDB](https://nozbe.github.io/WatermelonDB/): Base de données locale, pour permettre une utilisation hors-ligne de l'application.
+  -->
 
 ## Développement du projet en local
 

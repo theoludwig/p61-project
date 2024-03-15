@@ -1,9 +1,9 @@
-import { HabitsTracker } from "@/data/domain/entities/HabitsTracker"
+import { HabitsTracker } from "@/domain/entities/HabitsTracker"
 import { Presenter } from "./_Presenter"
 import type {
   RetrieveHabitsTrackerUseCase,
   RetrieveHabitsTrackerUseCaseOptions,
-} from "@/data/domain/use-cases/RetrieveHabitsTracker"
+} from "@/domain/use-cases/RetrieveHabitsTracker"
 
 export interface HabitsTrackerPresenterState {
   habitsTracker: HabitsTracker

@@ -1,7 +1,7 @@
 {
   "preset": "jest-expo",
   "roots": ["./"],
-  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.ts"],
+  "setupFilesAfterEnv": ["@testing-library/react-native/extend-expect"],
   "fakeTimers": {
     "enableGlobally": true
   },
@@ -10,7 +10,7 @@
   "coverageReporters": ["text", "text-summary", "cobertura"],
   "collectCoverageFrom": [
     "<rootDir>/**/*.{ts,tsx}",
-    "!<rootDir>/components/ExternalLink.tsx",
+    "!<rootDir>/presentation/react/components/ExternalLink.tsx",
     "!<rootDir>/.expo",
     "!<rootDir>/app/+html.tsx",
     "!<rootDir>/app/**/_layout.tsx",

@@ -1,8 +1,8 @@
-import type { GetHabitsByUserIdRepository } from "@/data/domain/repositories/GetHabitsByUserId"
+import type { GetHabitsByUserIdRepository } from "@/domain/repositories/GetHabitsByUserId"
 import { SupabaseRepository } from "./_SupabaseRepository"
-import { Habit } from "@/data/domain/entities/Habit"
-import type { Goal } from "@/data/domain/entities/Goal"
-import { GoalBoolean, GoalNumeric } from "@/data/domain/entities/Goal"
+import { Habit } from "@/domain/entities/Habit"
+import type { Goal } from "@/domain/entities/Goal"
+import { GoalBoolean, GoalNumeric } from "@/domain/entities/Goal"
 
 export class GetHabitsByUserIdSupabaseRepository
   extends SupabaseRepository

@@ -4,11 +4,11 @@
     "slug": "p61-project",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./presentation/assets/images/icon.png",
     "scheme": "p61-project",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splashscreen.jpg",
+      "image": "./presentation/assets/images/splashscreen.jpg",
       "resizeMode": "cover",
       "backgroundColor": "#74b6cb"
     },
@@ -18,14 +18,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./presentation/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./presentation/assets/images/favicon.png"
     },
     "plugins": ["expo-router"],
     "experiments": {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import type { Presenter } from "@/data/infrastructure/presenters/_Presenter"
+import type { Presenter } from "@/presentation/presenters/_Presenter"
 
 export const usePresenterState = <S>(presenter: Presenter<S>): S => {
   const [state, setState] = useState<S>(presenter.initialState)
