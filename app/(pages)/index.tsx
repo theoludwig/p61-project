@@ -1,18 +1,24 @@
-import { StyleSheet } from "react-native"
-import { Button } from "react-native-paper"
+import { StyleSheet, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
+import { useHabitsTracker } from "@/contexts/HabitsTracker"
+
 const HomePage: React.FC = () => {
+  const { habitsTrackerPresenterState } = useHabitsTracker()
+  const { habitsTracker } = habitsTrackerPresenterState
+  const { habitProgressHistories } = habitsTracker
+
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        mode="contained"
-        onPress={() => {
-          return console.log("Pressed")
-        }}
-      >
-        Press me
-      </Button>
+      {habitProgressHistories.map((progressHistory) => {
+        const { habit } = progressHistory
+
+        return (
+          <View key={habit.id}>
+            <Text>{habit.name}</Text>
+          </View>
+        )
+      })}
     </SafeAreaView>
   )
 }

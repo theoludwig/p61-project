@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar"
 import CanterburyFont from "../assets/fonts/Canterbury.ttf"
 import GeoramFont from "../assets/fonts/Georama-Black.ttf"
 import SpaceMonoFont from "../assets/fonts/SpaceMono-Regular.ttf"
+import { HabitsTrackerProvider } from "@/contexts/HabitsTracker"
 
 export { ErrorBoundary } from "expo-router"
 
@@ -48,26 +49,28 @@ const RootLayout: React.FC = () => {
   }
 
   return (
-    <PaperProvider
-      theme={{
-        ...DefaultTheme,
-        colors: {
-          ...DefaultTheme.colors,
-          primary: "#f57c00",
-          secondary: "#fbc02d",
-        },
-      }}
-    >
-      <Stack
-        screenOptions={{
-          headerShown: false,
+    <HabitsTrackerProvider>
+      <PaperProvider
+        theme={{
+          ...DefaultTheme,
+          colors: {
+            ...DefaultTheme.colors,
+            primary: "#f57c00",
+            secondary: "#fbc02d",
+          },
         }}
       >
-        <Stack.Screen name="(pages)" />
-      </Stack>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(pages)" />
+        </Stack>
 
-      <StatusBar style="dark" />
-    </PaperProvider>
+        <StatusBar style="dark" />
+      </PaperProvider>
+    </HabitsTrackerProvider>
   )
 }
 
