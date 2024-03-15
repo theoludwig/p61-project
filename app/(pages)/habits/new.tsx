@@ -1,18 +1,11 @@
 import { StyleSheet } from "react-native"
-import { Button } from "react-native-paper"
+import { Text } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const Settings: React.FC = () => {
+const NewHabitPage: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        mode="contained"
-        onPress={() => {
-          return console.log("Pressed")
-        }}
-      >
-        Press me
-      </Button>
+      <Text>New Habit</Text>
     </SafeAreaView>
   )
 }
@@ -25,4 +18,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Settings
+export default NewHabitPage

@@ -1,10 +1,10 @@
 import { StyleSheet, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const HomePage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Home Page</Text>
+      <Text>Settings</Text>
     </SafeAreaView>
   )
 }
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomePage
+export default SettingsPage

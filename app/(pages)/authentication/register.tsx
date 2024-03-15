@@ -1,21 +1,14 @@
-import { StyleSheet, Image } from "react-native"
-import {
-  Button,
-  TextInput,
-  HelperText,
-  ActivityIndicator as _ActivityIndicator,
-  Banner,
-} from "react-native-paper"
+import { useState } from "react"
+import { Image, StyleSheet } from "react-native"
+import { Banner, Button, HelperText, TextInput } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
-import * as React from "react"
 
 const RegisterPage: React.FC = () => {
   const regexEmail = /^[\w.-]+@[\d.A-Za-z-]+\.[A-Za-z]{2,4}$/
 
-  const [password, setPassword] = React.useState<string>("")
-  const [isPasswordCorrect, setIsPasswordCorrect] =
-    React.useState<boolean>(true)
-  const [isEmailValid, setIsEmailValid] = React.useState<boolean>(true)
+  const [password, setPassword] = useState<string>("")
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(true)
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true)
 
   return (
     <SafeAreaView style={styles.container}>

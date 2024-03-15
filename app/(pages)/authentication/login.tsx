@@ -1,25 +1,20 @@
-import { StyleSheet, Image } from "react-native"
+import { useState } from "react"
+import { Image, StyleSheet } from "react-native"
 import {
-  Button,
-  TextInput,
-  HelperText,
   ActivityIndicator,
   Banner,
+  Button,
+  HelperText,
+  TextInput,
 } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
-import * as React from "react"
 
 const LoginPage: React.FC = () => {
-  // Gérer l'état de votre formulaire ici : timeout, invalidité, etc.
-  // Possible de changer le type comme string.
-  const [hasError, _sethasError] = React.useState<boolean>(true)
+  const [hasError, _sethasError] = useState<boolean>(true)
 
-  // Message d'erreur à afficher pour HelperText
-  const [errorMessage, _setErrorMessage] =
-    React.useState<string>("Error message")
+  const [errorMessage, _setErrorMessage] = useState<string>("Error message")
 
-  // Affichage de l'indicateur de chargement
-  const [isPerfomingLogin, _setIsPerfomingLogin] = React.useState<boolean>(true)
+  const [isPerfomingLogin, _setIsPerfomingLogin] = useState<boolean>(true)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,9 +23,6 @@ const LoginPage: React.FC = () => {
         actions={[
           {
             label: "Report this problem",
-            onPress: () => {
-              return console.log("Pressed")
-            },
           },
         ]}
         icon={({ size }) => {
@@ -54,15 +46,7 @@ const LoginPage: React.FC = () => {
       <HelperText type="error" visible={hasError} style={styles.errorText}>
         {errorMessage}
       </HelperText>
-      <Button
-        mode="contained"
-        onPress={() => {
-          return console.log("Pressed")
-          // TODO: Implement login logic
-        }}
-      >
-        Login
-      </Button>
+      <Button mode="contained">Login</Button>
       <ActivityIndicator
         animating={isPerfomingLogin}
         color="blue"

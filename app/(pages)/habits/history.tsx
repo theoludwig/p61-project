@@ -1,22 +1,13 @@
+import { useState } from "react"
 import { StyleSheet } from "react-native"
-import { Button } from "react-native-paper"
 import { Calendar } from "react-native-calendars"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { useState } from "react"
 
-const History: React.FC = () => {
+const HistoryPage: React.FC = () => {
   const [selected, setSelected] = useState("")
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        mode="contained"
-        onPress={() => {
-          return console.log("Pressed")
-        }}
-      >
-        Press me
-      </Button>
       <Calendar
         onDayPress={(day) => {
           setSelected(day.dateString)
@@ -54,4 +45,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default History
+export default HistoryPage

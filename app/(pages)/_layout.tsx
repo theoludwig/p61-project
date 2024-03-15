@@ -31,7 +31,7 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="newHabit"
+        name="habits/new"
         options={{
           title: "New Habit",
           tabBarIcon: ({ color }) => {
@@ -40,7 +40,17 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="history"
+        name="habits/index"
+        options={{
+          headerShown: false,
+          title: "Habits",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="sticky-note" color={color} />
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="habits/history"
         options={{
           title: "History",
           tabBarIcon: ({ color }) => {
@@ -49,7 +59,7 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="users/settings"
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => {
@@ -58,7 +68,7 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="login"
+        name="authentication/login"
         options={{
           title: "Login",
           tabBarIcon: ({ color }) => {
@@ -67,7 +77,7 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="register"
+        name="authentication/register"
         options={{
           title: "Register",
           tabBarIcon: ({ color }) => {
