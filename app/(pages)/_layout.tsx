@@ -31,6 +31,33 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
+        name="newHabit"
+        options={{
+          title: "New Habit",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="plus-square" color={color} />
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: "History",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="history" color={color} />
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color }) => {
+            return <TabBarIcon name="cog" color={color} />
+          },
+        }}
+      />
+      <Tabs.Screen
         name="login"
         options={{
           title: "Login",
