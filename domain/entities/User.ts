@@ -1,19 +1,35 @@
-import type { EntityOptions } from "./_Entity"
-import { Entity } from "./_Entity"
+import { z } from "zod"
 
-export interface UserOptions extends EntityOptions {
-  email: string
-  displayName: string
-}
+import { Entity, EntitySchema } from "./_Entity"
 
-export class User extends Entity implements UserOptions {
-  public email: UserOptions["email"]
-  public displayName: UserOptions["displayName"]
+export const UserSchema = EntitySchema.extend({
+  email: z.string().min(1).email(),
+  displayName: z.string().min(1),
+})
 
-  public constructor(options: UserOptions) {
+export const UserRegisterSchema = UserSchema.extend({
+  password: z.string().min(2),
+}).omit({ id: true })
+export type UserRegisterData = z.infer<typeof UserRegisterSchema>
+
+export type UserData = z.infer<typeof UserSchema>
+
+export class User extends Entity implements UserData {
+  public email: UserData["email"]
+  public displayName: UserData["displayName"]
+
+  public constructor(options: UserData) {
     const { id, email, displayName } = options
     super({ id })
     this.email = email
     this.displayName = displayName
+  }
+
+  public override toJSON(): UserData {
+    return {
+      id: this.id,
+      email: this.email,
+      displayName: this.displayName,
+    }
   }
 }

@@ -22,9 +22,10 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 #### Principaux Outils Informatiques Utilisés
 
-- [React Native](https://reactnative.dev/) + [Expo](https://expo.io/): Framework pour le développement d'applications mobiles.
 - [TypeScript](https://www.typescriptlang.org/): Langage de programmation.
+- [React Native](https://reactnative.dev/) + [Expo](https://expo.io/): Framework pour le développement d'applications mobiles.
 - [React Native Paper](https://callstack.github.io/react-native-paper/): Bibliothèque de composants pour React Native.
+- [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/): Gestion des formulaires et validation des données.
 - [Supabase](https://supabase.io/): Backend, serveur d'API pour le stockage des données.
 <!--
 - [WatermelonDB](https://nozbe.github.io/WatermelonDB/): Base de données locale, pour permettre une utilisation hors-ligne de l'application.
@@ -67,4 +68,23 @@ Ce n'est pas strictement nécessaire pour le développement de l'application (m�
 
 ```sh
 npm run supabase
+```
+
+#### Principales Commandes Supabase
+
+```sh
+# Pour réinitialiser la base de données avec les données de test (seed.sql)
+npm run supabase db reset
+
+# Pour synchroniser la base de données (remote) avec le modèle (local)
+npm run supabase db pull
+
+# Pour synchroniser le modèle (local) avec la base de données (remote)
+npm run supabase db push
+
+# Pour générer les types TypeScript
+npm run supabase gen types typescript -- --local > ./infrastructure/repositories/supabase/supabase-types.ts
+
+# Crée un nouveau script de migration à partir des modifications déjà appliquées à votre base de données locale (remplacer `<name-of-migration>` avec le nom de la migration)
+npm run supabase db diff -- -f <name-of-migration>
 ```

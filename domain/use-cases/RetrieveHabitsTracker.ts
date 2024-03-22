@@ -36,7 +36,12 @@ export class RetrieveHabitsTrackerUseCase
           await this.getHabitProgressHistoryRepository.execute({
             habit,
           })
-        return new HabitHistory({ habit, progressHistory })
+        return new HabitHistory({
+          habit,
+          progressHistory: progressHistory.sort((a, b) => {
+            return a.date.getTime() - b.date.getTime()
+          }),
+        })
       }),
     )
     const habitsTracker = new HabitsTracker({

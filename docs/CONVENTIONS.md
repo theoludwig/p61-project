@@ -16,7 +16,7 @@ npm run lint:typescript
 npm run test
 ```
 
-Une pipeline CI ([`.gitlab-ci.yml`](.gitlab-ci.yml)) est en place pour vérifier que le code respecte ces bonnes pratiques et que les tests passent.
+Une pipeline CI ([`.gitlab-ci.yml`](../.gitlab-ci.yml)) est en place pour vérifier que le code respecte ces bonnes pratiques et que les tests passent.
 
 ## GitFlow
 

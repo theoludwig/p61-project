@@ -1,13 +1,13 @@
 import type { HabitHistory } from "./HabitHistory"
 
-export interface HabitsTrackerOptions {
+export interface HabitsTrackerData {
   habitsHistory: HabitHistory[]
 }
 
-export class HabitsTracker implements HabitsTrackerOptions {
+export class HabitsTracker implements HabitsTrackerData {
   public habitsHistory: HabitHistory[]
 
-  public constructor(options: HabitsTrackerOptions) {
+  public constructor(options: HabitsTrackerData) {
     const { habitsHistory } = options
     this.habitsHistory = habitsHistory
   }

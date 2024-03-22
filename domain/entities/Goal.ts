@@ -7,6 +7,10 @@ export type GoalType = (typeof GOAL_TYPES)[number]
 interface GoalBase {
   frequency: GoalFrequency
 }
+
+export interface GoalBaseJSON extends GoalBase {
+  type: GoalType
+}
 export abstract class Goal implements GoalBase {
   public frequency: GoalBase["frequency"]
   public abstract readonly type: GoalType
@@ -29,14 +33,18 @@ export abstract class Goal implements GoalBase {
   public isBoolean(): this is GoalBoolean {
     return Goal.isBoolean(this)
   }
+
+  public abstract toJSON(): GoalBaseJSON
 }
 
-interface GoalProgressBase {
+export interface GoalProgressBase {
   goal: Goal
 }
 export abstract class GoalProgress implements GoalProgressBase {
   public abstract readonly goal: Goal
   public abstract isCompleted(): boolean
+
+  public abstract toJSON(): GoalProgressBase
 }
 
 interface GoalNumericOptions extends GoalBase {
@@ -56,6 +64,14 @@ export class GoalNumeric extends Goal {
     super(options)
     const { target } = options
     this.target = target
+  }
+
+  public override toJSON(): GoalNumericOptions & GoalBaseJSON {
+    return {
+      frequency: this.frequency,
+      target: this.target,
+      type: this.type,
+    }
   }
 }
 interface GoalNumericProgressOptions extends GoalProgressBase {
@@ -82,10 +98,24 @@ export class GoalNumericProgress extends GoalProgress {
       ? 0
       : this.progress / this.goal.target.value
   }
+
+  public override toJSON(): GoalNumericProgressOptions {
+    return {
+      goal: this.goal,
+      progress: this.progress,
+    }
+  }
 }
 
 export class GoalBoolean extends Goal {
   public readonly type = "boolean"
+
+  public override toJSON(): GoalBaseJSON {
+    return {
+      frequency: this.frequency,
+      type: this.type,
+    }
+  }
 }
 interface GoalBooleanProgressOptions extends GoalProgressBase {
   goal: GoalBoolean
@@ -104,5 +134,12 @@ export class GoalBooleanProgress extends GoalProgress {
 
   public override isCompleted(): boolean {
     return this.progress
+  }
+
+  public override toJSON(): GoalBooleanProgressOptions {
+    return {
+      goal: this.goal,
+      progress: this.progress,
+    }
   }
 }
