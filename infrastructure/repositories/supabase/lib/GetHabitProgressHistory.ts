@@ -11,7 +11,9 @@ export class GetHabitProgressHistorySupabaseRepository
   extends SupabaseRepository
   implements GetHabitProgressHistoryRepository
 {
-  execute: GetHabitProgressHistoryRepository["execute"] = async (options) => {
+  public execute: GetHabitProgressHistoryRepository["execute"] = async (
+    options,
+  ) => {
     const { habit } = options
     const { data, error } = await this.supabaseClient
       .from("habits_progresses")

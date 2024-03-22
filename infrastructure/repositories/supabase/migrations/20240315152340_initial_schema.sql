@@ -10,7 +10,7 @@ CREATE TABLE "public"."habits" (
   "goal_frequency" goal_frequency NOT NULL,
   "goal_target" bigint,
   "goal_target_unit" text,
-  "user_id" uuid NOT NULL DEFAULT gen_random_uuid()
+  "user_id" uuid NOT NULL DEFAULT auth.uid()
 );
 
 ALTER TABLE
@@ -190,115 +190,85 @@ GRANT
 UPDATE
   ON TABLE "public"."habits_progresses" TO "service_role";
 
-CREATE policy "Enable delete for users based on user_id" ON "public"."habits" AS permissive FOR DELETE TO public USING ((auth.uid() = user_id));
+CREATE policy "Enable delete for users based on user_id" ON "public"."habits" AS permissive FOR DELETE TO authenticated USING ((auth.uid() = user_id));
 
 CREATE policy "Enable insert for users based on user_id" ON "public"."habits" AS permissive FOR
 INSERT
-  TO public WITH CHECK ((auth.uid() = user_id));
+  TO authenticated WITH CHECK ((auth.uid() = user_id));
 
 CREATE policy "Enable select for users based on user_id" ON "public"."habits" AS permissive FOR
 SELECT
-  TO public USING ((auth.uid() = user_id));
+  TO authenticated USING ((auth.uid() = user_id));
 
 CREATE policy "Enable update for users based on user_id" ON "public"."habits" AS permissive FOR
 UPDATE
-  TO public USING ((auth.uid() = user_id)) WITH CHECK ((auth.uid() = user_id));
+  TO authenticated USING ((auth.uid() = user_id)) WITH CHECK ((auth.uid() = user_id));
 
-CREATE policy "Enable delete for users based on user_id" ON "public"."habits_progresses" AS permissive FOR DELETE TO public USING (
+CREATE policy "Enable delete for users based on user_id" ON "public"."habits_progresses" AS permissive FOR DELETE TO authenticated USING (
   (
-    EXISTS (
+    auth.uid() IN (
       SELECT
-        1
+        habits.user_id
       FROM
-        (
-          habits_progresses habit_progress
-          JOIN habits habit ON ((habit_progress.habit_id = habit.id))
-        )
+        habits
       WHERE
-        (
-          (habit_progress.id = habits_progresses.id)
-          AND (habit.user_id = auth.uid())
-        )
+        (habits_progresses.habit_id = habits.id)
     )
   )
 );
 
 CREATE policy "Enable insert for users based on user_id" ON "public"."habits_progresses" AS permissive FOR
 INSERT
-  TO public WITH CHECK (
+  TO authenticated WITH CHECK (
     (
-      EXISTS (
+      auth.uid() IN (
         SELECT
-          1
+          habits.user_id
         FROM
-          (
-            habits_progresses habit_progress
-            JOIN habits habit ON ((habit_progress.habit_id = habit.id))
-          )
+          habits
         WHERE
-          (
-            (habit_progress.id = habits_progresses.id)
-            AND (habit.user_id = auth.uid())
-          )
+          (habits_progresses.habit_id = habits.id)
       )
     )
   );
 
 CREATE policy "Enable select for users based on user_id" ON "public"."habits_progresses" AS permissive FOR
 SELECT
-  TO public USING (
+  TO authenticated USING (
     (
-      EXISTS (
+      auth.uid() IN (
         SELECT
-          1
+          habits.user_id
         FROM
-          (
-            habits_progresses habit_progress
-            JOIN habits habit ON ((habit_progress.habit_id = habit.id))
-          )
+          habits
         WHERE
-          (
-            (habit_progress.id = habits_progresses.id)
-            AND (habit.user_id = auth.uid())
-          )
+          (habits_progresses.habit_id = habits.id)
       )
     )
   );
 
 CREATE policy "Enable update for users based on user_id" ON "public"."habits_progresses" AS permissive FOR
 UPDATE
-  TO public USING (
+  TO authenticated USING (
     (
-      EXISTS (
+      auth.uid() IN (
         SELECT
-          1
+          habits.user_id
         FROM
-          (
-            habits_progresses habit_progress
-            JOIN habits habit ON ((habit_progress.habit_id = habit.id))
-          )
+          habits
         WHERE
-          (
-            (habit_progress.id = habits_progresses.id)
-            AND (habit.user_id = auth.uid())
-          )
+          (habits_progresses.habit_id = habits.id)
       )
     )
   ) WITH CHECK (
     (
-      EXISTS (
+      auth.uid() IN (
         SELECT
-          1
+          habits.user_id
         FROM
-          (
-            habits_progresses habit_progress
-            JOIN habits habit ON ((habit_progress.habit_id = habit.id))
-          )
+          habits
         WHERE
-          (
-            (habit_progress.id = habits_progresses.id)
-            AND (habit.user_id = auth.uid())
-          )
+          (habits_progresses.habit_id = habits.id)
       )
     )
   );

@@ -6,15 +6,15 @@ import type {
 } from "@/presentation/presenters/HabitsTracker"
 import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
 import { habitsTrackerPresenter } from "@/infrastructure"
+import { useAuthentication } from "./Authentication"
 
 export interface HabitsTrackerContextValue extends HabitsTrackerPresenterState {
   habitsTrackerPresenter: HabitsTrackerPresenter
 }
 
-const defaultHabitsTrackerContextValue = {} as HabitsTrackerContextValue
-const HabitsTrackerContext = createContext<HabitsTrackerContextValue>(
-  defaultHabitsTrackerContextValue,
-)
+const defaultContextValue = {} as HabitsTrackerContextValue
+const HabitsTrackerContext =
+  createContext<HabitsTrackerContextValue>(defaultContextValue)
 
 interface HabitsTrackerProviderProps extends React.PropsWithChildren {}
 
@@ -23,13 +23,18 @@ export const HabitsTrackerProvider: React.FC<HabitsTrackerProviderProps> = (
 ) => {
   const { children } = props
 
+  const { user } = useAuthentication()
+
   useEffect(() => {
+    if (user == null) {
+      return
+    }
     habitsTrackerPresenter
-      .retrieveHabitsTracker({ userId: "1" })
+      .retrieveHabitsTracker({ userId: user.id })
       .catch((error) => {
         console.error(error)
       })
-  }, [])
+  }, [user])
 
   const habitsTrackerPresenterState = usePresenterState(habitsTrackerPresenter)
 
@@ -47,7 +52,7 @@ export const HabitsTrackerProvider: React.FC<HabitsTrackerProviderProps> = (
 
 export const useHabitsTracker = (): HabitsTrackerContextValue => {
   const context = useContext(HabitsTrackerContext)
-  if (context === defaultHabitsTrackerContextValue) {
+  if (context === defaultContextValue) {
     throw new Error(
       "`useHabitsTracker` must be used within a `HabitsTrackerProvider`.",
     )

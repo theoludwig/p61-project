@@ -8,9 +8,12 @@ export const UserSchema = EntitySchema.extend({
 })
 
 export const UserRegisterSchema = UserSchema.extend({
-  password: z.string().min(2),
+  password: z.string().min(6),
 }).omit({ id: true })
 export type UserRegisterData = z.infer<typeof UserRegisterSchema>
+
+export const UserLoginSchema = UserRegisterSchema.omit({ displayName: true })
+export type UserLoginData = z.infer<typeof UserLoginSchema>
 
 export type UserData = z.infer<typeof UserSchema>
 

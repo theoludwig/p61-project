@@ -1,17 +1,17 @@
-import { useFonts } from "expo-font"
 import { Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
-import { useEffect } from "react"
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
 } from "react-native-paper"
 import { StatusBar } from "expo-status-bar"
+import { useEffect } from "react"
 
-import CanterburyFont from "../presentation/assets/fonts/Canterbury.ttf"
-import GeoramFont from "../presentation/assets/fonts/Georama-Black.ttf"
-import SpaceMonoFont from "../presentation/assets/fonts/SpaceMono-Regular.ttf"
 import { HabitsTrackerProvider } from "@/presentation/react/contexts/HabitsTracker"
+import {
+  AuthenticationProvider,
+  useAuthentication,
+} from "@/presentation/react/contexts/Authentication"
 
 export { ErrorBoundary } from "expo-router"
 
@@ -23,54 +23,52 @@ SplashScreen.preventAutoHideAsync().catch((error) => {
   console.error(error)
 })
 
-const RootLayout: React.FC = () => {
-  const [loaded, error] = useFonts({
-    Georama: GeoramFont,
-    SpaceMono: SpaceMonoFont,
-    Canterbury: CanterburyFont,
-  })
+const StackLayout: React.FC = () => {
+  const { hasLoaded } = useAuthentication()
 
   useEffect(() => {
-    if (error != null) {
-      throw error
-    }
-  }, [error])
-
-  useEffect(() => {
-    if (loaded) {
+    if (!hasLoaded) {
       SplashScreen.hideAsync().catch((error) => {
         console.error(error)
       })
     }
-  }, [loaded])
+  }, [hasLoaded])
 
-  if (!loaded) {
-    return null
+  if (hasLoaded) {
+    return <></>
   }
 
   return (
-    <HabitsTrackerProvider>
-      <PaperProvider
-        theme={{
-          ...DefaultTheme,
-          colors: {
-            ...DefaultTheme.colors,
-            primary: "#f57c00",
-            secondary: "#fbc02d",
-          },
-        }}
-      >
-        <Stack
-          screenOptions={{
-            headerShown: false,
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="(pages)" />
+    </Stack>
+  )
+}
+
+const RootLayout: React.FC = () => {
+  return (
+    <AuthenticationProvider>
+      <HabitsTrackerProvider>
+        <PaperProvider
+          theme={{
+            ...DefaultTheme,
+            colors: {
+              ...DefaultTheme.colors,
+              primary: "#f57c00",
+              secondary: "#fbc02d",
+            },
           }}
         >
-          <Stack.Screen name="(pages)" />
-        </Stack>
+          <StackLayout />
 
-        <StatusBar style="dark" />
-      </PaperProvider>
-    </HabitsTrackerProvider>
+          <StatusBar style="dark" />
+        </PaperProvider>
+      </HabitsTrackerProvider>
+    </AuthenticationProvider>
   )
 }
 

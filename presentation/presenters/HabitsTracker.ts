@@ -1,4 +1,5 @@
 import { HabitsTracker } from "@/domain/entities/HabitsTracker"
+import type { FetchState } from "./_Presenter"
 import { Presenter } from "./_Presenter"
 import type {
   RetrieveHabitsTrackerUseCase,
@@ -7,6 +8,10 @@ import type {
 
 export interface HabitsTrackerPresenterState {
   habitsTracker: HabitsTracker
+
+  retrieveHabitsTracker: {
+    state: FetchState
+  }
 }
 
 export interface HabitsTrackerPresenterOptions {
@@ -22,17 +27,28 @@ export class HabitsTrackerPresenter
   public constructor(options: HabitsTrackerPresenterOptions) {
     const { retrieveHabitsTrackerUseCase } = options
     const habitsTracker = HabitsTracker.default()
-    super({ habitsTracker })
+    super({ habitsTracker, retrieveHabitsTracker: { state: "idle" } })
     this.retrieveHabitsTrackerUseCase = retrieveHabitsTrackerUseCase
   }
 
   public async retrieveHabitsTracker(
     options: RetrieveHabitsTrackerUseCaseOptions,
   ): Promise<void> {
-    const habitsTracker =
-      await this.retrieveHabitsTrackerUseCase.execute(options)
     this.setState((state) => {
-      state.habitsTracker = habitsTracker
+      state.retrieveHabitsTracker.state = "loading"
+      state.habitsTracker = HabitsTracker.default()
     })
+    try {
+      const habitsTracker =
+        await this.retrieveHabitsTrackerUseCase.execute(options)
+      this.setState((state) => {
+        state.habitsTracker = habitsTracker
+        state.retrieveHabitsTracker.state = "success"
+      })
+    } catch (error) {
+      this.setState((state) => {
+        state.retrieveHabitsTracker.state = "error"
+      })
+    }
   }
 }

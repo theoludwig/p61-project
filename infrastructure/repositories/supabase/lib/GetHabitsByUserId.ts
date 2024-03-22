@@ -8,14 +8,12 @@ export class GetHabitsByUserIdSupabaseRepository
   extends SupabaseRepository
   implements GetHabitsByUserIdRepository
 {
-  // execute: GetHabitsByUserIdRepository["execute"] = async (options) => {
-  //   const { userId } = options
-  //   const { data, error } = await this.supabaseClient
-  //     .from("habits")
-  //     .select("*")
-  //     .eq("user_id", userId)
-  execute: GetHabitsByUserIdRepository["execute"] = async () => {
-    const { data, error } = await this.supabaseClient.from("habits").select("*")
+  public execute: GetHabitsByUserIdRepository["execute"] = async (options) => {
+    const { userId } = options
+    const { data, error } = await this.supabaseClient
+      .from("habits")
+      .select("*")
+      .eq("user_id", userId)
     if (error != null) {
       throw new Error(error.message)
     }

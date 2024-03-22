@@ -13,7 +13,9 @@ const HabitsPage: React.FC = () => {
 
         return (
           <View key={habit.id}>
-            <Text>{habit.name}</Text>
+            <Text>
+              {habit.name} ({habit.goal.type})
+            </Text>
           </View>
         )
       })}

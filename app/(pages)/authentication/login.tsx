@@ -1,58 +1,78 @@
-import { useState } from "react"
-import { Image, StyleSheet } from "react-native"
-import {
-  ActivityIndicator,
-  Banner,
-  Button,
-  HelperText,
-  TextInput,
-} from "react-native-paper"
+import { Controller, useForm } from "react-hook-form"
+import { StyleSheet } from "react-native"
+import { Button, HelperText, TextInput } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 
+import type { UserLoginData } from "@/domain/entities/User"
+import { useAuthentication } from "@/presentation/react/contexts/Authentication"
+
 const LoginPage: React.FC = () => {
-  const [hasError, _sethasError] = useState<boolean>(true)
+  const { login, authenticationPresenter } = useAuthentication()
 
-  const [errorMessage, _setErrorMessage] = useState<string>("Error message")
+  const { control, handleSubmit } = useForm<UserLoginData>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
 
-  const [isPerfomingLogin, _setIsPerfomingLogin] = useState<boolean>(true)
+  const onSubmit = async (data: unknown): Promise<void> => {
+    await authenticationPresenter.login(data)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Banner
-        visible
-        actions={[
-          {
-            label: "Report this problem",
-          },
-        ]}
-        icon={({ size }) => {
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => {
           return (
-            <Image
-              source={{
-                uri: "https://avatars3.githubusercontent.com/u/17571969?s=400&v=4",
-              }}
-              style={{
-                width: size,
-                height: size,
-              }}
+            <TextInput
+              placeholder="Email"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+              mode="outlined"
             />
           )
         }}
-      >
-        There was an error while trying to login.
-      </Banner>
-      <TextInput label="Email" mode="outlined" style={styles.input} />
-      <TextInput label="Password" mode="outlined" style={styles.input} />
-      <HelperText type="error" visible={hasError} style={styles.errorText}>
-        {errorMessage}
-      </HelperText>
-      <Button mode="contained">Login</Button>
-      <ActivityIndicator
-        animating={isPerfomingLogin}
-        color="blue"
-        size="large"
-        style={styles.indicator}
+        name="email"
       />
+
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => {
+          return (
+            <TextInput
+              placeholder="Password"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+              mode="outlined"
+              secureTextEntry
+            />
+          )
+        }}
+        name="password"
+      />
+
+      <HelperText
+        type="error"
+        visible={login.state === "error"}
+        style={styles.helperText}
+      >
+        Invalid credentials.
+      </HelperText>
+
+      <Button
+        mode="contained"
+        onPress={handleSubmit(onSubmit)}
+        loading={login.state === "loading"}
+        disabled={login.state === "loading"}
+      >
+        Login
+      </Button>
     </SafeAreaView>
   )
 }
@@ -67,12 +87,9 @@ const styles = StyleSheet.create({
     width: "80%",
     marginBottom: 10,
   },
-  errorText: {
-    marginBottom: 10,
-  },
-  indicator: {
-    marginTop: 10,
-    marginBottom: 10,
+  helperText: {
+    fontSize: 18,
+    marginVertical: 20,
   },
 })
 

@@ -11,6 +11,7 @@ test:
     - "develop"
   script:
     - "npm clean-install"
+    - "npm run expo:typed-routes"
     - 'echo "${CI_COMMIT_MESSAGE}" | npm run lint:commit'
     - "npm run lint:prettier"
     - "npm run lint:eslint"

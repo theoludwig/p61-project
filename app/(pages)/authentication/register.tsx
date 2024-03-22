@@ -1,82 +1,115 @@
-import { useState } from "react"
-import { Image, StyleSheet } from "react-native"
-import { Banner, Button, HelperText, TextInput } from "react-native-paper"
+import { Controller, useForm } from "react-hook-form"
+import { StyleSheet } from "react-native"
+import { Button, HelperText, TextInput } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { useMemo } from "react"
+
+import type { UserRegisterData } from "@/domain/entities/User"
+import { useAuthentication } from "@/presentation/react/contexts/Authentication"
 
 const RegisterPage: React.FC = () => {
-  const regexEmail = /^[\w.-]+@[\d.A-Za-z-]+\.[A-Za-z]{2,4}$/
+  const { register, authenticationPresenter } = useAuthentication()
 
-  const [password, setPassword] = useState<string>("")
-  const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(true)
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(true)
+  const { control, handleSubmit } = useForm<UserRegisterData>({
+    defaultValues: {
+      displayName: "",
+      email: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (data: unknown): Promise<void> => {
+    await authenticationPresenter.register(data)
+  }
+
+  const helperMessage = useMemo(() => {
+    if (register.state === "error") {
+      if (register.errorsFields.includes("displayName")) {
+        return "Display Name is required."
+      }
+      if (register.errorsFields.includes("email")) {
+        return "Invalid email."
+      }
+      if (register.errorsFields.includes("password")) {
+        return "Password must be at least 6 characters."
+      }
+      return "Invalid credentials."
+    }
+
+    // if (register.state === "success") {
+    //   return "Success! Please verify your email."
+    // }
+
+    return ""
+  }, [register.errorsFields, register.state])
 
   return (
     <SafeAreaView style={styles.container}>
-      <Banner
-        visible
-        actions={[
-          {
-            label: "Report this problem",
-            onPress: () => {
-              return console.log("Pressed")
-            },
-          },
-        ]}
-        icon={({ size }) => {
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => {
           return (
-            <Image
-              source={{
-                uri: "https://avatars3.githubusercontent.com/u/17571969?s=400&v=4",
-              }}
-              style={{
-                width: size,
-                height: size,
-              }}
+            <TextInput
+              placeholder="Display Name"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+              mode="outlined"
             />
           )
         }}
+        name="displayName"
+      />
+
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => {
+          return (
+            <TextInput
+              placeholder="Email"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+              mode="outlined"
+            />
+          )
+        }}
+        name="email"
+      />
+
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => {
+          return (
+            <TextInput
+              placeholder="Password"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              style={styles.input}
+              mode="outlined"
+              secureTextEntry
+            />
+          )
+        }}
+        name="password"
+      />
+
+      <HelperText
+        type={register.state === "error" ? "error" : "info"}
+        visible={register.state === "error" || register.state === "success"}
+        style={styles.helperText}
       >
-        There was an error while trying to register.
-      </Banner>
-      <TextInput label="Pseudo" mode="outlined" style={styles.input} />
-      <TextInput
-        label="Email"
-        mode="outlined"
-        style={styles.input}
-        onChangeText={(text) => {
-          setIsEmailValid(regexEmail.test(text))
-        }}
-      />
-      {isEmailValid ? null : (
-        <HelperText type="error" visible style={styles.errorText}>
-          Email address is invalid!
-        </HelperText>
-      )}
-      <TextInput
-        label="Password"
-        mode="outlined"
-        style={styles.input}
-        onChangeText={(text) => {
-          setPassword(text)
-          console.log(text)
-        }}
-      />
-      <TextInput
-        label="Confirm password"
-        mode="outlined"
-        style={styles.input}
-        onChangeText={(text) => {
-          setIsPasswordCorrect(text === password)
-        }}
-      />
-      <HelperText type="error" visible style={styles.errorText}>
-        Error message
+        {helperMessage}
       </HelperText>
+
       <Button
         mode="contained"
-        onPress={() => {
-          return console.log(isPasswordCorrect ? "Pressed" : "Error")
-        }}
+        onPress={handleSubmit(onSubmit)}
+        loading={register.state === "loading"}
+        disabled={register.state === "loading"}
       >
         Register
       </Button>
@@ -92,10 +125,11 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "80%",
-    margin: 10,
+    marginBottom: 10,
   },
-  errorText: {
-    margin: 10,
+  helperText: {
+    fontSize: 18,
+    marginVertical: 20,
   },
 })
 

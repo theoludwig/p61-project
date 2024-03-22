@@ -55,7 +55,7 @@ VALUES
     NULL,
     NULL,
     '{"provider": "email", "providers": ["email"]}',
-    '{}',
+    '{"display_name": "Test"}',
     NULL,
     timezone('utc' :: text, NOW()),
     timezone('utc' :: text, NOW()),
@@ -88,7 +88,7 @@ VALUES
   (
     'ab054ee9-fbb4-473e-942b-bbf4415f4bef',
     'ab054ee9-fbb4-473e-942b-bbf4415f4bef',
-    '{"sub": "ab054ee9-fbb4-473e-942b-bbf4415f4bef", "email": "test@test.com", "display_name": "Test"}',
+    '{"sub": "ab054ee9-fbb4-473e-942b-bbf4415f4bef", "email": "test@test.com"}',
     'email',
     'ab054ee9-fbb4-473e-942b-bbf4415f4bef',
     timezone('utc' :: text, NOW()),
