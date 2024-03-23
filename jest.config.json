@@ -5,7 +5,7 @@
   "fakeTimers": {
     "enableGlobally": true
   },
-  "collectCoverage": true,
+  "collectCoverage": false,
   "coverageDirectory": "coverage",
   "coverageReporters": ["text", "text-summary", "cobertura"],
   "collectCoverageFrom": [
