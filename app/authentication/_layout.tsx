@@ -8,7 +8,7 @@ const TabLayout: React.FC = () => {
   const { user } = useAuthentication()
 
   if (user != null) {
-    return <Redirect href="/(pages)/application/habits" />
+    return <Redirect href="/application/habits/" />
   }
 
   return (

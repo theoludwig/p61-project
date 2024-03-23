@@ -43,9 +43,7 @@ const StackLayout: React.FC = () => {
       screenOptions={{
         headerShown: false,
       }}
-    >
-      <Stack.Screen name="(pages)" />
-    </Stack>
+    />
   )
 }
 

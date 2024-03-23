@@ -15,7 +15,7 @@
     "lint:typescript": "tsc --noEmit",
     "lint:staged": "lint-staged",
     "test": "jest --reporters=default --reporters=jest-junit",
-    "supabase": "supabase --workdir \"./infrastructure/repositories\"",
+    "supabase": "supabase --workdir \"./infrastructure\"",
     "postinstall": "husky"
   },
   "dependencies": {

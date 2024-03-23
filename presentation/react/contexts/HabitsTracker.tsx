@@ -5,7 +5,7 @@ import type {
   HabitsTrackerPresenterState,
 } from "@/presentation/presenters/HabitsTracker"
 import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
-import { habitsTrackerPresenter } from "@/infrastructure"
+import { habitsTrackerPresenter } from "@/infrastructure/instances"
 import { useAuthentication } from "./Authentication"
 
 export interface HabitsTrackerContextValue extends HabitsTrackerPresenterState {

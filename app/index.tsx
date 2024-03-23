@@ -6,10 +6,10 @@ const HomePage: React.FC = () => {
   const { user } = useAuthentication()
 
   if (user == null) {
-    return <Redirect href="/(pages)/authentication/login" />
+    return <Redirect href="/authentication/login" />
   }
 
-  return <Redirect href="/(pages)/application/habits" />
+  return <Redirect href="/application/habits/" />
 }
 
 export default HomePage

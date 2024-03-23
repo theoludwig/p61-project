@@ -1,10 +1,10 @@
 import { AuthenticationUseCase } from "@/domain/use-cases/Authentication"
 import { RetrieveHabitsTrackerUseCase } from "../domain/use-cases/RetrieveHabitsTracker"
 import { HabitsTrackerPresenter } from "../presentation/presenters/HabitsTracker"
-import { AuthenticationSupabaseRepository } from "./repositories/supabase/lib/AuthenticationRepository"
-import { GetHabitProgressHistorySupabaseRepository } from "./repositories/supabase/lib/GetHabitProgressHistory"
-import { GetHabitsByUserIdSupabaseRepository } from "./repositories/supabase/lib/GetHabitsByUserId"
-import { supabaseClient } from "./repositories/supabase/supabase"
+import { AuthenticationSupabaseRepository } from "./supabase/repositories/Authentication"
+import { GetHabitProgressHistorySupabaseRepository } from "./supabase/repositories/GetHabitProgressHistory"
+import { GetHabitsByUserIdSupabaseRepository } from "./supabase/repositories/GetHabitsByUserId"
+import { supabaseClient } from "./supabase/supabase"
 import { AuthenticationPresenter } from "@/presentation/presenters/Authentication"
 
 /**

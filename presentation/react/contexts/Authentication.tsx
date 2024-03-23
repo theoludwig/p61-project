@@ -5,7 +5,7 @@ import type {
   AuthenticationPresenter,
   AuthenticationPresenterState,
 } from "@/presentation/presenters/Authentication"
-import { authenticationPresenter } from "@/infrastructure"
+import { authenticationPresenter } from "@/infrastructure/instances"
 
 export interface AuthenticationContextValue
   extends AuthenticationPresenterState {
