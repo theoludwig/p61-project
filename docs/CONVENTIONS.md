@@ -23,6 +23,7 @@ Une pipeline CI ([`.gitlab-ci.yml`](../.gitlab-ci.yml)) est en place pour vérif
 Le projet suit la convention [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/) reposant sur 2 branches principales:
 
 - `main`: Contient le code de la dernière version stable et déployé en production.
+- `staging`: Contient le code en cours de test avant déploiement en production, Quality Assurance (QA).
 - `develop`: Contient le code en cours de développement. Les nouvelles fonctionnalités et les correctifs de bugs sont fusionnés ici.
 
 Chaque nouvelle fonctionnalité ou correctif de bug est développé dans une branche dédiée à partir de `develop`, nommée `feat/<nom-de-la-fonctionnalité>` ou `fix/<nom-du-bug>`. Une fois le développement terminé, une merge request est créée pour demander une revue de code, et une fois validée, la branche est fusionnée dans `develop`, puis supprimée.
