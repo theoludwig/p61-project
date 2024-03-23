@@ -64,7 +64,7 @@ npm run start
 
 ### Lancer Supabase (facultatif)
 
-Ce n'est pas strictement nécessaire pour le développement de l'application (même si recommandé), de lancer [Supabase](https://supabase.io/) en local, car l'application est déjà déployée sur un serveur [Supabase](https://supabase.io/) en production.
+Ce n'est pas strictement nécessaire pour le développement de l'application (même si recommandé), de lancer [Supabase](https://supabase.io/) en local, car l'application est déjà déployée sur un serveur [Supabase](https://supabase.io/) en production (`.env.example` est pré-configuré avec cet environnement).
 
 ```sh
 npm run supabase
@@ -76,10 +76,10 @@ npm run supabase
 # Pour réinitialiser la base de données avec les données de test (seed.sql)
 npm run supabase db reset
 
-# Pour synchroniser la base de données (remote) avec le modèle (local)
+# Pour synchroniser le modèle (local) avec la base de données (remote)
 npm run supabase db pull
 
-# Pour synchroniser le modèle (local) avec la base de données (remote)
+# Pour synchroniser la base de données (remote) avec le modèle (local)
 npm run supabase db push
 
 # Pour générer les types TypeScript
