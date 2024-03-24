@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { StyleSheet } from "react-native"
 import { Calendar } from "react-native-calendars"
 import { SafeAreaView } from "react-native-safe-area-context"
 
@@ -7,7 +6,15 @@ const HistoryPage: React.FC = () => {
   const [selected, setSelected] = useState("")
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        {
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        },
+      ]}
+    >
       <Calendar
         onDayPress={(day) => {
           setSelected(day.dateString)
@@ -36,13 +43,5 @@ const HistoryPage: React.FC = () => {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
 
 export default HistoryPage

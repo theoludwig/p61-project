@@ -24,13 +24,13 @@ const RegisterPage: React.FC = () => {
 
   const helperMessage = useMemo(() => {
     if (register.state === "error") {
-      if (register.errorsFields.includes("displayName")) {
+      if (register.errors.fields.includes("displayName")) {
         return "Display Name is required."
       }
-      if (register.errorsFields.includes("email")) {
+      if (register.errors.fields.includes("email")) {
         return "Invalid email."
       }
-      if (register.errorsFields.includes("password")) {
+      if (register.errors.fields.includes("password")) {
         return "Password must be at least 6 characters."
       }
       return "Invalid credentials."
@@ -41,10 +41,10 @@ const RegisterPage: React.FC = () => {
     // }
 
     return ""
-  }, [register.errorsFields, register.state])
+  }, [register.errors.fields, register.state])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container]}>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => {
@@ -54,7 +54,7 @@ const RegisterPage: React.FC = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={[styles.input]}
               mode="outlined"
             />
           )
@@ -71,7 +71,7 @@ const RegisterPage: React.FC = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={[styles.input]}
               mode="outlined"
             />
           )
@@ -88,7 +88,7 @@ const RegisterPage: React.FC = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={[styles.input]}
               mode="outlined"
               secureTextEntry
             />
@@ -100,7 +100,7 @@ const RegisterPage: React.FC = () => {
       <HelperText
         type={register.state === "error" ? "error" : "info"}
         visible={register.state === "error" || register.state === "success"}
-        style={styles.helperText}
+        style={[styles.helperText]}
       >
         {helperMessage}
       </HelperText>

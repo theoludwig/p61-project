@@ -8,7 +8,7 @@ import type {
 import type { AuthenticationUseCase } from "@/domain/use-cases/Authentication"
 import type { ErrorGlobal, FetchState } from "./_Presenter"
 import { Presenter } from "./_Presenter"
-import { zodPresenter } from "./utils/ZodPresenter"
+import { getErrorsFieldsFromZodError } from "./utils/zod"
 
 export interface AuthenticationPresenterState {
   user: User | null
@@ -20,14 +20,18 @@ export interface AuthenticationPresenterState {
 
   register: {
     state: FetchState
-    errorsFields: Array<keyof UserRegisterData>
-    errorGlobal: ErrorGlobal
+    errors: {
+      fields: Array<keyof UserRegisterData>
+      global: ErrorGlobal
+    }
   }
 
   login: {
     state: FetchState
-    errorsFields: Array<keyof UserLoginData>
-    errorGlobal: ErrorGlobal
+    errors: {
+      fields: Array<keyof UserLoginData>
+      global: ErrorGlobal
+    }
   }
 
   logout: {
@@ -52,13 +56,17 @@ export class AuthenticationPresenter
       hasLoaded: true,
       register: {
         state: "idle",
-        errorsFields: [],
-        errorGlobal: null,
+        errors: {
+          fields: [],
+          global: null,
+        },
       },
       login: {
         state: "idle",
-        errorsFields: [],
-        errorGlobal: null,
+        errors: {
+          fields: [],
+          global: null,
+        },
       },
       logout: {
         state: "idle",
@@ -71,8 +79,10 @@ export class AuthenticationPresenter
     try {
       this.setState((state) => {
         state.register.state = "loading"
-        state.register.errorsFields = []
-        state.register.errorGlobal = null
+        state.register.errors = {
+          fields: [],
+          global: null,
+        }
       })
       const user = await this.authenticationUseCase.register(data)
       this.setState((state) => {
@@ -83,10 +93,10 @@ export class AuthenticationPresenter
       this.setState((state) => {
         state.register.state = "error"
         if (error instanceof ZodError) {
-          state.register.errorsFields =
-            zodPresenter.getErrorsFieldsFromZodError<UserRegisterData>(error)
+          state.register.errors.fields =
+            getErrorsFieldsFromZodError<UserRegisterData>(error)
         } else {
-          state.register.errorGlobal = "unknown"
+          state.register.errors.global = "unknown"
         }
       })
     }
@@ -96,8 +106,10 @@ export class AuthenticationPresenter
     try {
       this.setState((state) => {
         state.login.state = "loading"
-        state.login.errorsFields = []
-        state.login.errorGlobal = null
+        state.login.errors = {
+          fields: [],
+          global: null,
+        }
       })
       const user = await this.authenticationUseCase.login(data)
       this.setState((state) => {
@@ -108,10 +120,10 @@ export class AuthenticationPresenter
       this.setState((state) => {
         state.login.state = "error"
         if (error instanceof ZodError) {
-          state.login.errorsFields =
-            zodPresenter.getErrorsFieldsFromZodError<UserLoginData>(error)
+          state.login.errors.fields =
+            getErrorsFieldsFromZodError<UserLoginData>(error)
         } else {
-          state.login.errorGlobal = "unknown"
+          state.login.errors.global = "unknown"
         }
       })
     }

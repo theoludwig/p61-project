@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container]}>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => {
@@ -31,7 +31,7 @@ const LoginPage: React.FC = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={[styles.input]}
               mode="outlined"
             />
           )
@@ -48,7 +48,7 @@ const LoginPage: React.FC = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              style={styles.input}
+              style={[styles.input]}
               mode="outlined"
               secureTextEntry
             />
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
       <HelperText
         type="error"
         visible={login.state === "error"}
-        style={styles.helperText}
+        style={[styles.helperText]}
       >
         Invalid credentials.
       </HelperText>

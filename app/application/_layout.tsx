@@ -37,6 +37,12 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
+        name="habits/[habitId]"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="habits/history"
         options={{
           title: "History",

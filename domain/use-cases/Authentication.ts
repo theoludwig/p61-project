@@ -1,8 +1,5 @@
-import {
-  UserRegisterSchema,
-  type User,
-  UserLoginSchema,
-} from "../entities/User"
+import type { User } from "../entities/User"
+import { UserLoginSchema, UserRegisterSchema } from "../entities/User"
 import type { AuthenticationRepository } from "../repositories/Authentication"
 
 export interface AuthenticationUseCaseDependencyOptions {
@@ -42,16 +39,16 @@ export class AuthenticationUseCase
     return await this.authenticationRepository.login(userData)
   }
 
-  public async logout(): Promise<void> {
+  public logout: AuthenticationRepository["logout"] = async () => {
     return await this.authenticationRepository.logout()
   }
 
-  public getUser: AuthenticationRepository["getUser"] = async (...args) => {
-    return await this.authenticationRepository.getUser(...args)
+  public getUser: AuthenticationRepository["getUser"] = async () => {
+    return await this.authenticationRepository.getUser()
   }
 
   public onUserStateChange: AuthenticationRepository["onUserStateChange"] =
-    async (...args) => {
-      return this.authenticationRepository.onUserStateChange(...args)
+    async (callback) => {
+      return this.authenticationRepository.onUserStateChange(callback)
     }
 }
