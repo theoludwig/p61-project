@@ -1,4 +1,5 @@
 import { HabitHistory } from "../entities/HabitHistory"
+import type { HabitsTrackerData } from "../entities/HabitsTracker"
 import { HabitsTracker } from "../entities/HabitsTracker"
 import type { User } from "../entities/User"
 import type { GetHabitProgressHistoryRepository } from "../repositories/GetHabitProgressHistory"
@@ -44,8 +45,23 @@ export class RetrieveHabitsTrackerUseCase
         })
       }),
     )
+    const habitsHistory = habitProgressHistories.reduce<
+      HabitsTrackerData["habitsHistory"]
+    >(
+      (accumulator, habitHistory) => {
+        const { habit } = habitHistory
+        const frequency = habit.goal.frequency
+        accumulator[frequency].push(habitHistory)
+        return accumulator
+      },
+      {
+        daily: [],
+        weekly: [],
+        monthly: [],
+      },
+    )
     const habitsTracker = new HabitsTracker({
-      habitsHistory: habitProgressHistories,
+      habitsHistory,
     })
     return habitsTracker
   }

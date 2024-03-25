@@ -21,7 +21,7 @@ const HabitsPage: React.FC = () => {
       {retrieveHabitsTracker.state === "loading" ? (
         <ActivityIndicator animating size="large" />
       ) : (
-        <HabitsHistory habitsHistory={habitsTracker.habitsHistory} />
+        <HabitsHistory habitsTracker={habitsTracker} />
       )}
     </SafeAreaView>
   )
