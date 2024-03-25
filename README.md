@@ -84,7 +84,7 @@ npm run supabase db pull
 npm run supabase db push
 
 # Pour générer les types TypeScript
-npm run supabase gen types typescript -- --local > ./infrastructure/repositories/supabase/supabase-types.ts
+npm run supabase gen types typescript -- --local > ./infrastructure/supabase/supabase-types.ts
 
 # Crée un nouveau script de migration à partir des modifications déjà appliquées à votre base de données locale (remplacer `<name-of-migration>` avec le nom de la migration)
 npm run supabase db diff -- -f <name-of-migration>
