@@ -4,15 +4,15 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 ## Contexte
 
-On voit ces derniers temps une émergence de nombreuses applications de suivi d'habitudes sur le marché. Malheureusement, les solutions proposées sont souvent soit trop complexes et encombrées, soit trop basiques et limitées par des modèles de tarification agressive (après tout c’est normal, les gens sont prêts à payer alors pourquoi s’en priver).
+On voit ces derniers temps une émergence de nombreuses applications de suivi d'habitudes sur le marché. Malheureusement, les solutions proposées sont souvent soit trop complexes et encombrées, soit trop basiques et limitées par des modèles de tarification agressive (après tout c'est normal, les gens sont prêts à payer alors pourquoi s'en priver).
 
 Relevons le défi de créer une application qui équilibre parfaitement fonctionnalité et simplicité !
 
 ## Objectif principal
 
-L'objectif de ce projet de groupe est de développer une application nommée “**Habits Tracker**” qui trouve le juste équilibre entre <ins>richesse fonctionnelle</ins> et <ins>simplicité</ins> d'utilisation (ne faites pas d’usine à gaz s’il vous plaît !).
+L'objectif de ce projet de groupe est de développer une application nommée “**Habits Tracker**” qui trouve le juste équilibre entre <ins>richesse fonctionnelle</ins> et <ins>simplicité</ins> d'utilisation (ne faites pas d'usine à gaz s'il vous plaît !).
 
-L'application doit permettre aux utilisateurs de suivre efficacement leurs habitudes quotidiennes et d'analyser leurs progrès dans le but d’améliorer leur performance au travail et leur bien-être général.
+L'application doit permettre aux utilisateurs de suivre efficacement leurs habitudes quotidiennes et d'analyser leurs progrès dans le but d'améliorer leur performance au travail et leur bien-être général.
 
 ## Conseils
 
@@ -22,7 +22,7 @@ Si votre application atteint une bonne qualité, avec une interface attrayante e
 
 ## Fonctionnalités de base (noyau commun)
 
-- **Gestion des utilisateurs :** inscription, création d’un profil utilisateur avec identifiant unique, et fonctionnalités de connexion/déconnexion.
+- **Gestion des utilisateurs :** inscription, création d'un profil utilisateur avec identifiant unique, et fonctionnalités de connexion/déconnexion.
 - **Gestion des habitudes :** création et modification d'habitudes, avec personnalisation d'objectif (+ rappels et fréquences en bonus…)
 - **Suivi quotidien :** interface intuitive pour le suivi des habitudes depuis l'écran d'accueil, incluant un calendrier pour consulter l'historique.
 - **Analyse et statistiques :** graphiques simplifiés (librairie externe) pour visualiser les progrès et les tendances des habitudes sur des périodes définies
@@ -49,7 +49,7 @@ Vous serez évalués sur les aspects suivants :
 - Design UI : (esthétique de l'application) **1 point**
 - Expérience utilisateur UX : (facilité d'utilisation) **1 point**
 
-## Exemple d’interfaces
+## Exemple d'interfaces
 
 ![UI Example](../presentation/assets/images/ui-example.png)
 

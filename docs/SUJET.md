@@ -77,7 +77,7 @@ Quelques liens utiles pour comprendre... :
 - [Authentication in React Native, Easy, Secure, and Reusable solution.](https://www.obytes.com/blog/authentication-in-react-native-easy-secure-and-reusable-solution)
 - [How To Add Authentication to Your React Native App](https://betterprogramming.pub/how-to-add-authentication-to-your-react-native-app-with-react-hooks-and-react-context-api-46f57aedbbd)
 - [Github | mesan-react-native-authentication-app](https://github.com/MosesEsan/mesan-react-native-authentication-app/tree/auth)
-- [React Native: Implementing Browser-Based Authentication using Expo’s AuthSession Component](https://levelup.gitconnected.com/react-native-implementing-browser-based-authentication-using-expos-authsession-component-ffee25b50ae8)
+- [React Native: Implementing Browser-Based Authentication using Expo's AuthSession Component](https://levelup.gitconnected.com/react-native-implementing-browser-based-authentication-using-expos-authsession-component-ffee25b50ae8)
 - [Build a great login experience with React Native, Axios and JSONWebToken](https://www.willandskill.se/en/build-a-great-login-experience-with-react-native/)
 - [Adding Authentication to Your React Native App Using JSON Web Tokens](https://dzone.com/articles/adding-authentication-to-your-react-native-app-usi-1)
 
