@@ -5,6 +5,7 @@ import {
   Button,
   HelperText,
   SegmentedButtons,
+  Text,
   TextInput,
 } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -14,11 +15,11 @@ import ColorPicker, {
   Preview,
 } from "reanimated-color-picker"
 
+import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
+import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
 import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
-import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
-import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
 import { capitalize } from "@/presentation/presenters/utils/strings"
 
 export interface HabitCreateFormProps {
@@ -154,17 +155,20 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
         control={control}
         render={({ field: { onChange, value } }) => {
           return (
-            <SegmentedButtons
-              onValueChange={onChange}
-              value={value}
-              buttons={GOAL_FREQUENCIES.map((frequency) => {
-                return {
-                  label: capitalize(frequency),
-                  value: frequency,
-                  icon: frequenciesIcons[frequency],
-                }
-              })}
-            />
+            <>
+              <Text style={{ margin: 8 }}>Habit frequency</Text>
+              <SegmentedButtons
+                onValueChange={onChange}
+                value={value}
+                buttons={GOAL_FREQUENCIES.map((frequency) => {
+                  return {
+                    label: capitalize(frequency),
+                    value: frequency,
+                    icon: frequenciesIcons[frequency],
+                  }
+                })}
+              />
+            </>
           )
         }}
         name="goal.frequency"
@@ -174,17 +178,20 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
         control={control}
         render={({ field: { onChange, value } }) => {
           return (
-            <SegmentedButtons
-              onValueChange={onChange}
-              value={value}
-              buttons={GOAL_TYPES.map((type) => {
-                return {
-                  label: habitTypesTranslations[type].label,
-                  value: type,
-                  icon: habitTypesTranslations[type].icon,
-                }
-              })}
-            />
+            <>
+              <Text style={{ margin: 8 }}>Habit type</Text>
+              <SegmentedButtons
+                onValueChange={onChange}
+                value={value}
+                buttons={GOAL_TYPES.map((type) => {
+                  return {
+                    label: habitTypesTranslations[type].label,
+                    value: type,
+                    icon: habitTypesTranslations[type].icon,
+                  }
+                })}
+              />
+            </>
           )
         }}
         name="goal.target.type"
