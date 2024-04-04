@@ -1,6 +1,7 @@
-import { FlatList } from "react-native"
-import { List } from "react-native-paper"
-import { useState } from "react"
+import { FlatList, View } from "react-native"
+import { Button, List, Text } from "react-native-paper"
+import { useMemo, useState } from "react"
+import { useRouter } from "expo-router"
 
 import type { GoalFrequency } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES } from "@/domain/entities/Goal"
@@ -15,6 +16,14 @@ export interface HabitsHistoryProps {
 export const HabitsHistory: React.FC<HabitsHistoryProps> = (props) => {
   const { habitsTracker } = props
 
+  const router = useRouter()
+
+  const habitsByFrequency = useMemo(() => {
+    return GOAL_FREQUENCIES.filter((frequency) => {
+      return habitsTracker.habitsHistory[frequency].length > 0
+    })
+  }, [habitsTracker])
+
   const [accordionExpanded, setAccordionExpanded] = useState<{
     [key in GoalFrequency]: boolean
   }>({
@@ -22,6 +31,41 @@ export const HabitsHistory: React.FC<HabitsHistoryProps> = (props) => {
     weekly: true,
     monthly: true,
   })
+
+  if (habitsByFrequency.length <= 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text variant="titleLarge">{"Let's begin by adding habits! 🤩"}</Text>
+        <Button
+          mode="contained"
+          style={{
+            marginTop: 16,
+            width: 250,
+            height: 40,
+          }}
+          onPress={() => {
+            router.push("/application/habits/new")
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 16,
+            }}
+          >
+            Create your first habit! 🚀
+          </Text>
+        </Button>
+      </View>
+    )
+  }
 
   return (
     <List.Section
@@ -31,7 +75,7 @@ export const HabitsHistory: React.FC<HabitsHistoryProps> = (props) => {
         },
       ]}
     >
-      {GOAL_FREQUENCIES.map((frequency) => {
+      {habitsByFrequency.map((frequency) => {
         return (
           <List.Accordion
             expanded={accordionExpanded[frequency]}
