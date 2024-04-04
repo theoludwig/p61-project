@@ -1,20 +1,14 @@
-import { Text } from "react-native-paper"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { HabitCreateForm } from "@/presentation/react/components/HabitCreateForm/HabitCreateForm"
+import { useAuthentication } from "@/presentation/react/contexts/Authentication"
 
 const NewHabitPage: React.FC = () => {
-  return (
-    <SafeAreaView
-      style={[
-        {
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        },
-      ]}
-    >
-      <Text>New Habit</Text>
-    </SafeAreaView>
-  )
+  const { user } = useAuthentication()
+
+  if (user === null) {
+    return null
+  }
+
+  return <HabitCreateForm user={user} />
 }
 
 export default NewHabitPage

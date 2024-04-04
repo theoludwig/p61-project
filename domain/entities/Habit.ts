@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import type { Goal, GoalBaseJSON } from "./Goal"
+import { GoalCreateSchema, type Goal, type GoalBaseJSON } from "./Goal"
 import { Entity, EntitySchema } from "./_Entity"
 
 export const HabitSchema = EntitySchema.extend({
@@ -10,7 +10,9 @@ export const HabitSchema = EntitySchema.extend({
   icon: z.string().min(1),
 })
 
-export const HabitCreateSchema = HabitSchema.extend({}).omit({ id: true })
+export const HabitCreateSchema = HabitSchema.extend({
+  goal: GoalCreateSchema,
+}).omit({ id: true })
 export type HabitCreateData = z.infer<typeof HabitCreateSchema>
 
 type HabitDataBase = z.infer<typeof HabitSchema>

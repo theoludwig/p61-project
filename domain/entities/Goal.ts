@@ -1,8 +1,39 @@
-export const GOAL_FREQUENCIES = ["daily", "weekly", "monthly"] as const
+import { z } from "zod"
+
+export const GOAL_FREQUENCIES_ZOD = [
+  z.literal("daily"),
+  z.literal("weekly"),
+  z.literal("monthly"),
+] as const
+export const goalFrequencyZod = z.union(GOAL_FREQUENCIES_ZOD)
+export const GOAL_FREQUENCIES = GOAL_FREQUENCIES_ZOD.map((frequency) => {
+  return frequency.value
+})
 export type GoalFrequency = (typeof GOAL_FREQUENCIES)[number]
 
-export const GOAL_TYPES = ["numeric", "boolean"] as const
+export const GOAL_TYPES_ZOD = [
+  z.literal("numeric"),
+  z.literal("boolean"),
+] as const
+export const goalTypeZod = z.union(GOAL_TYPES_ZOD)
+export const GOAL_TYPES = GOAL_TYPES_ZOD.map((type) => {
+  return type.value
+})
 export type GoalType = (typeof GOAL_TYPES)[number]
+
+export const GoalCreateSchema = z.object({
+  frequency: goalFrequencyZod,
+  target: z.discriminatedUnion("type", [
+    z.object({ type: z.literal("boolean") }),
+    z.object({
+      type: z.literal("numeric"),
+      value: z.number().int().min(0),
+      unit: z.string().min(1),
+    }),
+  ]),
+})
+
+export type GoalCreateData = z.infer<typeof GoalCreateSchema>
 
 interface GoalBase {
   frequency: GoalFrequency
