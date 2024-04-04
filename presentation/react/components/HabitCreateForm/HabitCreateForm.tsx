@@ -1,6 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { Appbar, Button, HelperText, TextInput } from "react-native-paper"
+import {
+  Appbar,
+  Button,
+  HelperText,
+  SegmentedButtons,
+  TextInput,
+} from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import ColorPicker, {
   HueSlider,
@@ -11,6 +17,9 @@ import ColorPicker, {
 import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
+import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
+import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
+import { capitalize } from "@/presentation/presenters/utils/strings"
 
 export interface HabitCreateFormProps {
   user: User
@@ -22,6 +31,27 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
   const onSubmit = async (data: HabitCreateData): Promise<void> => {
     // await habitPresenter.createHabit(data)
     console.log(data)
+  }
+
+  const frequenciesIcons: {
+    [key in GoalFrequency]: string
+  } = {
+    daily: "calendar",
+    weekly: "calendar-week",
+    monthly: "calendar-month",
+  }
+
+  const habitTypesTranslations: {
+    [key in GoalType]: { label: string; icon: string }
+  } = {
+    boolean: {
+      label: "Routine",
+      icon: "clock",
+    },
+    numeric: {
+      label: "Target",
+      icon: "target",
+    },
   }
 
   const {
@@ -122,15 +152,18 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => {
+        render={({ field: { onChange, value } }) => {
           return (
-            <TextInput
-              placeholder="Goal Frequency"
-              onBlur={onBlur}
-              onChangeText={onChange}
+            <SegmentedButtons
+              onValueChange={onChange}
               value={value}
-              style={[styles.input]}
-              mode="outlined"
+              buttons={GOAL_FREQUENCIES.map((frequency) => {
+                return {
+                  label: capitalize(frequency),
+                  value: frequency,
+                  icon: frequenciesIcons[frequency],
+                }
+              })}
             />
           )
         }}
@@ -139,15 +172,18 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => {
+        render={({ field: { onChange, value } }) => {
           return (
-            <TextInput
-              placeholder="Goal Target Type"
-              onBlur={onBlur}
-              onChangeText={onChange}
+            <SegmentedButtons
+              onValueChange={onChange}
               value={value}
-              style={[styles.input]}
-              mode="outlined"
+              buttons={GOAL_TYPES.map((type) => {
+                return {
+                  label: habitTypesTranslations[type].label,
+                  value: type,
+                  icon: habitTypesTranslations[type].icon,
+                }
+              })}
             />
           )
         }}
