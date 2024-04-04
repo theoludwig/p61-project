@@ -30,7 +30,8 @@ const HabitsPage: React.FC = () => {
       ) : retrieveHabitsTracker.state === "error" ? (
         <>
           <Text variant="titleLarge">
-            Error: There was an issue while retrieving habits, please try again.
+            Error: There was an issue while retrieving habits, please try again
+            later.
           </Text>
           <Button
             mode="contained"

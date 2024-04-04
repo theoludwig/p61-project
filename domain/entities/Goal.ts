@@ -12,8 +12,8 @@ export const GOAL_FREQUENCIES = GOAL_FREQUENCIES_ZOD.map((frequency) => {
 export type GoalFrequency = (typeof GOAL_FREQUENCIES)[number]
 
 export const GOAL_TYPES_ZOD = [
-  z.literal("numeric"),
   z.literal("boolean"),
+  z.literal("numeric"),
 ] as const
 export const goalTypeZod = z.union(GOAL_TYPES_ZOD)
 export const GOAL_TYPES = GOAL_TYPES_ZOD.map((type) => {
@@ -49,6 +49,16 @@ export abstract class Goal implements GoalBase {
   public constructor(options: GoalBase) {
     const { frequency } = options
     this.frequency = frequency
+  }
+
+  public static create(options: GoalCreateData): Goal {
+    if (options.target.type === "boolean") {
+      return new GoalBoolean(options)
+    }
+    return new GoalNumeric({
+      frequency: options.frequency,
+      target: options.target,
+    })
   }
 
   public static isNumeric(goal: Goal): goal is GoalNumeric {

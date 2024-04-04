@@ -1,5 +1,6 @@
 import type { GoalFrequency } from "./Goal"
-import type { HabitHistory } from "./HabitHistory"
+import type { Habit } from "./Habit"
+import { HabitHistory } from "./HabitHistory"
 
 export interface HabitsTrackerData {
   habitsHistory: {
@@ -23,5 +24,14 @@ export class HabitsTracker implements HabitsTrackerData {
         monthly: [],
       },
     })
+  }
+
+  public addHabit(habit: Habit): void {
+    this.habitsHistory[habit.goal.frequency].push(
+      new HabitHistory({
+        habit,
+        progressHistory: [],
+      }),
+    )
   }
 }

@@ -1,7 +1,7 @@
+import { useRouter } from "expo-router"
+import { useMemo, useState } from "react"
 import { FlatList, View } from "react-native"
 import { Button, List, Text } from "react-native-paper"
-import { useMemo, useState } from "react"
-import { useRouter } from "expo-router"
 
 import type { GoalFrequency } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES } from "@/domain/entities/Goal"

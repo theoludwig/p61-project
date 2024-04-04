@@ -3,16 +3,16 @@ import type { Habit } from "./Habit"
 import type { EntityData } from "./_Entity"
 import { Entity } from "./_Entity"
 
-interface HabitProgressDataBase extends EntityData {
+interface HabitProgressBase extends EntityData {
   habitId: Habit["id"]
 }
 
-export interface HabitProgressData extends HabitProgressDataBase {
+export interface HabitProgressData extends HabitProgressBase {
   goalProgress: GoalProgress
   date: Date
 }
 
-export interface HabitProgressJSON extends HabitProgressDataBase {
+export interface HabitProgressJSON extends HabitProgressBase {
   goalProgress: GoalProgressBase
   date: string
 }

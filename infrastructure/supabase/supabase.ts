@@ -5,8 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import type { Database } from "./supabase-types"
 
-const SUPABASE_URL = process.env["EXPO_PUBLIC_SUPABASE_URL"] ?? ""
-const SUPABASE_ANON_KEY = process.env["EXPO_PUBLIC_SUPABASE_ANON_KEY"] ?? ""
+const SUPABASE_URL =
+  process.env["EXPO_PUBLIC_SUPABASE_URL"] ??
+  "https://wjtwtzxreersqfvfgxrz.supabase.co"
+const SUPABASE_ANON_KEY =
+  process.env["EXPO_PUBLIC_SUPABASE_ANON_KEY"] ??
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqdHd0enhyZWVyc3FmdmZneHJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTExNDcyNzAsImV4cCI6MjAyNjcyMzI3MH0.AglONhsMvmcCRkqwrZsB4Ws9u3o1FAbLlpKJmqeUv8I"
 
 export const supabaseClient = createClient<Database>(
   SUPABASE_URL,

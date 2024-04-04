@@ -6,6 +6,8 @@ import { GetHabitProgressHistorySupabaseRepository } from "./supabase/repositori
 import { GetHabitsByUserIdSupabaseRepository } from "./supabase/repositories/GetHabitsByUserId"
 import { supabaseClient } from "./supabase/supabase"
 import { AuthenticationPresenter } from "@/presentation/presenters/Authentication"
+import { HabitCreateSupabaseRepository } from "./supabase/repositories/HabitCreate"
+import { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
 
 /**
  * Repositories
@@ -20,12 +22,18 @@ const getHabitProgressesRepository =
 const getHabitsByUserIdRepository = new GetHabitsByUserIdSupabaseRepository({
   supabaseClient,
 })
+const habitCreateRepository = new HabitCreateSupabaseRepository({
+  supabaseClient,
+})
 
 /**
  * Use Cases
  */
 const authenticationUseCase = new AuthenticationUseCase({
   authenticationRepository,
+})
+const habitCreateUseCase = new HabitCreateUseCase({
+  habitCreateRepository,
 })
 const retrieveHabitsTrackerUseCase = new RetrieveHabitsTrackerUseCase({
   getHabitProgressHistoryRepository: getHabitProgressesRepository,
@@ -40,4 +48,5 @@ export const authenticationPresenter = new AuthenticationPresenter({
 })
 export const habitsTrackerPresenter = new HabitsTrackerPresenter({
   retrieveHabitsTrackerUseCase,
+  habitCreateUseCase,
 })

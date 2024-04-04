@@ -262,3 +262,6 @@ VALUES
     timezone('utc' :: text, NOW()),
     4733
   );
+
+-- SELECT setval('habits_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits), false);
+-- SELECT setval('habits_progresses_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits_progresses), false);

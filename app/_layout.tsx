@@ -6,6 +6,7 @@ import {
 } from "react-native-paper"
 import { StatusBar } from "expo-status-bar"
 import { useEffect } from "react"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { HabitsTrackerProvider } from "@/presentation/react/contexts/HabitsTracker"
 import {
@@ -61,7 +62,9 @@ const RootLayout: React.FC = () => {
             },
           }}
         >
-          <StackLayout />
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <StackLayout />
+          </GestureHandlerRootView>
 
           <StatusBar style="dark" />
         </PaperProvider>

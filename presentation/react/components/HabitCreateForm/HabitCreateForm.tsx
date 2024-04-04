@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
+import { ScrollView, StyleSheet } from "react-native"
 import {
-  Appbar,
   Button,
   HelperText,
   SegmentedButtons,
+  Snackbar,
   Text,
   TextInput,
 } from "react-native-paper"
@@ -14,50 +15,26 @@ import ColorPicker, {
   Panel1,
   Preview,
 } from "reanimated-color-picker"
+import { useState } from "react"
 
 import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
 import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
-import { capitalize } from "@/presentation/presenters/utils/strings"
+import { useHabitsTracker } from "../../contexts/HabitsTracker"
 
 export interface HabitCreateFormProps {
   user: User
 }
 
 export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
-  // const {createHabit, habitPresenter} = useHabitCreate()
-
-  const onSubmit = async (data: HabitCreateData): Promise<void> => {
-    // await habitPresenter.createHabit(data)
-    console.log(data)
-  }
-
-  const frequenciesIcons: {
-    [key in GoalFrequency]: string
-  } = {
-    daily: "calendar",
-    weekly: "calendar-week",
-    monthly: "calendar-month",
-  }
-
-  const habitTypesTranslations: {
-    [key in GoalType]: { label: string; icon: string }
-  } = {
-    boolean: {
-      label: "Routine",
-      icon: "clock",
-    },
-    numeric: {
-      label: "Target",
-      icon: "target",
-    },
-  }
+  const { habitCreate, habitsTrackerPresenter } = useHabitsTracker()
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<HabitCreateData>({
     mode: "onChange",
@@ -76,141 +53,197 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
     },
   })
 
+  const [isVisibleSnackbar, setIsVisibleSnackbar] = useState(false)
+
+  const onDismissSnackbar = (): void => {
+    setIsVisibleSnackbar(false)
+  }
+
+  const onSubmit = async (data: HabitCreateData): Promise<void> => {
+    await habitsTrackerPresenter.habitCreate(data)
+    setIsVisibleSnackbar(true)
+    reset()
+  }
+
+  const habitFrequenciesTranslations: {
+    [key in GoalFrequency]: { label: string; icon: string }
+  } = {
+    daily: {
+      label: "Daily",
+      icon: "calendar",
+    },
+    weekly: {
+      label: "Weekly",
+      icon: "calendar-week",
+    },
+    monthly: {
+      label: "Monthly",
+      icon: "calendar-month",
+    },
+  }
+
+  const habitTypesTranslations: {
+    [key in GoalType]: { label: string; icon: string }
+  } = {
+    boolean: {
+      label: "Routine",
+      icon: "clock",
+    },
+    numeric: {
+      label: "Target",
+      icon: "target",
+    },
+  }
+
   return (
     <SafeAreaView>
-      <Appbar.Header>
-        <Appbar.Content
-          title="New Habit"
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 20,
+        }}
+      >
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => {
+            return (
+              <>
+                <TextInput
+                  placeholder="Name"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  style={[
+                    styles.spacing,
+                    {
+                      width: "90%",
+                    },
+                  ]}
+                  mode="outlined"
+                />
+                {errors.name != null ? (
+                  <HelperText type="error" visible style={[{ paddingTop: 0 }]}>
+                    {errors.name.type === "too_big"
+                      ? "Name is too long"
+                      : "Name is required"}
+                  </HelperText>
+                ) : null}
+              </>
+            )
           }}
+          name="name"
         />
-      </Appbar.Header>
 
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => {
-          return (
-            <>
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <>
+                <Text style={[styles.spacing]}>Habit Frequency</Text>
+                <SegmentedButtons
+                  style={[{ width: "90%" }]}
+                  onValueChange={onChange}
+                  value={value}
+                  buttons={GOAL_FREQUENCIES.map((frequency) => {
+                    return {
+                      label: habitFrequenciesTranslations[frequency].label,
+                      value: frequency,
+                      icon: habitFrequenciesTranslations[frequency].icon,
+                    }
+                  })}
+                />
+              </>
+            )
+          }}
+          name="goal.frequency"
+        />
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <>
+                <Text style={[styles.spacing]}>Habit Type</Text>
+                <SegmentedButtons
+                  style={[{ width: "90%" }]}
+                  onValueChange={onChange}
+                  value={value}
+                  buttons={GOAL_TYPES.map((type) => {
+                    return {
+                      label: habitTypesTranslations[type].label,
+                      value: type,
+                      icon: habitTypesTranslations[type].icon,
+                    }
+                  })}
+                />
+              </>
+            )
+          }}
+          name="goal.target.type"
+        />
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <ColorPicker
+                style={[styles.spacing, { width: "90%" }]}
+                value={value}
+                onComplete={(value) => {
+                  onChange(value.hex)
+                }}
+              >
+                <Preview hideInitialColor />
+                <Panel1 />
+                <HueSlider />
+              </ColorPicker>
+            )
+          }}
+          name="color"
+        />
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => {
+            return (
               <TextInput
-                placeholder="Name"
+                placeholder="Icon"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                style={[styles.input]}
+                style={[styles.spacing, { width: "90%" }]}
                 mode="outlined"
               />
-              {errors.name != null ? (
-                <HelperText type="error" visible>
-                  {errors.name.type === "too_big"
-                    ? "Name is too long"
-                    : "Name is required"}
-                </HelperText>
-              ) : null}
-            </>
-          )
-        }}
-        name="name"
-      />
+            )
+          }}
+          name="icon"
+        />
 
-      <Controller
-        control={control}
-        render={({ field: { onChange, value } }) => {
-          return (
-            <ColorPicker
-              style={{ width: "70%" }}
-              value={value}
-              onChange={(value) => {
-                onChange(value.hex)
-              }}
-            >
-              <Preview hideInitialColor />
-              <Panel1 />
-              <HueSlider />
-            </ColorPicker>
-          )
-        }}
-        name="color"
-      />
+        <Button
+          mode="contained"
+          onPress={handleSubmit(onSubmit)}
+          loading={habitCreate.state === "loading"}
+          disabled={habitCreate.state === "loading"}
+          style={[styles.spacing, { width: "90%" }]}
+        >
+          Create your habit! 🚀
+        </Button>
+      </ScrollView>
 
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => {
-          return (
-            <TextInput
-              placeholder="Icon"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              style={[styles.input]}
-              mode="outlined"
-            />
-          )
-        }}
-        name="icon"
-      />
-
-      <Controller
-        control={control}
-        render={({ field: { onChange, value } }) => {
-          return (
-            <>
-              <Text style={{ margin: 8 }}>Habit frequency</Text>
-              <SegmentedButtons
-                onValueChange={onChange}
-                value={value}
-                buttons={GOAL_FREQUENCIES.map((frequency) => {
-                  return {
-                    label: capitalize(frequency),
-                    value: frequency,
-                    icon: frequenciesIcons[frequency],
-                  }
-                })}
-              />
-            </>
-          )
-        }}
-        name="goal.frequency"
-      />
-
-      <Controller
-        control={control}
-        render={({ field: { onChange, value } }) => {
-          return (
-            <>
-              <Text style={{ margin: 8 }}>Habit type</Text>
-              <SegmentedButtons
-                onValueChange={onChange}
-                value={value}
-                buttons={GOAL_TYPES.map((type) => {
-                  return {
-                    label: habitTypesTranslations[type].label,
-                    value: type,
-                    icon: habitTypesTranslations[type].icon,
-                  }
-                })}
-              />
-            </>
-          )
-        }}
-        name="goal.target.type"
-      />
-
-      <Button
-        mode="contained"
-        onPress={handleSubmit(onSubmit)}
-        // loading={createHabit.state === "loading"}
-        // disabled={createHabit.state === "loading"}
+      <Snackbar
+        visible={isVisibleSnackbar}
+        onDismiss={onDismissSnackbar}
+        duration={2_000}
       >
-        Create your habit
-      </Button>
+        ✅ Habit created successfully!
+      </Snackbar>
     </SafeAreaView>
   )
 }
 
-const styles = {
-  input: {
-    margin: 8,
+const styles = StyleSheet.create({
+  spacing: {
+    marginVertical: 16,
   },
-}
+})
