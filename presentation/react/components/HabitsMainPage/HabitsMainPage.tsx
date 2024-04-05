@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router"
-import { useMemo, useState } from "react"
-import { View, ScrollView, Dimensions } from "react-native"
+import { useState } from "react"
+import { Dimensions, ScrollView, View } from "react-native"
 import { Button, List, Text } from "react-native-paper"
 
 import type { GoalFrequency } from "@/domain/entities/Goal"
@@ -18,11 +18,9 @@ export const HabitsMainPage: React.FC<HabitsMainPageProps> = (props) => {
 
   const router = useRouter()
 
-  const habitsByFrequency = useMemo(() => {
-    return GOAL_FREQUENCIES.filter((frequency) => {
-      return habitsTracker.habitsHistory[frequency].length > 0
-    })
-  }, [habitsTracker])
+  const habitsByFrequency = GOAL_FREQUENCIES.filter((frequency) => {
+    return habitsTracker.habitsHistory[frequency].length > 0
+  })
 
   const [accordionExpanded, setAccordionExpanded] = useState<{
     [key in GoalFrequency]: boolean
