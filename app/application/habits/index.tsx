@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ActivityIndicator, Button, Text } from "react-native-paper"
 
-import { HabitsMainPage } from "@/presentation/react/components/HabitsHistory/HabitsMainPage"
+import { HabitsMainPage } from "@/presentation/react/components/HabitsMainPage/HabitsMainPage"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 import { useAuthentication } from "@/presentation/react/contexts/Authentication"
 
