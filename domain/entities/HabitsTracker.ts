@@ -34,4 +34,18 @@ export class HabitsTracker implements HabitsTrackerData {
       }),
     )
   }
+
+  public getAllHabitsHistory(): HabitHistory[] {
+    return [
+      ...this.habitsHistory.daily,
+      ...this.habitsHistory.weekly,
+      ...this.habitsHistory.monthly,
+    ]
+  }
+
+  public getHabitHistoryById(id: Habit["id"]): HabitHistory | undefined {
+    return this.getAllHabitsHistory().find((habitHistory) => {
+      return habitHistory.habit.id === id
+    })
+  }
 }
