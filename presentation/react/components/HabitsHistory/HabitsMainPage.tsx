@@ -1,19 +1,19 @@
 import { useRouter } from "expo-router"
 import { useMemo, useState } from "react"
-import { FlatList, View } from "react-native"
+import { View, ScrollView, Dimensions } from "react-native"
 import { Button, List, Text } from "react-native-paper"
 
 import type { GoalFrequency } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES } from "@/domain/entities/Goal"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
 import { capitalize } from "@/presentation/presenters/utils/strings"
-import { HabitHistory } from "./HabitHistory"
+import { HabitCard } from "./HabitCard"
 
-export interface HabitsHistoryProps {
+export interface HabitsMainPageProps {
   habitsTracker: HabitsTracker
 }
 
-export const HabitsHistory: React.FC<HabitsHistoryProps> = (props) => {
+export const HabitsMainPage: React.FC<HabitsMainPageProps> = (props) => {
   const { habitsTracker } = props
 
   const router = useRouter()
@@ -68,42 +68,41 @@ export const HabitsHistory: React.FC<HabitsHistoryProps> = (props) => {
   }
 
   return (
-    <List.Section
-      style={[
-        {
-          width: "92%",
-        },
-      ]}
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{
+        paddingHorizontal: 20,
+        width: Dimensions.get("window").width,
+      }}
     >
-      {habitsByFrequency.map((frequency) => {
-        return (
-          <List.Accordion
-            expanded={accordionExpanded[frequency]}
-            onPress={() => {
-              setAccordionExpanded((old) => {
-                return {
-                  ...old,
-                  [frequency]: !old[frequency],
-                }
-              })
-            }}
-            key={frequency}
-            title={capitalize(frequency)}
-            titleStyle={[
-              {
-                fontSize: 26,
-              },
-            ]}
-          >
-            <FlatList
-              data={habitsTracker.habitsHistory[frequency]}
-              renderItem={({ item }) => {
-                return <HabitHistory habitHistory={item} />
+      <List.Section>
+        {habitsByFrequency.map((frequency) => {
+          return (
+            <List.Accordion
+              expanded={accordionExpanded[frequency]}
+              onPress={() => {
+                setAccordionExpanded((old) => {
+                  return {
+                    ...old,
+                    [frequency]: !old[frequency],
+                  }
+                })
               }}
-            />
-          </List.Accordion>
-        )
-      })}
-    </List.Section>
+              key={frequency}
+              title={capitalize(frequency)}
+              titleStyle={[
+                {
+                  fontSize: 26,
+                },
+              ]}
+            >
+              {habitsTracker.habitsHistory[frequency].map((item) => {
+                return <HabitCard habitHistory={item} key={item.habit.id} />
+              })}
+            </List.Accordion>
+          )
+        })}
+      </List.Section>
+    </ScrollView>
   )
 }

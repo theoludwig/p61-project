@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ActivityIndicator, Button, Text } from "react-native-paper"
 
-import { HabitsHistory } from "@/presentation/react/components/HabitsHistory/HabitsHistory"
+import { HabitsMainPage } from "@/presentation/react/components/HabitsHistory/HabitsMainPage"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 import { useAuthentication } from "@/presentation/react/contexts/Authentication"
 
@@ -61,7 +61,7 @@ const HabitsPage: React.FC = () => {
           </Button>
         </>
       ) : (
-        <HabitsHistory habitsTracker={habitsTracker} />
+        <HabitsMainPage habitsTracker={habitsTracker} />
       )}
     </SafeAreaView>
   )
