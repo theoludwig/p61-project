@@ -5,11 +5,11 @@ import { List } from "react-native-paper"
 import type { HabitHistory as HabitHistoryType } from "@/domain/entities/HabitHistory"
 import { getColorRGBAFromHex } from "@/presentation/presenters/utils/colors"
 
-export interface HabitHistoryProps {
+export interface HabitCardProps {
   habitHistory: HabitHistoryType
 }
 
-export const HabitHistory: React.FC<HabitHistoryProps> = (props) => {
+export const HabitCard: React.FC<HabitCardProps> = (props) => {
   const { habitHistory } = props
   const { habit } = habitHistory
 
