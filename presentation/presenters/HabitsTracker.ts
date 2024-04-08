@@ -8,7 +8,7 @@ import type {
   RetrieveHabitsTrackerUseCaseOptions,
 } from "@/domain/use-cases/RetrieveHabitsTracker"
 import type { HabitCreateData } from "@/domain/entities/Habit"
-import { getErrorsFieldsFromZodError } from "./utils/zod"
+import { getErrorsFieldsFromZodError } from "../../utils/zod"
 import type { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
 
 export interface HabitsTrackerPresenterState {

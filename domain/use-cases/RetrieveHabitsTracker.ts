@@ -39,9 +39,7 @@ export class RetrieveHabitsTrackerUseCase
           })
         return new HabitHistory({
           habit,
-          progressHistory: progressHistory.sort((a, b) => {
-            return a.date.getTime() - b.date.getTime()
-          }),
+          progressHistory,
         })
       }),
     )

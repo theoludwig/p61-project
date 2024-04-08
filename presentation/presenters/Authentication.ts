@@ -8,7 +8,7 @@ import type {
 import type { AuthenticationUseCase } from "@/domain/use-cases/Authentication"
 import type { ErrorGlobal, FetchState } from "./_Presenter"
 import { Presenter } from "./_Presenter"
-import { getErrorsFieldsFromZodError } from "./utils/zod"
+import { getErrorsFieldsFromZodError } from "../../utils/zod"
 
 export interface AuthenticationPresenterState {
   user: User | null

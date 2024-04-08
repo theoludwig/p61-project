@@ -1,43 +1,46 @@
-import { useState } from "react"
-import { Calendar } from "react-native-calendars"
+import { useMemo, useState } from "react"
+import { View } from "react-native"
+import { Agenda } from "react-native-calendars"
+import { Text } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 
+import { getISODate } from "@/utils/dates"
+
 const HistoryPage: React.FC = () => {
-  const [selected, setSelected] = useState("")
+  const today = useMemo(() => {
+    return new Date()
+  }, [])
+  const todayISO = getISODate(today)
+
+  const [selectedDate, setSelectedDate] = useState<Date>(today)
+  const selectedISODate = getISODate(selectedDate)
 
   return (
     <SafeAreaView
       style={[
         {
           flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
+          backgroundColor: "white",
         },
       ]}
     >
-      <Calendar
-        onDayPress={(day) => {
-          setSelected(day.dateString)
+      <Agenda
+        firstDay={1}
+        showClosingKnob
+        showOnlySelectedDayItems
+        onDayPress={(date) => {
+          setSelectedDate(new Date(date.dateString))
         }}
         markedDates={{
-          "2023-03-01": { selected: true, marked: true, selectedColor: "blue" },
-          "2023-03-02": { marked: true },
-          "2023-03-03": { selected: true, marked: true, selectedColor: "blue" },
-          [selected]: {
-            selected: true,
-            disableTouchEvent: true,
-            selectedColor: "orange",
-          },
+          [todayISO]: { marked: true },
         }}
-        theme={{
-          backgroundColor: "#000000",
-          calendarBackground: "#000000",
-          textSectionTitleColor: "#b6c1cd",
-          selectedDayBackgroundColor: "#00adf5",
-          selectedDayTextColor: "#ffffff",
-          todayTextColor: "#00adf5",
-          dayTextColor: "#2d4150",
-          textDisabledColor: "#d9efff",
+        selected={selectedISODate}
+        renderList={() => {
+          return (
+            <View>
+              <Text>{selectedDate.toISOString()}</Text>
+            </View>
+          )
         }}
       />
     </SafeAreaView>

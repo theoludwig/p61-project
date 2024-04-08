@@ -86,6 +86,24 @@ export abstract class GoalProgress implements GoalProgressBase {
   public abstract isCompleted(): boolean
 
   public abstract toJSON(): GoalProgressBase
+
+  public static isNumeric(
+    goalProgress: GoalProgress,
+  ): goalProgress is GoalNumericProgress {
+    return goalProgress.goal.isNumeric()
+  }
+  public isNumeric(): this is GoalNumericProgress {
+    return GoalProgress.isNumeric(this)
+  }
+
+  public static isBoolean(
+    goalProgress: GoalProgress,
+  ): goalProgress is GoalBooleanProgress {
+    return goalProgress.goal.isBoolean()
+  }
+  public isBoolean(): this is GoalBooleanProgress {
+    return GoalProgress.isBoolean(this)
+  }
 }
 
 interface GoalNumericOptions extends GoalBase {

@@ -12,6 +12,7 @@ const HabitPage: React.FC = () => {
   if (habitHistory == null) {
     return <Redirect href="/application/habits/" />
   }
+
   return (
     <SafeAreaView
       style={[

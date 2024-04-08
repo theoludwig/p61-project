@@ -1,17 +1,19 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6"
 import { useRouter } from "expo-router"
-import { List } from "react-native-paper"
+import { View } from "react-native"
+import { List, Text } from "react-native-paper"
 
-import type { HabitHistory as HabitHistoryType } from "@/domain/entities/HabitHistory"
-import { getColorRGBAFromHex } from "@/presentation/presenters/utils/colors"
+import type { GoalProgress } from "@/domain/entities/Goal"
+import type { Habit } from "@/domain/entities/Habit"
+import { getColorRGBAFromHex } from "@/utils/colors"
 
 export interface HabitCardProps {
-  habitHistory: HabitHistoryType
+  habit: Habit
+  goalProgress: GoalProgress
 }
 
 export const HabitCard: React.FC<HabitCardProps> = (props) => {
-  const { habitHistory } = props
-  const { habit } = habitHistory
+  const { habit, goalProgress } = props
 
   const router = useRouter()
 
@@ -61,6 +63,25 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
               },
             ]}
           />
+        )
+      }}
+      right={() => {
+        if (goalProgress.isNumeric()) {
+          return (
+            <View>
+              <Text>
+                {goalProgress.progress.toLocaleString()} /{" "}
+                {goalProgress.goal.target.value.toLocaleString()}{" "}
+                {goalProgress.goal.target.unit}
+              </Text>
+            </View>
+          )
+        }
+
+        return (
+          <View>
+            <Text>{goalProgress.isCompleted() ? "true" : "false"}</Text>
+          </View>
         )
       }}
     />

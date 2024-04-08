@@ -16,6 +16,7 @@ const HabitsPage: React.FC = () => {
       style={[
         {
           flex: 1,
+          backgroundColor: "white",
           alignItems: "center",
           justifyContent:
             retrieveHabitsTracker.state === "loading" ||
