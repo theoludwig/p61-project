@@ -4,11 +4,11 @@ import { Agenda } from "react-native-calendars"
 import { Text } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { getISODate } from "@/utils/dates"
+import { getISODate, getNowDate } from "@/utils/dates"
 
 const HistoryPage: React.FC = () => {
   const today = useMemo(() => {
-    return new Date()
+    return getNowDate()
   }, [])
   const todayISO = getISODate(today)
 

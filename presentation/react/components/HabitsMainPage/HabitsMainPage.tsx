@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { Agenda } from "react-native-calendars"
 
+import { GOAL_FREQUENCIES } from "@/domain/entities/Goal"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
-import { getISODate } from "@/utils/dates"
+import { getISODate, getNowDate } from "@/utils/dates"
+import { HabitsEmpty } from "./HabitsEmpty"
 import { HabitsList } from "./HabitsList"
 
 export interface HabitsMainPageProps {
@@ -12,31 +14,38 @@ export interface HabitsMainPageProps {
 export const HabitsMainPage: React.FC<HabitsMainPageProps> = (props) => {
   const { habitsTracker } = props
 
-  const today = useMemo(() => {
-    return new Date()
-  }, [])
+  const today = getNowDate()
   const todayISO = getISODate(today)
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)
-  const selectedISODate = getISODate(selectedDate)
+  const selectedDateISO = getISODate(selectedDate)
+
+  const frequenciesFiltered = GOAL_FREQUENCIES.filter((frequency) => {
+    return habitsTracker.habitsHistory[frequency].length > 0
+  })
+
+  if (frequenciesFiltered.length <= 0) {
+    return <HabitsEmpty />
+  }
 
   return (
     <Agenda
       firstDay={1}
       showClosingKnob
-      showOnlySelectedDayItems
       onDayPress={(date) => {
         setSelectedDate(new Date(date.dateString))
       }}
       markedDates={{
-        [todayISO]: { marked: true },
+        [todayISO]: { marked: true, today: true },
       }}
-      selected={selectedISODate}
+      maxDate={todayISO}
+      selected={selectedDateISO}
       renderList={() => {
         return (
           <HabitsList
             habitsTracker={habitsTracker}
             selectedDate={selectedDate}
+            frequenciesFiltered={frequenciesFiltered}
           />
         )
       }}
