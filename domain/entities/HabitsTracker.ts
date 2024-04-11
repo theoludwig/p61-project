@@ -1,6 +1,7 @@
 import type { GoalFrequency } from "./Goal"
 import type { Habit } from "./Habit"
 import { HabitHistory } from "./HabitHistory"
+import type { HabitProgress } from "./HabitProgress"
 
 export interface HabitsTrackerData {
   habitsHistory: {
@@ -33,6 +34,33 @@ export class HabitsTracker implements HabitsTrackerData {
         progressHistory: [],
       }),
     )
+  }
+
+  public editHabit(habit: Habit): void {
+    const habitHistory = this.getHabitHistoryById(habit.id)
+    if (habitHistory == null) {
+      return
+    }
+    habitHistory.habit = habit
+  }
+
+  public updateHabitProgress(habitProgress: HabitProgress): void {
+    const habitHistory = this.getHabitHistoryById(habitProgress.habitId)
+    if (habitHistory == null) {
+      return
+    }
+    const habitProgressSaved = habitHistory.progressHistory.find((progress) => {
+      return progress.id === habitProgress.id
+    })
+    if (habitProgressSaved == null) {
+      habitHistory.progressHistory = [
+        ...habitHistory.progressHistory,
+        habitProgress,
+      ]
+      return
+    }
+    habitProgressSaved.goalProgress = habitProgress.goalProgress
+    habitProgressSaved.date = habitProgress.date
   }
 
   public getAllHabitsHistory(): HabitHistory[] {

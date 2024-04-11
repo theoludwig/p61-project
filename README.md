@@ -28,9 +28,6 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 - [React Native Paper](https://callstack.github.io/react-native-paper/): Bibliothèque de composants pour React Native.
 - [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/): Gestion des formulaires et validation des données.
 - [Supabase](https://supabase.io/): Backend, serveur d'API pour le stockage des données.
-<!--
-- [WatermelonDB](https://nozbe.github.io/WatermelonDB/): Base de données locale, pour permettre une utilisation hors-ligne de l'application.
-  -->
 
 ## Développement du projet en local
 

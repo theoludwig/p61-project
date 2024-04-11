@@ -34,7 +34,7 @@ export class HabitHistory implements HabitHistoryJSON {
     })
   }
 
-  private getProgressesByDate(date: Date): HabitProgress[] {
+  public getProgressesByDate(date: Date): HabitProgress[] {
     return this._progressHistory.filter((progress) => {
       if (this.habit.goal.frequency === "monthly") {
         return (

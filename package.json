@@ -2,7 +2,7 @@
   "name": "p61-project",
   "private": true,
   "main": "expo-router/entry",
-  "version": "1.0.0-staging.1",
+  "version": "1.0.0-staging.2",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -27,8 +27,8 @@
     "@hookform/resolvers": "3.3.4",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/native": "6.1.16",
-    "@supabase/supabase-js": "2.42.0",
-    "expo": "50.0.14",
+    "@supabase/supabase-js": "2.42.1",
+    "expo": "50.0.15",
     "expo-font": "11.10.3",
     "expo-linking": "6.2.2",
     "expo-router": "3.4.8",
@@ -37,6 +37,7 @@
     "expo-system-ui": "2.9.3",
     "expo-web-browser": "12.8.2",
     "immer": "10.0.4",
+    "lottie-react-native": "6.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.51.2",
@@ -63,11 +64,11 @@
     "@total-typescript/ts-reset": "0.5.1",
     "@tsconfig/strictest": "2.0.5",
     "@types/jest": "29.5.12",
-    "@types/node": "20.12.4",
-    "@types/react": "18.2.74",
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.76",
     "@types/react-test-renderer": "18.0.7",
-    "@typescript-eslint/eslint-plugin": "7.5.0",
-    "@typescript-eslint/parser": "7.5.0",
+    "@typescript-eslint/eslint-plugin": "7.6.0",
+    "@typescript-eslint/parser": "7.6.0",
     "eslint": "8.57.0",
     "eslint-config-conventions": "14.1.0",
     "eslint-config-prettier": "9.1.0",
@@ -85,6 +86,6 @@
     "lint-staged": "15.2.2",
     "react-test-renderer": "18.2.0",
     "supabase": "1.153.4",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   }
 }

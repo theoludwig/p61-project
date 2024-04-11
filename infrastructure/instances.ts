@@ -8,6 +8,11 @@ import { supabaseClient } from "./supabase/supabase"
 import { AuthenticationPresenter } from "@/presentation/presenters/Authentication"
 import { HabitCreateSupabaseRepository } from "./supabase/repositories/HabitCreate"
 import { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
+import { HabitEditSupabaseRepository } from "./supabase/repositories/HabitEdit"
+import { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
+import { HabitProgressCreateSupabaseRepository } from "./supabase/repositories/HabitProgressCreate"
+import { HabitProgressUpdateSupabaseRepository } from "./supabase/repositories/HabitProgressUpdate"
+import { HabitGoalProgressUpdateUseCase } from "@/domain/use-cases/HabitGoalProgressUpdate"
 
 /**
  * Repositories
@@ -25,6 +30,19 @@ const getHabitsByUserIdRepository = new GetHabitsByUserIdSupabaseRepository({
 const habitCreateRepository = new HabitCreateSupabaseRepository({
   supabaseClient,
 })
+const habitEditRepository = new HabitEditSupabaseRepository({
+  supabaseClient,
+})
+const habitProgressCreateRepository = new HabitProgressCreateSupabaseRepository(
+  {
+    supabaseClient,
+  },
+)
+const habitProgressUpdateRepository = new HabitProgressUpdateSupabaseRepository(
+  {
+    supabaseClient,
+  },
+)
 
 /**
  * Use Cases
@@ -39,6 +57,13 @@ const retrieveHabitsTrackerUseCase = new RetrieveHabitsTrackerUseCase({
   getHabitProgressHistoryRepository: getHabitProgressesRepository,
   getHabitsByUserIdRepository,
 })
+const habitEditUseCase = new HabitEditUseCase({
+  habitEditRepository,
+})
+const habitGoalProgressUpdateUseCase = new HabitGoalProgressUpdateUseCase({
+  habitProgressCreateRepository,
+  habitProgressUpdateRepository,
+})
 
 /**
  * Presenters
@@ -49,4 +74,6 @@ export const authenticationPresenter = new AuthenticationPresenter({
 export const habitsTrackerPresenter = new HabitsTrackerPresenter({
   retrieveHabitsTrackerUseCase,
   habitCreateUseCase,
+  habitEditUseCase,
+  habitGoalProgressUpdateUseCase,
 })
