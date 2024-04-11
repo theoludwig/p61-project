@@ -33,6 +33,7 @@
     "expo-system-ui": "2.9.3",
     "expo-web-browser": "12.8.2",
     "immer": "10.0.4",
+    "lottie-react-native": "6.7.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.51.2",

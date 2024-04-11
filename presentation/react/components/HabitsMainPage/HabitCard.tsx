@@ -1,29 +1,36 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6"
 import { useRouter } from "expo-router"
-import { View } from "react-native"
-import { List, Text, Checkbox } from "react-native-paper"
 import { useState } from "react"
+import { View } from "react-native"
+import { Checkbox, List, Text } from "react-native-paper"
+import type LottieView from "lottie-react-native"
 
-import type { GoalProgress } from "@/domain/entities/Goal"
-import type { Habit } from "@/domain/entities/Habit"
+import type { GoalBoolean } from "@/domain/entities/Goal"
+import { GoalBooleanProgress } from "@/domain/entities/Goal"
+import type { HabitHistory } from "@/domain/entities/HabitHistory"
 import { getColorRGBAFromHex } from "@/utils/colors"
+import { useHabitsTracker } from "../../contexts/HabitsTracker"
 
 export interface HabitCardProps {
-  habit: Habit
-  goalProgress: GoalProgress
+  habitHistory: HabitHistory
+  selectedDate: Date
+  confettiRef: React.MutableRefObject<LottieView | null>
 }
 
 export const HabitCard: React.FC<HabitCardProps> = (props) => {
-  const { habit, goalProgress } = props
+  const { habitHistory, selectedDate, confettiRef } = props
+  const { habit } = habitHistory
 
   const router = useRouter()
+  const { habitsTrackerPresenter } = useHabitsTracker()
+
+  const goalProgress = habitHistory.getGoalProgressByDate(selectedDate)
+  const [checked, setChecked] = useState(goalProgress.isCompleted())
 
   const habitColor = getColorRGBAFromHex({
     hexColor: habit.color,
     opacity: 0.4,
   })
-
-  const [checked, setChecked] = useState(goalProgress.isCompleted())
 
   return (
     <List.Item
@@ -57,15 +64,17 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
       ]}
       left={() => {
         return (
-          <FontAwesome6
-            size={24}
-            name={habit.icon}
-            style={[
-              {
-                width: 30,
-              },
-            ]}
-          />
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <FontAwesome6
+              size={24}
+              name={habit.icon}
+              style={[
+                {
+                  width: 30,
+                },
+              ]}
+            />
+          </View>
         )
       }}
       right={() => {
@@ -82,14 +91,25 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
         }
 
         return (
-          <View>
-            <Checkbox
-              status={checked ? "checked" : "unchecked"}
-              onPress={() => {
-                setChecked(!checked)
-              }}
-            />
-          </View>
+          <Checkbox
+            color="black"
+            status={checked ? "checked" : "unchecked"}
+            onPress={async () => {
+              const isCheckedNew = !checked
+              setChecked(isCheckedNew)
+              if (isCheckedNew) {
+                confettiRef.current?.play()
+              }
+              await habitsTrackerPresenter.habitUpdateProgress({
+                date: selectedDate,
+                habitHistory,
+                goalProgress: new GoalBooleanProgress({
+                  goal: habit.goal as GoalBoolean,
+                  progress: isCheckedNew,
+                }),
+              })
+            }}
+          />
         )
       }}
     />

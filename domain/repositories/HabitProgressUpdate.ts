@@ -4,7 +4,7 @@ import type {
 } from "../entities/HabitProgress"
 
 export interface HabitProgressUpdateOptions {
-  habitProgressData: HabitProgressData
+  habitProgressData: Omit<HabitProgressData, "habitId">
 }
 
 export interface HabitProgressUpdateRepository {
