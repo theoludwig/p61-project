@@ -1,7 +1,6 @@
 import { Redirect, useLocalSearchParams } from "expo-router"
-import { Text } from "react-native-paper"
-import { SafeAreaView } from "react-native-safe-area-context"
 
+import { HabitEditForm } from "@/presentation/react/components/HabitEditForm/HabitEditForm"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 
 const HabitPage: React.FC = () => {
@@ -9,23 +8,13 @@ const HabitPage: React.FC = () => {
   const { habitsTracker } = useHabitsTracker()
 
   const habitHistory = habitsTracker.getHabitHistoryById(habitId as string)
+
   if (habitHistory == null) {
     return <Redirect href="/application/habits/" />
   }
 
   return (
-    <SafeAreaView
-      style={[
-        {
-          flex: 1,
-          alignItems: "center",
-        },
-      ]}
-    >
-      <Text>
-        Habit Page {habitId} {habitHistory.habit.name}
-      </Text>
-    </SafeAreaView>
+    <HabitEditForm habit={habitHistory.habit} key={habitHistory.habit.id} />
   )
 }
 
