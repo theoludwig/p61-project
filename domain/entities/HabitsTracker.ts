@@ -35,6 +35,14 @@ export class HabitsTracker implements HabitsTrackerData {
     )
   }
 
+  public editHabit(habit: Habit): void {
+    const habitHistory = this.getHabitHistoryById(habit.id)
+    if (habitHistory == null) {
+      return
+    }
+    habitHistory.habit = habit
+  }
+
   public getAllHabitsHistory(): HabitHistory[] {
     return [
       ...this.habitsHistory.daily,

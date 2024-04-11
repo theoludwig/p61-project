@@ -7,9 +7,10 @@ import type {
   RetrieveHabitsTrackerUseCase,
   RetrieveHabitsTrackerUseCaseOptions,
 } from "@/domain/use-cases/RetrieveHabitsTracker"
-import type { HabitCreateData } from "@/domain/entities/Habit"
+import type { HabitCreateData, HabitEditData } from "@/domain/entities/Habit"
 import { getErrorsFieldsFromZodError } from "../../utils/zod"
 import type { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
+import type { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
 
 export interface HabitsTrackerPresenterState {
   habitsTracker: HabitsTracker
@@ -29,7 +30,7 @@ export interface HabitsTrackerPresenterState {
   habitEdit: {
     state: FetchState
     errors: {
-      fields: Array<keyof HabitCreateData>
+      fields: Array<keyof HabitEditData>
       global: ErrorGlobal
     }
   }
@@ -38,6 +39,7 @@ export interface HabitsTrackerPresenterState {
 export interface HabitsTrackerPresenterOptions {
   retrieveHabitsTrackerUseCase: RetrieveHabitsTrackerUseCase
   habitCreateUseCase: HabitCreateUseCase
+  habitEditUseCase: HabitEditUseCase
 }
 
 export class HabitsTrackerPresenter
@@ -46,9 +48,14 @@ export class HabitsTrackerPresenter
 {
   public retrieveHabitsTrackerUseCase: RetrieveHabitsTrackerUseCase
   public habitCreateUseCase: HabitCreateUseCase
+  public habitEditUseCase: HabitEditUseCase
 
   public constructor(options: HabitsTrackerPresenterOptions) {
-    const { retrieveHabitsTrackerUseCase, habitCreateUseCase } = options
+    const {
+      retrieveHabitsTrackerUseCase,
+      habitCreateUseCase,
+      habitEditUseCase,
+    } = options
     const habitsTracker = HabitsTracker.default()
     super({
       habitsTracker,
@@ -70,6 +77,7 @@ export class HabitsTrackerPresenter
     })
     this.retrieveHabitsTrackerUseCase = retrieveHabitsTrackerUseCase
     this.habitCreateUseCase = habitCreateUseCase
+    this.habitEditUseCase = habitEditUseCase
   }
 
   public async habitCreate(data: unknown): Promise<FetchState> {
@@ -110,10 +118,10 @@ export class HabitsTrackerPresenter
           global: null,
         }
       })
-      const habit = await this.habitCreateUseCase.execute(data)
+      const habit = await this.habitEditUseCase.execute(data)
       this.setState((state) => {
         state.habitEdit.state = "success"
-        state.habitsTracker.addHabit(habit)
+        state.habitsTracker.editHabit(habit)
       })
       return "success"
     } catch (error) {
@@ -121,7 +129,7 @@ export class HabitsTrackerPresenter
         state.habitEdit.state = "error"
         if (error instanceof ZodError) {
           state.habitEdit.errors.fields =
-            getErrorsFieldsFromZodError<HabitCreateData>(error)
+            getErrorsFieldsFromZodError<HabitEditData>(error)
         } else {
           state.habitEdit.errors.global = "unknown"
         }

@@ -12,36 +12,28 @@ import ColorPicker, {
 
 import type { Habit, HabitEditData } from "@/domain/entities/Habit"
 import { HabitEditSchema } from "@/domain/entities/Habit"
-import type { User } from "@/domain/entities/User"
 import { useHabitsTracker } from "../../contexts/HabitsTracker"
 
 export interface HabitEditFormProps {
-  user: User
   habit: Habit
 }
 
-export const HabitEditForm: React.FC<HabitEditFormProps> = ({ user }) => {
+export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
   const { habitEdit, habitsTrackerPresenter } = useHabitsTracker()
 
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<HabitEditData>({
     mode: "onChange",
     resolver: zodResolver(HabitEditSchema),
     defaultValues: {
-      userId: user.id,
-      name: "",
-      color: "#006CFF",
-      icon: "lightbulb",
-      goal: {
-        frequency: "daily",
-        target: {
-          type: "boolean",
-        },
-      },
+      id: habit.id,
+      userId: habit.userId,
+      name: habit.name,
+      color: habit.color,
+      icon: habit.icon,
     },
   })
 
@@ -54,7 +46,6 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ user }) => {
   const onSubmit = async (data: HabitEditData): Promise<void> => {
     await habitsTrackerPresenter.habitEdit(data)
     setIsVisibleSnackbar(true)
-    reset()
   }
 
   return (
@@ -141,7 +132,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ user }) => {
           disabled={habitEdit.state === "loading"}
           style={[styles.spacing, { width: "90%" }]}
         >
-          Create your habit! 🚀
+          Save
         </Button>
       </ScrollView>
 
@@ -150,7 +141,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ user }) => {
         onDismiss={onDismissSnackbar}
         duration={2_000}
       >
-        ✅ Habit created successfully!
+        ✅ Habit Saved successfully!
       </Snackbar>
     </SafeAreaView>
   )

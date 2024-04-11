@@ -12,18 +12,11 @@ export class HabitEditSupabaseRepository
     const { data, error } = await this.supabaseClient
       .from("habits")
       .update({
-        id: Number(habitEditData.id),
         name: habitEditData.name,
         color: habitEditData.color,
         icon: habitEditData.icon,
-        goal_frequency: habitEditData.goal.frequency,
-        ...(habitEditData.goal.target.type === "numeric"
-          ? {
-              goal_target: habitEditData.goal.target.value,
-              goal_target_unit: habitEditData.goal.target.unit,
-            }
-          : {}),
       })
+      .eq("id", habitEditData.id)
       .select("*")
     const updatedHabit = data?.[0]
     if (error != null || updatedHabit == null) {
@@ -34,7 +27,20 @@ export class HabitEditSupabaseRepository
       userId: updatedHabit.user_id.toString(),
       name: updatedHabit.name,
       icon: updatedHabit.icon,
-      goal: Goal.create(habitEditData.goal),
+      goal: Goal.create({
+        frequency: updatedHabit.goal_frequency,
+        target:
+          updatedHabit.goal_target != null &&
+          updatedHabit.goal_target_unit != null
+            ? {
+                type: "numeric",
+                value: updatedHabit.goal_target,
+                unit: updatedHabit.goal_target_unit,
+              }
+            : {
+                type: "boolean",
+              },
+      }),
       color: updatedHabit.color,
       startDate: new Date(updatedHabit.start_date),
     })
