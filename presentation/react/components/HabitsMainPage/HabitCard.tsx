@@ -1,7 +1,8 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6"
 import { useRouter } from "expo-router"
 import { View } from "react-native"
-import { List, Text } from "react-native-paper"
+import { List, Text, Checkbox } from "react-native-paper"
+import { useState } from "react"
 
 import type { GoalProgress } from "@/domain/entities/Goal"
 import type { Habit } from "@/domain/entities/Habit"
@@ -21,6 +22,8 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
     hexColor: habit.color,
     opacity: 0.4,
   })
+
+  const [checked, setChecked] = useState(goalProgress.isCompleted())
 
   return (
     <List.Item
@@ -80,7 +83,12 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
 
         return (
           <View>
-            <Text>{goalProgress.isCompleted() ? "true" : "false"}</Text>
+            <Checkbox
+              status={checked ? "checked" : "unchecked"}
+              onPress={() => {
+                setChecked(!checked)
+              }}
+            />
           </View>
         )
       }}
