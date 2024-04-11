@@ -33,7 +33,21 @@ export const GoalCreateSchema = z.object({
   ]),
 })
 
+export const GoalEditSchema = z.object({
+  frequency: goalFrequencyZod,
+  target: z.discriminatedUnion("type", [
+    z.object({ type: z.literal("boolean") }),
+    z.object({
+      type: z.literal("numeric"),
+      value: z.number().int().min(0),
+      unit: z.string().min(1),
+    }),
+  ]),
+})
+
 export type GoalCreateData = z.infer<typeof GoalCreateSchema>
+
+export type GoalEditData = z.infer<typeof GoalEditSchema>
 
 interface GoalBase {
   frequency: GoalFrequency

@@ -15,6 +15,11 @@ export const HabitCreateSchema = HabitSchema.extend({
 }).omit({ id: true })
 export type HabitCreateData = z.infer<typeof HabitCreateSchema>
 
+export const HabitEditSchema = HabitSchema.extend({
+  goal: GoalCreateSchema,
+})
+export type HabitEditData = z.infer<typeof HabitEditSchema>
+
 type HabitBase = z.infer<typeof HabitSchema>
 
 export interface HabitData extends HabitBase {

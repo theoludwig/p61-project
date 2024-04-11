@@ -25,6 +25,14 @@ export interface HabitsTrackerPresenterState {
       global: ErrorGlobal
     }
   }
+
+  habitEdit: {
+    state: FetchState
+    errors: {
+      fields: Array<keyof HabitCreateData>
+      global: ErrorGlobal
+    }
+  }
 }
 
 export interface HabitsTrackerPresenterOptions {
@@ -46,6 +54,13 @@ export class HabitsTrackerPresenter
       habitsTracker,
       retrieveHabitsTracker: { state: "idle" },
       habitCreate: {
+        state: "idle",
+        errors: {
+          fields: [],
+          global: null,
+        },
+      },
+      habitEdit: {
         state: "idle",
         errors: {
           fields: [],
@@ -80,6 +95,35 @@ export class HabitsTrackerPresenter
             getErrorsFieldsFromZodError<HabitCreateData>(error)
         } else {
           state.habitCreate.errors.global = "unknown"
+        }
+      })
+      return "error"
+    }
+  }
+
+  public async habitEdit(data: unknown): Promise<FetchState> {
+    try {
+      this.setState((state) => {
+        state.habitEdit.state = "loading"
+        state.habitEdit.errors = {
+          fields: [],
+          global: null,
+        }
+      })
+      const habit = await this.habitCreateUseCase.execute(data)
+      this.setState((state) => {
+        state.habitEdit.state = "success"
+        state.habitsTracker.addHabit(habit)
+      })
+      return "success"
+    } catch (error) {
+      this.setState((state) => {
+        state.habitEdit.state = "error"
+        if (error instanceof ZodError) {
+          state.habitEdit.errors.fields =
+            getErrorsFieldsFromZodError<HabitCreateData>(error)
+        } else {
+          state.habitEdit.errors.global = "unknown"
         }
       })
       return "error"
