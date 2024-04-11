@@ -4,10 +4,12 @@ import { ScrollView, StyleSheet } from "react-native"
 import {
   Button,
   HelperText,
+  IconButton,
   SegmentedButtons,
   Snackbar,
   Text,
   TextInput,
+  Tooltip,
 } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import ColorPicker, {
@@ -23,6 +25,7 @@ import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
 import { useHabitsTracker } from "../../contexts/HabitsTracker"
+import { HabitIconSelectorModal } from "./HabitIconSelectorModal"
 
 export interface HabitCreateFormProps {
   user: User
@@ -43,7 +46,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
       userId: user.id,
       name: "",
       color: "#006CFF",
-      icon: "lightbulb",
+      icon: "circle-question",
       goal: {
         frequency: "daily",
         target: {
@@ -164,7 +167,27 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           render={({ field: { onChange, value } }) => {
             return (
               <>
-                <Text style={[styles.spacing]}>Habit Type</Text>
+                <Text
+                  style={[
+                    styles.spacing,
+                    { justifyContent: "center", alignContent: "center" },
+                  ]}
+                >
+                  Habit Type
+                  <Tooltip
+                    title="Routine habits are activities performed regularly, while Target habits involve setting specific objectives to be achieved through repeated actions."
+                    enterTouchDelay={50}
+                    leaveTouchDelay={25}
+                  >
+                    <IconButton
+                      icon="chat-question-outline"
+                      selected
+                      size={24}
+                      onPress={() => {}}
+                      style={{ alignSelf: "center" }}
+                    />
+                  </Tooltip>
+                </Text>
                 <SegmentedButtons
                   style={[{ width: "90%" }]}
                   onValueChange={onChange}
@@ -207,13 +230,20 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => {
             return (
-              <TextInput
-                placeholder="Icon"
-                onBlur={onBlur}
-                onChangeText={onChange}
+              // <TextInput
+              //   placeholder="Icon"
+              //   onBlur={onBlur}
+              //   onChangeText={onChange}
+              //   value={value}
+              //   style={[styles.spacing, { width: "90%" }]}
+              //   mode="outlined"
+              // />
+              <HabitIconSelectorModal
+                visible
                 value={value}
-                style={[styles.spacing, { width: "90%" }]}
-                mode="outlined"
+                onDismiss={() => {}}
+                onSelect={onChange}
+                onPress={() => {}}
               />
             )
           }}
