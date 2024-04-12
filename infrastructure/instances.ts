@@ -13,6 +13,7 @@ import { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
 import { HabitProgressCreateSupabaseRepository } from "./supabase/repositories/HabitProgressCreate"
 import { HabitProgressUpdateSupabaseRepository } from "./supabase/repositories/HabitProgressUpdate"
 import { HabitGoalProgressUpdateUseCase } from "@/domain/use-cases/HabitGoalProgressUpdate"
+import { HabitStopUseCase } from "@/domain/use-cases/HabitStop"
 
 /**
  * Repositories
@@ -64,6 +65,9 @@ const habitGoalProgressUpdateUseCase = new HabitGoalProgressUpdateUseCase({
   habitProgressCreateRepository,
   habitProgressUpdateRepository,
 })
+const habitStopUseCase = new HabitStopUseCase({
+  habitEditRepository,
+})
 
 /**
  * Presenters
@@ -75,5 +79,6 @@ export const habitsTrackerPresenter = new HabitsTrackerPresenter({
   retrieveHabitsTrackerUseCase,
   habitCreateUseCase,
   habitEditUseCase,
+  habitStopUseCase,
   habitGoalProgressUpdateUseCase,
 })

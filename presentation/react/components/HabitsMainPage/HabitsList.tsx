@@ -90,16 +90,24 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
                   },
                 ]}
               >
-                {habitsTracker.habitsHistory[frequency].map((item) => {
-                  return (
-                    <HabitCard
-                      habitHistory={item}
-                      selectedDate={selectedDate}
-                      key={item.habit.id + selectedDate.toISOString()}
-                      confettiRef={confettiRef}
-                    />
-                  )
-                })}
+                {habitsTracker.habitsHistory[frequency]
+                  .filter((habitItem) => {
+                    return (
+                      (habitItem.habit.endDate != null &&
+                        habitItem.habit.endDate <= selectedDate) ||
+                      habitItem.habit.endDate == null
+                    )
+                  })
+                  .map((item) => {
+                    return (
+                      <HabitCard
+                        habitHistory={item}
+                        selectedDate={selectedDate}
+                        key={item.habit.id + selectedDate.toISOString()}
+                        confettiRef={confettiRef}
+                      />
+                    )
+                  })}
               </List.Accordion>
             )
           })}
