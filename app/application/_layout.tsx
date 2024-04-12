@@ -43,11 +43,11 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="habits/history"
+        name="habits/stats"
         options={{
-          title: "History",
+          title: "Statistics",
           tabBarIcon: ({ color }) => {
-            return <TabBarIcon name="history" color={color} />
+            return <TabBarIcon name="line-chart" color={color} />
           },
         }}
       />
