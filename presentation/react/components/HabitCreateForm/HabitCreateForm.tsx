@@ -228,16 +228,8 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => {
+          render={({ field: { onChange, value } }) => {
             return (
-              // <TextInput
-              //   placeholder="Icon"
-              //   onBlur={onBlur}
-              //   onChangeText={onChange}
-              //   value={value}
-              //   style={[styles.spacing, { width: "90%" }]}
-              //   mode="outlined"
-              // />
               <HabitIconSelectorModal
                 visible
                 value={value}

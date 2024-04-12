@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from "react"
-import {
-  Modal,
-  IconButton,
-  Portal,
-  List,
-  Button,
-  TextInput,
-  Text,
-} from "react-native-paper"
-import { ScrollView, View, StyleSheet } from "react-native"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import type {
-  IconDefinition,
-  IconName,
-} from "@fortawesome/fontawesome-svg-core"
-import { library, findIconDefinition } from "@fortawesome/fontawesome-svg-core"
+import { library } from "@fortawesome/fontawesome-svg-core"
 import { fas } from "@fortawesome/free-solid-svg-icons"
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react"
+import { ScrollView, StyleSheet, View } from "react-native"
+import { Button, List, Modal, Portal, TextInput } from "react-native-paper"
 
+import { HabitIconList } from "./HabitIconList"
 export interface HabitIconSelectorModalProps {
   visible?: boolean
   value: string
@@ -24,6 +18,34 @@ export interface HabitIconSelectorModalProps {
   onSelect: (icon: string) => void
   onPress: () => void
 }
+
+interface SearchInputProps {
+  searchText: string
+  handleSearch: (text: string) => void
+}
+
+library.add(fas)
+
+const iconNames = Object.keys(fas).map((key) => {
+  return fas[key]?.iconName ?? ""
+})
+
+const findIconsInLibrary = (icon: string): string[] => {
+  return iconNames
+    .filter((name, index, self) => {
+      return name.includes(icon) && self.indexOf(name) === index
+    })
+    .slice(0, 20)
+}
+
+const SearchInputWithoutMemo: React.FC<SearchInputProps> = (props) => {
+  const { searchText, handleSearch } = props
+  return (
+    <TextInput label="Search" value={searchText} onChangeText={handleSearch} />
+  )
+}
+
+const SearchInput = memo(SearchInputWithoutMemo)
 
 export const HabitIconSelectorModal: React.FC<HabitIconSelectorModalProps> = ({
   visible = false,
@@ -33,36 +55,32 @@ export const HabitIconSelectorModal: React.FC<HabitIconSelectorModalProps> = ({
   onPress,
 }) => {
   const [selectedIcon, setSelectedIcon] = useState<string>()
-  const [possibleIcons, setPossibleIcons] = useState<IconDefinition[]>([])
+  const [possibleIcons, setPossibleIcons] = useState<string[]>([])
   const [searchText, setSearchText] = useState<string>(value)
+  const [isPending, startTransition] = useTransition()
+
+  const handleSearch = useCallback((text: string): void => {
+    setSearchText(text)
+  }, [])
 
   useEffect(() => {
-    setPossibleIcons(findIconsInLibrary(searchText))
-  }, [searchText])
+    const delay = setTimeout(() => {
+      startTransition(() => {
+        setPossibleIcons(findIconsInLibrary(searchText))
+      })
+    }, 500)
+    return () => {
+      return clearTimeout(delay)
+    }
+  }, [searchText, isPending])
 
-  library.add(fas)
-
-  const handleIconSelect = (icon: string): void => {
-    setSelectedIcon(icon)
-    onSelect(icon)
-  }
-
-  const findIconsInLibrary = (icon: string): IconDefinition[] => {
-    const iconNames = Object.keys(fas).map((key) => {
-      return fas[key]?.iconName ?? ""
-    })
-    const matchedValue: string[] = iconNames.filter((name) => {
-      return name.includes(icon)
-    })
-    return matchedValue.length > 0
-      ? matchedValue.map((name) => {
-          return findIconDefinition({
-            prefix: "fas",
-            iconName: name as IconName,
-          })
-        })
-      : []
-  }
+  const handleIconSelect = useCallback(
+    (icon: string): void => {
+      setSelectedIcon(icon)
+      onSelect(icon)
+    },
+    [onSelect],
+  )
 
   return (
     <>
@@ -77,46 +95,15 @@ export const HabitIconSelectorModal: React.FC<HabitIconSelectorModalProps> = ({
             <ScrollView style={styles.scrollView}>
               <List.Section title="Select an icon">
                 <View style={styles.iconContainer}>
-                  <TextInput
-                    label="Search"
-                    value={searchText}
-                    onChangeText={(text) => {
-                      return setSearchText(text)
-                    }}
+                  <SearchInput
+                    searchText={searchText}
+                    handleSearch={handleSearch}
                   />
-                  {possibleIcons.length > 0 ? (
-                    <View>
-                      {possibleIcons.map((icon) => {
-                        return (
-                          <IconButton
-                            key={icon.iconName}
-                            containerColor="white"
-                            icon={({ size }) => {
-                              return (
-                                <FontAwesomeIcon
-                                  icon={icon}
-                                  size={size}
-                                  color={
-                                    selectedIcon === icon.iconName
-                                      ? "blue"
-                                      : "black"
-                                  }
-                                />
-                              )
-                            }}
-                            size={30}
-                            onPress={() => {
-                              handleIconSelect(icon.iconName)
-                            }}
-                          />
-                        )
-                      })}
-                    </View>
-                  ) : (
-                    <View style={styles.noResults}>
-                      <Text>No results found</Text>
-                    </View>
-                  )}
+                  <HabitIconList
+                    selectedIcon={selectedIcon}
+                    possibleIcons={possibleIcons}
+                    handleIconSelect={handleIconSelect}
+                  />
                 </View>
               </List.Section>
             </ScrollView>
