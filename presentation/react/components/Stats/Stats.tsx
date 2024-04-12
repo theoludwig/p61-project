@@ -1,35 +1,68 @@
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Card, Text } from "react-native-paper"
+import CircularProgress from "react-native-circular-progress-indicator"
+import { ScrollView } from "react-native"
+import { Calendar } from "react-native-calendars"
 
-export const Stats: React.FC = () => {
+import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
+
+export interface StatsProps {
+  habitsTracker: HabitsTracker
+}
+
+export const Stats: React.FC<StatsProps> = (props) => {
+  const { habitsTracker } = props
+
+  const habitsHistory = habitsTracker.getAllHabitsHistory()
   return (
     <SafeAreaView>
-      <Text> {"Statistique"} </Text>
+      <ScrollView>
+        <Calendar />
 
-      <Card mode="outlined">
-        <Card.Title title="Current Streak" />
-        <Card.Content>
-          <Text variant="bodyMedium">nbDays Sucess that follow</Text>
-        </Card.Content>
-      </Card>
-      <Card mode="outlined">
-        <Card.Title title="Sucess" />
-        <Card.Content>
-          <Text variant="bodyMedium">nbDays Sucess</Text>
-        </Card.Content>
-      </Card>
-      <Card mode="outlined">
-        <Card.Title title="Failed" />
-        <Card.Content>
-          <Text variant="bodyMedium">nbDays Fail</Text>
-        </Card.Content>
-      </Card>
-      <Card mode="outlined">
-        <Card.Title title="Card Title" />
-        <Card.Content>
-          <Text variant="bodyMedium">CardContent</Text>
-        </Card.Content>
-      </Card>
+        {habitsHistory.map((element) => {
+          if (element.habit.goal.frequency === "daily") {
+            return (
+              <Card key={element.habit.id} mode="outlined">
+                <Card.Title title="Sucess Week" />
+                <Card.Content>
+                  <Text variant="bodyMedium">
+                    nbDays Sucess dans la semaine
+                  </Text>
+                  <CircularProgress
+                    value={91}
+                    activeStrokeWidth={12}
+                    progressValueColor={"#ecf0f1"}
+                    circleBackgroundColor="black"
+                    titleColor="white"
+                    title="%"
+                  />
+                </Card.Content>
+              </Card>
+            )
+          }
+          if (element.habit.goal.frequency === "weekly") {
+            return (
+              <Card key={element.habit.id} mode="outlined">
+                <Card.Title title="Sucess Month" />
+                <Card.Content>
+                  <Text variant="bodyMedium">nbDays Sucess dans le mois</Text>
+                </Card.Content>
+              </Card>
+            )
+          }
+          if (element.habit.goal.frequency === "monthly") {
+            return (
+              <Card key={element.habit.id} mode="outlined">
+                <Card.Title title="Sucess Month" />
+                <Card.Content>
+                  <Text variant="bodyMedium">nbDays Sucess dans le mois</Text>
+                </Card.Content>
+              </Card>
+            )
+          }
+          return null
+        })}
+      </ScrollView>
     </SafeAreaView>
   )
 }

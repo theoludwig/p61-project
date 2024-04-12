@@ -1,14 +1,10 @@
 import { Stats } from "@/presentation/react/components/Stats/Stats"
-import { useAuthentication } from "@/presentation/react/contexts/Authentication"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 
 const StatsPage: React.FC = () => {
-  const { user } = useAuthentication()
+  const { habitsTracker } = useHabitsTracker()
 
-  if (user == null) {
-    return null
-  }
-
-  return <Stats />
+  return <Stats habitsTracker={habitsTracker} />
 }
 
 export default StatsPage
