@@ -65,7 +65,7 @@ npm run start
 Ce n'est pas strictement nécessaire pour le développement de l'application (même si recommandé), de lancer [Supabase](https://supabase.io/) en local, car l'application est déjà déployée sur un serveur [Supabase](https://supabase.io/) en production (`.env.example` est pré-configuré avec cet environnement).
 
 ```sh
-npm run supabase
+npm run supabase start
 ```
 
 #### Principales Commandes Supabase

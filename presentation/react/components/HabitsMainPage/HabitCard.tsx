@@ -1,15 +1,16 @@
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useRouter } from "expo-router"
 import { useState } from "react"
 import { View } from "react-native"
 import { Checkbox, List, Text } from "react-native-paper"
 import type LottieView from "lottie-react-native"
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
 
 import type { GoalBoolean } from "@/domain/entities/Goal"
 import { GoalBooleanProgress } from "@/domain/entities/Goal"
 import type { HabitHistory } from "@/domain/entities/HabitHistory"
 import { getColorRGBAFromHex } from "@/utils/colors"
-import { useHabitsTracker } from "../../contexts/HabitsTracker"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 
 export interface HabitCardProps {
   habitHistory: HabitHistory
@@ -65,9 +66,9 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
       left={() => {
         return (
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <FontAwesome6
+            <FontAwesomeIcon
               size={24}
-              name={habit.icon}
+              icon={habit.icon as IconName}
               style={[
                 {
                   width: 30,
