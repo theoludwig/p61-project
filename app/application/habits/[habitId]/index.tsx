@@ -1,6 +1,6 @@
 import { Redirect, useLocalSearchParams } from "expo-router"
 
-import { HabitEditForm } from "@/presentation/react/components/HabitEditForm/HabitEditForm"
+import { HabitEditForm } from "@/presentation/react/components/HabitForm/HabitEditForm"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 
 const HabitPage: React.FC = () => {

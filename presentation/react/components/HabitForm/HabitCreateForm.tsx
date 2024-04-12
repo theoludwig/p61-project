@@ -1,15 +1,16 @@
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { ScrollView, StyleSheet } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 import {
   Button,
   HelperText,
-  IconButton,
   SegmentedButtons,
   Snackbar,
   Text,
   TextInput,
-  Tooltip,
 } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import ColorPicker, {
@@ -17,7 +18,6 @@ import ColorPicker, {
   Panel1,
   Preview,
 } from "reanimated-color-picker"
-import { useState } from "react"
 
 import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
@@ -25,7 +25,8 @@ import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
 import { useHabitsTracker } from "../../contexts/HabitsTracker"
-import { HabitIconSelectorModal } from "./HabitIconSelectorModal"
+import { useBoolean } from "../../hooks/useBoolean"
+import { IconSelectorModal } from "./IconSelectorModal"
 
 export interface HabitCreateFormProps {
   user: User
@@ -58,6 +59,12 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
   const [isVisibleSnackbar, setIsVisibleSnackbar] = useState(false)
 
+  const {
+    value: isModalIconSelectorVisible,
+    setTrue: openModalIconSelector,
+    setFalse: closeModalIconSelector,
+  } = useBoolean()
+
   const onDismissSnackbar = (): void => {
     setIsVisibleSnackbar(false)
   }
@@ -65,6 +72,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
   const onSubmit = async (data: HabitCreateData): Promise<void> => {
     await habitsTrackerPresenter.habitCreate(data)
     setIsVisibleSnackbar(true)
+    closeModalIconSelector()
     reset()
   }
 
@@ -174,7 +182,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   ]}
                 >
                   Habit Type
-                  <Tooltip
+                  {/* <Tooltip
                     title="Routine habits are activities performed regularly, while Target habits involve setting specific objectives to be achieved through repeated actions."
                     enterTouchDelay={50}
                     leaveTouchDelay={25}
@@ -186,7 +194,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                       onPress={() => {}}
                       style={{ alignSelf: "center" }}
                     />
-                  </Tooltip>
+                  </Tooltip> */}
                 </Text>
                 <SegmentedButtons
                   style={[{ width: "90%" }]}
@@ -230,13 +238,28 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           control={control}
           render={({ field: { onChange, value } }) => {
             return (
-              <HabitIconSelectorModal
-                visible
-                value={value}
-                onDismiss={() => {}}
-                onSelect={onChange}
-                onPress={() => {}}
-              />
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                  marginVertical: 30,
+                }}
+              >
+                <FontAwesomeIcon size={36} icon={value as IconName} />
+                <Button mode="contained" onPress={openModalIconSelector}>
+                  Choose an icon
+                </Button>
+
+                <IconSelectorModal
+                  key={isModalIconSelectorVisible ? "visible" : "hidden"}
+                  isVisible={isModalIconSelectorVisible}
+                  selectedIcon={value}
+                  handleCloseModal={closeModalIconSelector}
+                  onIconSelect={onChange}
+                />
+              </View>
             )
           }}
           name="icon"
@@ -247,7 +270,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           onPress={handleSubmit(onSubmit)}
           loading={habitCreate.state === "loading"}
           disabled={habitCreate.state === "loading"}
-          style={[styles.spacing, { width: "90%" }]}
+          style={[styles.spacing, { width: "100%" }]}
         >
           Create your habit! 🚀
         </Button>
