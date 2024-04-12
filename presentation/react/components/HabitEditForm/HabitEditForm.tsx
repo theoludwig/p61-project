@@ -19,7 +19,7 @@ export interface HabitEditFormProps {
 }
 
 export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
-  const { habitEdit, habitsTrackerPresenter } = useHabitsTracker()
+  const { habitEdit, habitStop, habitsTrackerPresenter } = useHabitsTracker()
 
   const {
     control,
@@ -133,6 +133,18 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           style={[styles.spacing, { width: "90%" }]}
         >
           Save
+        </Button>
+
+        <Button
+          mode="outlined"
+          onPress={async () => {
+            await habitsTrackerPresenter.habitStop(habit)
+          }}
+          loading={habitStop.state === "loading"}
+          disabled={habitStop.state === "loading"}
+          style={[styles.spacing, { width: "90%" }]}
+        >
+          Stop
         </Button>
       </ScrollView>
 

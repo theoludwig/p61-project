@@ -15,6 +15,7 @@ export class HabitEditSupabaseRepository
         name: habitEditData.name,
         color: habitEditData.color,
         icon: habitEditData.icon,
+        end_date: habitEditData?.endDate?.toISOString(),
       })
       .eq("id", habitEditData.id)
       .select("*")
@@ -43,6 +44,10 @@ export class HabitEditSupabaseRepository
       }),
       color: updatedHabit.color,
       startDate: new Date(updatedHabit.start_date),
+      endDate:
+        updatedHabit.end_date != null
+          ? new Date(updatedHabit.end_date)
+          : undefined,
     })
     return habit
   }
