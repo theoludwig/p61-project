@@ -28,7 +28,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<HabitEditData>({
     mode: "onChange",
     resolver: zodResolver(HabitEditSchema),
@@ -80,7 +80,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
                   style={[
                     styles.spacing,
                     {
-                      width: "90%",
+                      width: "96%",
                     },
                   ]}
                   mode="outlined"
@@ -103,7 +103,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           render={({ field: { onChange, value } }) => {
             return (
               <ColorPicker
-                style={[styles.spacing, { width: "90%" }]}
+                style={[styles.spacing, { width: "96%" }]}
                 value={value}
                 onComplete={(value) => {
                   onChange(value.hex)
@@ -153,8 +153,8 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           mode="contained"
           onPress={handleSubmit(onSubmit)}
           loading={habitEdit.state === "loading"}
-          disabled={habitEdit.state === "loading"}
-          style={[styles.spacing, { width: "90%" }]}
+          disabled={habitEdit.state === "loading" || !isValid}
+          style={[styles.spacing, { width: "96%" }]}
         >
           Save
         </Button>
@@ -166,7 +166,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           }}
           loading={habitStop.state === "loading"}
           disabled={habitStop.state === "loading"}
-          style={[styles.spacing, { width: "90%" }]}
+          style={[styles.spacing, { width: "96%" }]}
         >
           Stop
         </Button>

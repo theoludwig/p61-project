@@ -39,7 +39,9 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    watch,
+
+    formState: { errors, isValid },
   } = useForm<HabitCreateData>({
     mode: "onChange",
     resolver: zodResolver(HabitCreateSchema),
@@ -56,6 +58,8 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
       },
     },
   })
+
+  const watchGoalType = watch("goal.target.type")
 
   const [isVisibleSnackbar, setIsVisibleSnackbar] = useState(false)
 
@@ -128,7 +132,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   style={[
                     styles.spacing,
                     {
-                      width: "90%",
+                      width: "96%",
                     },
                   ]}
                   mode="outlined"
@@ -153,7 +157,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
               <>
                 <Text style={[styles.spacing]}>Habit Frequency</Text>
                 <SegmentedButtons
-                  style={[{ width: "90%" }]}
+                  style={[{ width: "96%" }]}
                   onValueChange={onChange}
                   value={value}
                   buttons={GOAL_FREQUENCIES.map((frequency) => {
@@ -197,7 +201,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   </Tooltip> */}
                 </Text>
                 <SegmentedButtons
-                  style={[{ width: "90%" }]}
+                  style={[{ width: "96%" }]}
                   onValueChange={onChange}
                   value={value}
                   buttons={GOAL_TYPES.map((type) => {
@@ -214,12 +218,74 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           name="goal.target.type"
         />
 
+        {watchGoalType === "numeric" ? (
+          <View
+            style={{
+              marginTop: 10,
+              flexDirection: "row",
+              gap: 10,
+              width: "96%",
+            }}
+          >
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => {
+                return (
+                  <TextInput
+                    placeholder="Target (e.g: 5 000)"
+                    onBlur={onBlur}
+                    onChangeText={(text) => {
+                      if (text.length <= 0) {
+                        onChange("")
+                        return
+                      }
+                      onChange(Number.parseInt(text, 10))
+                    }}
+                    value={value?.toString()}
+                    style={[
+                      styles.spacing,
+                      {
+                        width: "50%",
+                      },
+                    ]}
+                    mode="outlined"
+                    keyboardType="numeric"
+                  />
+                )
+              }}
+              name="goal.target.value"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => {
+                return (
+                  <TextInput
+                    placeholder="Unit (e.g: Steps)"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    style={[
+                      styles.spacing,
+                      {
+                        width: "50%",
+                      },
+                    ]}
+                    mode="outlined"
+                  />
+                )
+              }}
+              name="goal.target.unit"
+            />
+          </View>
+        ) : null}
+
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => {
             return (
               <ColorPicker
-                style={[styles.spacing, { width: "90%" }]}
+                style={[{ marginVertical: 15, width: "96%" }]}
                 value={value}
                 onComplete={(value) => {
                   onChange(value.hex)
@@ -244,7 +310,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   alignItems: "center",
                   flexDirection: "row",
                   gap: 20,
-                  marginVertical: 30,
+                  marginVertical: 5,
                 }}
               >
                 <FontAwesomeIcon size={36} icon={value as IconName} />
@@ -269,8 +335,8 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           mode="contained"
           onPress={handleSubmit(onSubmit)}
           loading={habitCreate.state === "loading"}
-          disabled={habitCreate.state === "loading"}
-          style={[styles.spacing, { width: "100%" }]}
+          disabled={habitCreate.state === "loading" || !isValid}
+          style={[{ width: "100%", marginVertical: 15 }]}
         >
           Create your habit! 🚀
         </Button>
@@ -289,6 +355,6 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
 const styles = StyleSheet.create({
   spacing: {
-    marginVertical: 16,
+    marginVertical: 10,
   },
 })

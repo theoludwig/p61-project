@@ -31,6 +31,7 @@ const TabLayout: React.FC = () => {
         name="habits/new"
         options={{
           title: "New Habit",
+          unmountOnBlur: true,
           tabBarIcon: ({ color }) => {
             return <TabBarIcon name="plus-square" color={color} />
           },
@@ -39,6 +40,7 @@ const TabLayout: React.FC = () => {
       <Tabs.Screen
         name="habits/[habitId]"
         options={{
+          unmountOnBlur: true,
           href: null,
         }}
       />

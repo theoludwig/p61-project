@@ -27,7 +27,7 @@ export const GoalCreateSchema = z.object({
     z.object({ type: z.literal("boolean") }),
     z.object({
       type: z.literal("numeric"),
-      value: z.number().int().min(0),
+      value: z.number().int().min(1),
       unit: z.string().min(1),
     }),
   ]),
