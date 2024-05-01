@@ -3,7 +3,7 @@ import { Agenda } from "react-native-calendars"
 
 import { GOAL_FREQUENCIES } from "@/domain/entities/Goal"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
-import { getISODate, getNowDate } from "@/utils/dates"
+import { getISODate, getNowDateUTC } from "@/utils/dates"
 import { HabitsEmpty } from "./HabitsEmpty"
 import { HabitsList } from "./HabitsList"
 
@@ -14,7 +14,7 @@ export interface HabitsMainPageProps {
 export const HabitsMainPage: React.FC<HabitsMainPageProps> = (props) => {
   const { habitsTracker } = props
 
-  const today = getNowDate()
+  const today = getNowDateUTC()
   const todayISO = getISODate(today)
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)

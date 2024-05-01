@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer"
 
-import { TabBarIcon } from "@/presentation/react/components/TabBarIcon"
+import { TabBarIcon } from "@/presentation/react-native/ui/TabBarIcon"
 
 describe("<TabBarIcon />", () => {
   it("renders correctly", () => {

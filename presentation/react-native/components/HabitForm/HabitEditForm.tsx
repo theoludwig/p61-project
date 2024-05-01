@@ -20,8 +20,8 @@ import ColorPicker, {
 
 import type { Habit, HabitEditData } from "@/domain/entities/Habit"
 import { HabitEditSchema } from "@/domain/entities/Habit"
-import { useHabitsTracker } from "../../contexts/HabitsTracker"
-import { useBoolean } from "../../hooks/useBoolean"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
+import { useBoolean } from "@/presentation/react/hooks/useBoolean"
 import { IconSelectorModal } from "./IconSelectorModal"
 
 export interface HabitEditFormProps {
@@ -33,8 +33,8 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
 
   const {
     control,
-    handleSubmit,
     formState: { errors, isValid },
+    handleSubmit,
   } = useForm<HabitEditData>({
     mode: "onChange",
     resolver: zodResolver(HabitEditSchema),

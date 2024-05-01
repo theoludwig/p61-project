@@ -1,9 +1,17 @@
-import { createClient } from "@supabase/supabase-js"
+import {
+  createClient,
+  type User as SupabaseUserType,
+} from "@supabase/supabase-js"
 import { AppState, Platform } from "react-native"
 import "react-native-url-polyfill/auto"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import type { Database } from "./supabase-types"
+
+export type SupabaseUser = SupabaseUserType
+export type SupabaseHabit = Database["public"]["Tables"]["habits"]["Row"]
+export type SupabaseHabitProgress =
+  Database["public"]["Tables"]["habits_progresses"]["Row"]
 
 const SUPABASE_URL =
   process.env["EXPO_PUBLIC_SUPABASE_URL"] ??

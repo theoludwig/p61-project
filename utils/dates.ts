@@ -11,7 +11,7 @@ export const getISODate = (date: Date): string => {
   return date.toISOString().slice(0, 10)
 }
 
-export const getNowDate = (): Date => {
+export const getNowDateUTC = (): Date => {
   const date = new Date()
   const milliseconds = Date.UTC(
     date.getFullYear(),

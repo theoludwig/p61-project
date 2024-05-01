@@ -2,9 +2,10 @@ import { useState } from "react"
 
 export interface UseBooleanResult {
   value: boolean
-  toggle: () => void
+  setValue: React.Dispatch<React.SetStateAction<boolean>>
   setTrue: () => void
   setFalse: () => void
+  toggle: () => void
 }
 
 export interface UseBooleanOptions {
@@ -43,6 +44,7 @@ export const useBoolean = (
 
   return {
     value,
+    setValue,
     toggle,
     setTrue,
     setFalse,

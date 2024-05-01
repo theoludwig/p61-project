@@ -24,8 +24,8 @@ import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
 import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
-import { useHabitsTracker } from "../../contexts/HabitsTracker"
-import { useBoolean } from "../../hooks/useBoolean"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
+import { useBoolean } from "@/presentation/react/hooks/useBoolean"
 import { IconSelectorModal } from "./IconSelectorModal"
 
 export interface HabitCreateFormProps {
@@ -37,11 +37,10 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
   const {
     control,
+    formState: { errors, isValid },
     handleSubmit,
     reset,
     watch,
-
-    formState: { errors, isValid },
   } = useForm<HabitCreateData>({
     mode: "onChange",
     resolver: zodResolver(HabitCreateSchema),

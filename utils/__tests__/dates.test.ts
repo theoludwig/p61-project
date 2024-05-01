@@ -1,6 +1,12 @@
-import { getISODate, getWeekNumber } from "../dates"
+import { getISODate, getNowDateUTC, getWeekNumber } from "../dates"
 
 describe("utils/dates", () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+    jest.resetAllMocks()
+    jest.useRealTimers()
+  })
+
   describe("getISODate", () => {
     it("should return the correct date in ISO format (e.g: 2012-05-23)", () => {
       // Arrange - Given
@@ -12,6 +18,25 @@ describe("utils/dates", () => {
       // Assert - Then
       const expected = "2012-05-23"
       expect(result).toEqual(expected)
+    })
+  })
+
+  describe("getNowDateUTC", () => {
+    it("should return the current UTC date", () => {
+      // Arrange - Given
+      const mockDate = new Date("2024-05-01T12:00:00Z")
+      jest.useFakeTimers({ now: mockDate })
+      Date.UTC = jest.fn(() => {
+        return mockDate.getTime()
+      })
+
+      // Act - When
+      const result = getNowDateUTC()
+
+      // Assert - Then
+      const expected = new Date("2024-05-01T12:00:00.000Z")
+      expect(result).toEqual(expected)
+      expect(Date.UTC).toHaveBeenCalledTimes(1)
     })
   })
 
