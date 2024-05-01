@@ -4,7 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { ScrollView, StyleSheet, View } from "react-native"
-import { Button, HelperText, Snackbar, TextInput } from "react-native-paper"
+import {
+  Button,
+  HelperText,
+  Snackbar,
+  Text,
+  TextInput,
+} from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import ColorPicker, {
   HueSlider,
@@ -159,17 +165,29 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           Save
         </Button>
 
-        <Button
-          mode="outlined"
-          onPress={async () => {
-            await habitsTrackerPresenter.habitStop(habit)
-          }}
-          loading={habitStop.state === "loading"}
-          disabled={habitStop.state === "loading"}
-          style={[styles.spacing, { width: "96%" }]}
-        >
-          Stop
-        </Button>
+        {habit.endDate == null ? (
+          <Button
+            mode="outlined"
+            onPress={async () => {
+              await habitsTrackerPresenter.habitStop(habit)
+            }}
+            loading={habitStop.state === "loading"}
+            disabled={habitStop.state === "loading"}
+            style={[styles.spacing, { width: "96%" }]}
+          >
+            🛑 Stop Habit (effective tomorrow)
+          </Button>
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              marginVertical: 20,
+              fontSize: 20,
+            }}
+          >
+            🛑 The habit has been stopped! (No further progress can be saved)
+          </Text>
+        )}
       </ScrollView>
 
       <Snackbar

@@ -94,7 +94,7 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
                   .filter((habitItem) => {
                     return (
                       (habitItem.habit.endDate != null &&
-                        habitItem.habit.endDate <= selectedDate) ||
+                        habitItem.habit.endDate >= selectedDate) ||
                       habitItem.habit.endDate == null
                     )
                   })
