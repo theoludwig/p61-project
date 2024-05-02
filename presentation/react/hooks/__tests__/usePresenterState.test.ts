@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react-native"
 
-import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
 import { Presenter } from "@/presentation/presenters/_Presenter"
+import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
 
 interface MockCountPresenterState {
   count: number

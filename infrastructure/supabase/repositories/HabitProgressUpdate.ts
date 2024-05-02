@@ -1,6 +1,6 @@
 import type { HabitProgressUpdateRepository } from "@/domain/repositories/HabitProgressUpdate"
-import { SupabaseRepository } from "./_SupabaseRepository"
-import { HabitProgress } from "@/domain/entities/HabitProgress"
+import { SupabaseRepository } from "@/infrastructure/supabase/repositories/_SupabaseRepository"
+import { habitProgressSupabaseDTO } from "../data-transfer-objects/HabitProgressDTO"
 
 export class HabitProgressUpdateSupabaseRepository
   extends SupabaseRepository
@@ -10,29 +10,21 @@ export class HabitProgressUpdateSupabaseRepository
     options,
   ) => {
     const { habitProgressData } = options
-    const { id, goalProgress, date } = habitProgressData
-    let goalProgressValue = goalProgress.isCompleted() ? 1 : 0
-    if (goalProgress.isNumeric()) {
-      goalProgressValue = goalProgress.progress
-    }
-    const { data, error } = await this.supabaseClient
+    const { data } = await this.supabaseClient
       .from("habits_progresses")
-      .update({
-        date: date.toISOString(),
-        goal_progress: goalProgressValue,
-      })
-      .eq("id", id)
+      .update(
+        habitProgressSupabaseDTO.fromDomainDataToSupabaseUpdate(
+          habitProgressData,
+        ),
+      )
+      .eq("id", habitProgressData.id)
       .select("*")
-    const insertedProgress = data?.[0]
-    if (error != null || insertedProgress == null) {
-      throw new Error(error?.message ?? "Failed to update habit progress.")
-    }
-    const habitProgress = new HabitProgress({
-      id: insertedProgress.id.toString(),
-      habitId: insertedProgress.habit_id.toString(),
-      date: new Date(insertedProgress.date),
-      goalProgress,
-    })
-    return habitProgress
+      .single()
+      .throwOnError()
+    const insertedProgress = data as NonNullable<typeof data>
+    return habitProgressSupabaseDTO.fromSupabaseToDomain(
+      insertedProgress,
+      habitProgressData.goalProgress.goal,
+    )
   }
 }

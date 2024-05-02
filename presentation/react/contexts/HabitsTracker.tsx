@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect } from "react"
 
+import { habitsTrackerPresenter } from "@/infrastructure/instances"
 import type {
   HabitsTrackerPresenter,
   HabitsTrackerPresenterState,
 } from "@/presentation/presenters/HabitsTracker"
 import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
-import { habitsTrackerPresenter } from "@/infrastructure/instances"
 import { useAuthentication } from "./Authentication"
 
 export interface HabitsTrackerContextValue extends HabitsTrackerPresenterState {

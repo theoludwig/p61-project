@@ -10,7 +10,13 @@
   "coverageReporters": ["text", "text-summary", "cobertura"],
   "collectCoverageFrom": [
     "<rootDir>/**/*.{ts,tsx}",
+    "!<rootDir>/tests/**/*",
+    "!<rootDir>/domain/repositories/**/*",
+    "!<rootDir>/infrastructure/instances.ts",
+    "!<rootDir>/infrastructure/supabase/supabase-types.ts",
+    "!<rootDir>/infrastructure/supabase/supabase.ts",
     "!<rootDir>/presentation/react-native/ui/ExternalLink.tsx",
+    "!<rootDir>/presentation/react/contexts/**/*",
     "!<rootDir>/.expo",
     "!<rootDir>/app/+html.tsx",
     "!<rootDir>/app/**/_layout.tsx",

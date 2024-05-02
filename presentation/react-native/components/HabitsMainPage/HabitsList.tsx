@@ -5,8 +5,8 @@ import { Divider, List } from "react-native-paper"
 
 import type { GoalFrequency } from "@/domain/entities/Goal"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
-import confettiJSON from "../../../assets/confetti.json"
 import { capitalize } from "@/utils/strings"
+import confettiJSON from "../../../assets/confetti.json"
 import { HabitCard } from "./HabitCard"
 
 export interface HabitsListProps {

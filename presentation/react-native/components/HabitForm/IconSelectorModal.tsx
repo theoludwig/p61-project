@@ -1,9 +1,9 @@
+import type { IconName } from "@fortawesome/fontawesome-svg-core"
 import { fas } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { memo, useCallback, useEffect, useState, useTransition } from "react"
 import { Modal, ScrollView, View } from "react-native"
 import { Button, List, Text, TextInput } from "react-native-paper"
-import type { IconName } from "@fortawesome/fontawesome-svg-core"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import { IconsList } from "./IconsList"
 

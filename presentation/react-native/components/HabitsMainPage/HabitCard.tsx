@@ -1,16 +1,16 @@
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useRouter } from "expo-router"
+import type LottieView from "lottie-react-native"
 import { useState } from "react"
 import { View } from "react-native"
 import { Checkbox, List, Text } from "react-native-paper"
-import type LottieView from "lottie-react-native"
-import type { IconName } from "@fortawesome/free-solid-svg-icons"
 
 import type { GoalBoolean } from "@/domain/entities/Goal"
 import { GoalBooleanProgress } from "@/domain/entities/Goal"
 import type { HabitHistory } from "@/domain/entities/HabitHistory"
-import { getColorRGBAFromHex } from "@/utils/colors"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
+import { getColorRGBAFromHex } from "@/utils/colors"
 
 export interface HabitCardProps {
   habitHistory: HabitHistory
