@@ -2,7 +2,7 @@
   "name": "p61-project",
   "private": true,
   "main": "expo-router/entry",
-  "version": "1.0.0-staging.2",
+  "version": "1.0.0-staging.3",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
