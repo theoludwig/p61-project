@@ -6,7 +6,7 @@ const HomePage: React.FC = () => {
   const { user } = useAuthentication()
 
   if (user == null) {
-    return <Redirect href="/authentication/login" />
+    return <Redirect href="/authentication/about" />
   }
 
   return <Redirect href="/application/habits/" />

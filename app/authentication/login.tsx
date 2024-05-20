@@ -67,6 +67,7 @@ const LoginPage: React.FC = () => {
 
       <Button
         mode="contained"
+        labelStyle={{ fontSize: 18 }}
         onPress={handleSubmit(onSubmit)}
         loading={login.state === "loading"}
         disabled={login.state === "loading"}
