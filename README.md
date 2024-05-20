@@ -6,6 +6,10 @@ Application mobile en [React Native](https://reactnative.dev/) pour le projet du
 
 Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours.
 
+<p align="center">
+  <img src="./docs/screenshots/habits.png" alt="Habits Tracker Screenshot" height="400px" />
+</p>
+
 ### Membres du Groupe 7
 
 - [Théo LUDWIG](https://git.unistra.fr/t.ludwig)
