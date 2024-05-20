@@ -1,8 +1,8 @@
 import type { Session } from "@supabase/supabase-js"
 
-import type { AuthenticationRepository } from "@/domain/repositories/Authentication"
-import { SupabaseRepository } from "./_SupabaseRepository"
 import { User } from "@/domain/entities/User"
+import type { AuthenticationRepository } from "@/domain/repositories/Authentication"
+import { SupabaseRepository } from "@/infrastructure/supabase/repositories/_SupabaseRepository"
 
 export class AuthenticationSupabaseRepository
   extends SupabaseRepository

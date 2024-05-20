@@ -7,10 +7,15 @@ import type {
   RetrieveHabitsTrackerUseCase,
   RetrieveHabitsTrackerUseCaseOptions,
 } from "@/domain/use-cases/RetrieveHabitsTracker"
-import type { HabitCreateData, HabitEditData } from "@/domain/entities/Habit"
+import type {
+  Habit,
+  HabitCreateData,
+  HabitEditData,
+} from "@/domain/entities/Habit"
 import { getErrorsFieldsFromZodError } from "../../utils/zod"
 import type { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
 import type { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
+import type { HabitStopUseCase } from "@/domain/use-cases/HabitStop"
 import type {
   HabitGoalProgressUpdateUseCase,
   HabitGoalProgressUpdateUseCaseOptions,
@@ -39,6 +44,10 @@ export interface HabitsTrackerPresenterState {
     }
   }
 
+  habitStop: {
+    state: FetchState
+  }
+
   habitGoalProgressUpdate: {
     state: FetchState
   }
@@ -48,6 +57,7 @@ export interface HabitsTrackerPresenterOptions {
   retrieveHabitsTrackerUseCase: RetrieveHabitsTrackerUseCase
   habitCreateUseCase: HabitCreateUseCase
   habitEditUseCase: HabitEditUseCase
+  habitStopUseCase: HabitStopUseCase
   habitGoalProgressUpdateUseCase: HabitGoalProgressUpdateUseCase
 }
 
@@ -58,6 +68,7 @@ export class HabitsTrackerPresenter
   public retrieveHabitsTrackerUseCase: RetrieveHabitsTrackerUseCase
   public habitCreateUseCase: HabitCreateUseCase
   public habitEditUseCase: HabitEditUseCase
+  public habitStopUseCase: HabitStopUseCase
   public habitGoalProgressUpdateUseCase: HabitGoalProgressUpdateUseCase
 
   public constructor(options: HabitsTrackerPresenterOptions) {
@@ -65,6 +76,7 @@ export class HabitsTrackerPresenter
       retrieveHabitsTrackerUseCase,
       habitCreateUseCase,
       habitEditUseCase,
+      habitStopUseCase,
       habitGoalProgressUpdateUseCase,
     } = options
     const habitsTracker = HabitsTracker.default()
@@ -85,6 +97,9 @@ export class HabitsTrackerPresenter
           global: null,
         },
       },
+      habitStop: {
+        state: "idle",
+      },
       habitGoalProgressUpdate: {
         state: "idle",
       },
@@ -92,6 +107,7 @@ export class HabitsTrackerPresenter
     this.retrieveHabitsTrackerUseCase = retrieveHabitsTrackerUseCase
     this.habitCreateUseCase = habitCreateUseCase
     this.habitEditUseCase = habitEditUseCase
+    this.habitStopUseCase = habitStopUseCase
     this.habitGoalProgressUpdateUseCase = habitGoalProgressUpdateUseCase
   }
 
@@ -148,6 +164,25 @@ export class HabitsTrackerPresenter
         } else {
           state.habitEdit.errors.global = "unknown"
         }
+      })
+      return "error"
+    }
+  }
+
+  public async habitStop(habitToStop: Habit): Promise<FetchState> {
+    try {
+      this.setState((state) => {
+        state.habitStop.state = "loading"
+      })
+      const habit = await this.habitStopUseCase.execute(habitToStop)
+      this.setState((state) => {
+        state.habitStop.state = "success"
+        state.habitsTracker.editHabit(habit)
+      })
+      return "success"
+    } catch (error) {
+      this.setState((state) => {
+        state.habitStop.state = "error"
       })
       return "error"
     }

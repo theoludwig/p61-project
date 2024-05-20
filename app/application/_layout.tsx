@@ -1,14 +1,14 @@
 import { Redirect, Tabs } from "expo-router"
 import React from "react"
 
-import { TabBarIcon } from "@/presentation/react/components/TabBarIcon"
+import { TabBarIcon } from "@/presentation/react-native/ui/TabBarIcon"
 import { useAuthentication } from "@/presentation/react/contexts/Authentication"
 
 const TabLayout: React.FC = () => {
   const { user } = useAuthentication()
 
   if (user == null) {
-    return <Redirect href="/authentication/login" />
+    return <Redirect href="/authentication/about" />
   }
 
   return (
@@ -31,6 +31,7 @@ const TabLayout: React.FC = () => {
         name="habits/new"
         options={{
           title: "New Habit",
+          unmountOnBlur: true,
           tabBarIcon: ({ color }) => {
             return <TabBarIcon name="plus-square" color={color} />
           },
@@ -39,6 +40,7 @@ const TabLayout: React.FC = () => {
       <Tabs.Screen
         name="habits/[habitId]"
         options={{
+          unmountOnBlur: true,
           href: null,
         }}
       />

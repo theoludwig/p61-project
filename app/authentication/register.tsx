@@ -107,6 +107,7 @@ const RegisterPage: React.FC = () => {
 
       <Button
         mode="contained"
+        labelStyle={{ fontSize: 18 }}
         onPress={handleSubmit(onSubmit)}
         loading={register.state === "loading"}
         disabled={register.state === "loading"}

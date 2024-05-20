@@ -3,7 +3,7 @@ import CircularProgress from "react-native-circular-progress-indicator"
 import { Agenda } from "react-native-calendars"
 import { useState } from "react"
 
-import { getNowDate, getISODate } from "@/utils/dates"
+import { getNowDateUTC, getISODate } from "@/utils/dates"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
 
 export interface StatsProps {
@@ -13,7 +13,7 @@ export interface StatsProps {
 export const Stats: React.FC<StatsProps> = (props) => {
   const { habitsTracker } = props
 
-  const today = getNowDate()
+  const today = getNowDateUTC()
   const todayISO = getISODate(today)
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)

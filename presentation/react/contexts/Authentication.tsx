@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect } from "react"
 
-import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
+import { authenticationPresenter } from "@/infrastructure/instances"
 import type {
   AuthenticationPresenter,
   AuthenticationPresenterState,
 } from "@/presentation/presenters/Authentication"
-import { authenticationPresenter } from "@/infrastructure/instances"
+import { usePresenterState } from "@/presentation/react/hooks/usePresenterState"
 
 export interface AuthenticationContextValue
   extends AuthenticationPresenterState {

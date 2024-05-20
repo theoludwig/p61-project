@@ -1,8 +1,8 @@
 import { getISODate, getWeekNumber } from "@/utils/dates"
-import type { Habit } from "./Habit"
-import type { HabitProgress } from "./HabitProgress"
 import type { GoalProgress } from "./Goal"
 import { GoalBooleanProgress, GoalNumericProgress } from "./Goal"
+import type { Habit } from "./Habit"
+import type { HabitProgress } from "./HabitProgress"
 
 export interface HabitHistoryJSON {
   habit: Habit

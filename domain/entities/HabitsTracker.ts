@@ -76,4 +76,24 @@ export class HabitsTracker implements HabitsTrackerData {
       return habitHistory.habit.id === id
     })
   }
+
+  public getHabitsHistoriesByDate({
+    selectedDate,
+    frequency,
+  }: {
+    selectedDate: Date
+    frequency: GoalFrequency
+  }): HabitHistory[] {
+    return this.habitsHistory[frequency].filter((habitItem) => {
+      const startDate = new Date(habitItem.habit.startDate)
+      startDate.setHours(0, 0, 0, 0)
+
+      return (
+        startDate <= selectedDate &&
+        (habitItem.habit.endDate == null ||
+          (habitItem.habit.endDate != null &&
+            habitItem.habit.endDate >= selectedDate))
+      )
+    })
+  }
 }

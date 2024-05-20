@@ -1,4 +1,6 @@
 import { Stack } from "expo-router"
+import { fas } from "@fortawesome/free-solid-svg-icons"
+import { library } from "@fortawesome/fontawesome-svg-core"
 import * as SplashScreen from "expo-splash-screen"
 import {
   MD3LightTheme as DefaultTheme,
@@ -19,6 +21,8 @@ export { ErrorBoundary } from "expo-router"
 export const unstableSettings = {
   initialRouteName: "index",
 }
+
+library.add(fas)
 
 SplashScreen.preventAutoHideAsync().catch((error) => {
   console.error(error)

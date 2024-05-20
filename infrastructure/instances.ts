@@ -1,18 +1,19 @@
 import { AuthenticationUseCase } from "@/domain/use-cases/Authentication"
+import { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
+import { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
+import { HabitGoalProgressUpdateUseCase } from "@/domain/use-cases/HabitGoalProgressUpdate"
+import { HabitStopUseCase } from "@/domain/use-cases/HabitStop"
+import { AuthenticationPresenter } from "@/presentation/presenters/Authentication"
 import { RetrieveHabitsTrackerUseCase } from "../domain/use-cases/RetrieveHabitsTracker"
 import { HabitsTrackerPresenter } from "../presentation/presenters/HabitsTracker"
 import { AuthenticationSupabaseRepository } from "./supabase/repositories/Authentication"
 import { GetHabitProgressHistorySupabaseRepository } from "./supabase/repositories/GetHabitProgressHistory"
 import { GetHabitsByUserIdSupabaseRepository } from "./supabase/repositories/GetHabitsByUserId"
-import { supabaseClient } from "./supabase/supabase"
-import { AuthenticationPresenter } from "@/presentation/presenters/Authentication"
 import { HabitCreateSupabaseRepository } from "./supabase/repositories/HabitCreate"
-import { HabitCreateUseCase } from "@/domain/use-cases/HabitCreate"
 import { HabitEditSupabaseRepository } from "./supabase/repositories/HabitEdit"
-import { HabitEditUseCase } from "@/domain/use-cases/HabitEdit"
 import { HabitProgressCreateSupabaseRepository } from "./supabase/repositories/HabitProgressCreate"
 import { HabitProgressUpdateSupabaseRepository } from "./supabase/repositories/HabitProgressUpdate"
-import { HabitGoalProgressUpdateUseCase } from "@/domain/use-cases/HabitGoalProgressUpdate"
+import { supabaseClient } from "./supabase/supabase"
 
 /**
  * Repositories
@@ -64,6 +65,9 @@ const habitGoalProgressUpdateUseCase = new HabitGoalProgressUpdateUseCase({
   habitProgressCreateRepository,
   habitProgressUpdateRepository,
 })
+const habitStopUseCase = new HabitStopUseCase({
+  habitEditRepository,
+})
 
 /**
  * Presenters
@@ -75,5 +79,6 @@ export const habitsTrackerPresenter = new HabitsTrackerPresenter({
   retrieveHabitsTrackerUseCase,
   habitCreateUseCase,
   habitEditUseCase,
+  habitStopUseCase,
   habitGoalProgressUpdateUseCase,
 })

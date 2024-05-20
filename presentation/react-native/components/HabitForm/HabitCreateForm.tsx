@@ -1,6 +1,9 @@
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { ScrollView, StyleSheet } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 import {
   Button,
   HelperText,
@@ -15,14 +18,15 @@ import ColorPicker, {
   Panel1,
   Preview,
 } from "reanimated-color-picker"
-import { useState } from "react"
 
 import type { GoalFrequency, GoalType } from "@/domain/entities/Goal"
 import { GOAL_FREQUENCIES, GOAL_TYPES } from "@/domain/entities/Goal"
 import type { HabitCreateData } from "@/domain/entities/Habit"
 import { HabitCreateSchema } from "@/domain/entities/Habit"
 import type { User } from "@/domain/entities/User"
-import { useHabitsTracker } from "../../contexts/HabitsTracker"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
+import { useBoolean } from "@/presentation/react/hooks/useBoolean"
+import { IconSelectorModal } from "./IconSelectorModal"
 
 export interface HabitCreateFormProps {
   user: User
@@ -33,9 +37,10 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
   const {
     control,
+    formState: { errors, isValid },
     handleSubmit,
     reset,
-    formState: { errors },
+    watch,
   } = useForm<HabitCreateData>({
     mode: "onChange",
     resolver: zodResolver(HabitCreateSchema),
@@ -43,7 +48,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
       userId: user.id,
       name: "",
       color: "#006CFF",
-      icon: "lightbulb",
+      icon: "circle-question",
       goal: {
         frequency: "daily",
         target: {
@@ -53,7 +58,15 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
     },
   })
 
+  const watchGoalType = watch("goal.target.type")
+
   const [isVisibleSnackbar, setIsVisibleSnackbar] = useState(false)
+
+  const {
+    value: isModalIconSelectorVisible,
+    setTrue: openModalIconSelector,
+    setFalse: closeModalIconSelector,
+  } = useBoolean()
 
   const onDismissSnackbar = (): void => {
     setIsVisibleSnackbar(false)
@@ -62,6 +75,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
   const onSubmit = async (data: HabitCreateData): Promise<void> => {
     await habitsTrackerPresenter.habitCreate(data)
     setIsVisibleSnackbar(true)
+    closeModalIconSelector()
     reset()
   }
 
@@ -117,7 +131,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   style={[
                     styles.spacing,
                     {
-                      width: "90%",
+                      width: "96%",
                     },
                   ]}
                   mode="outlined"
@@ -142,7 +156,7 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
               <>
                 <Text style={[styles.spacing]}>Habit Frequency</Text>
                 <SegmentedButtons
-                  style={[{ width: "90%" }]}
+                  style={[{ width: "96%" }]}
                   onValueChange={onChange}
                   value={value}
                   buttons={GOAL_FREQUENCIES.map((frequency) => {
@@ -164,9 +178,29 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           render={({ field: { onChange, value } }) => {
             return (
               <>
-                <Text style={[styles.spacing]}>Habit Type</Text>
+                <Text
+                  style={[
+                    styles.spacing,
+                    { justifyContent: "center", alignContent: "center" },
+                  ]}
+                >
+                  Habit Type
+                  {/* <Tooltip
+                    title="Routine habits are activities performed regularly, while Target habits involve setting specific objectives to be achieved through repeated actions."
+                    enterTouchDelay={50}
+                    leaveTouchDelay={25}
+                  >
+                    <IconButton
+                      icon="chat-question-outline"
+                      selected
+                      size={24}
+                      onPress={() => {}}
+                      style={{ alignSelf: "center" }}
+                    />
+                  </Tooltip> */}
+                </Text>
                 <SegmentedButtons
-                  style={[{ width: "90%" }]}
+                  style={[{ width: "96%" }]}
                   onValueChange={onChange}
                   value={value}
                   buttons={GOAL_TYPES.map((type) => {
@@ -183,12 +217,74 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           name="goal.target.type"
         />
 
+        {watchGoalType === "numeric" ? (
+          <View
+            style={{
+              marginTop: 10,
+              flexDirection: "row",
+              gap: 10,
+              width: "96%",
+            }}
+          >
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => {
+                return (
+                  <TextInput
+                    placeholder="Target (e.g: 5 000)"
+                    onBlur={onBlur}
+                    onChangeText={(text) => {
+                      if (text.length <= 0) {
+                        onChange("")
+                        return
+                      }
+                      onChange(Number.parseInt(text, 10))
+                    }}
+                    value={value?.toString()}
+                    style={[
+                      styles.spacing,
+                      {
+                        width: "50%",
+                      },
+                    ]}
+                    mode="outlined"
+                    keyboardType="numeric"
+                  />
+                )
+              }}
+              name="goal.target.value"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => {
+                return (
+                  <TextInput
+                    placeholder="Unit (e.g: Steps)"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    style={[
+                      styles.spacing,
+                      {
+                        width: "50%",
+                      },
+                    ]}
+                    mode="outlined"
+                  />
+                )
+              }}
+              name="goal.target.unit"
+            />
+          </View>
+        ) : null}
+
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => {
             return (
               <ColorPicker
-                style={[styles.spacing, { width: "90%" }]}
+                style={[{ marginVertical: 15, width: "96%" }]}
                 value={value}
                 onComplete={(value) => {
                   onChange(value.hex)
@@ -205,16 +301,30 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => {
+          render={({ field: { onChange, value } }) => {
             return (
-              <TextInput
-                placeholder="Icon"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={[styles.spacing, { width: "90%" }]}
-                mode="outlined"
-              />
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                  marginVertical: 5,
+                }}
+              >
+                <FontAwesomeIcon size={36} icon={value as IconName} />
+                <Button mode="contained" onPress={openModalIconSelector}>
+                  Choose an icon
+                </Button>
+
+                <IconSelectorModal
+                  key={isModalIconSelectorVisible ? "visible" : "hidden"}
+                  isVisible={isModalIconSelectorVisible}
+                  selectedIcon={value}
+                  handleCloseModal={closeModalIconSelector}
+                  onIconSelect={onChange}
+                />
+              </View>
             )
           }}
           name="icon"
@@ -224,8 +334,8 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
           mode="contained"
           onPress={handleSubmit(onSubmit)}
           loading={habitCreate.state === "loading"}
-          disabled={habitCreate.state === "loading"}
-          style={[styles.spacing, { width: "90%" }]}
+          disabled={habitCreate.state === "loading" || !isValid}
+          style={[{ width: "100%", marginVertical: 15 }]}
         >
           Create your habit! 🚀
         </Button>
@@ -244,6 +354,6 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
 
 const styles = StyleSheet.create({
   spacing: {
-    marginVertical: 16,
+    marginVertical: 10,
   },
 })

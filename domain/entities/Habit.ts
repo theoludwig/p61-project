@@ -8,6 +8,7 @@ export const HabitSchema = EntitySchema.extend({
   name: z.string().min(1).max(50),
   color: z.string().min(4).max(9).regex(/^#/),
   icon: z.string().min(1),
+  endDate: z.date().optional(),
 })
 
 export const HabitCreateSchema = HabitSchema.extend({
@@ -29,7 +30,6 @@ export interface HabitData extends HabitBase {
 export interface HabitJSON extends HabitBase {
   goal: GoalBaseJSON
   startDate: string
-  endDate?: string
 }
 
 export class Habit extends Entity implements HabitData {
@@ -62,7 +62,7 @@ export class Habit extends Entity implements HabitData {
       icon: this.icon,
       goal: this.goal,
       startDate: this.startDate.toISOString(),
-      endDate: this.endDate?.toISOString(),
+      endDate: this?.endDate,
     }
   }
 }

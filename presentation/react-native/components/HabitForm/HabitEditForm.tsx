@@ -1,8 +1,16 @@
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { ScrollView, StyleSheet } from "react-native"
-import { Button, HelperText, Snackbar, TextInput } from "react-native-paper"
+import { ScrollView, StyleSheet, View } from "react-native"
+import {
+  Button,
+  HelperText,
+  Snackbar,
+  Text,
+  TextInput,
+} from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
 import ColorPicker, {
   HueSlider,
@@ -12,19 +20,21 @@ import ColorPicker, {
 
 import type { Habit, HabitEditData } from "@/domain/entities/Habit"
 import { HabitEditSchema } from "@/domain/entities/Habit"
-import { useHabitsTracker } from "../../contexts/HabitsTracker"
+import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
+import { useBoolean } from "@/presentation/react/hooks/useBoolean"
+import { IconSelectorModal } from "./IconSelectorModal"
 
 export interface HabitEditFormProps {
   habit: Habit
 }
 
 export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
-  const { habitEdit, habitsTrackerPresenter } = useHabitsTracker()
+  const { habitEdit, habitStop, habitsTrackerPresenter } = useHabitsTracker()
 
   const {
     control,
+    formState: { errors, isValid },
     handleSubmit,
-    formState: { errors },
   } = useForm<HabitEditData>({
     mode: "onChange",
     resolver: zodResolver(HabitEditSchema),
@@ -36,6 +46,12 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
       icon: habit.icon,
     },
   })
+
+  const {
+    value: isModalIconSelectorVisible,
+    setTrue: openModalIconSelector,
+    setFalse: closeModalIconSelector,
+  } = useBoolean()
 
   const [isVisibleSnackbar, setIsVisibleSnackbar] = useState(false)
 
@@ -70,7 +86,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
                   style={[
                     styles.spacing,
                     {
-                      width: "90%",
+                      width: "96%",
                     },
                   ]}
                   mode="outlined"
@@ -93,7 +109,7 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           render={({ field: { onChange, value } }) => {
             return (
               <ColorPicker
-                style={[styles.spacing, { width: "90%" }]}
+                style={[styles.spacing, { width: "96%" }]}
                 value={value}
                 onComplete={(value) => {
                   onChange(value.hex)
@@ -110,16 +126,30 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
 
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => {
+          render={({ field: { onChange, value } }) => {
             return (
-              <TextInput
-                placeholder="Icon"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                style={[styles.spacing, { width: "90%" }]}
-                mode="outlined"
-              />
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                  marginVertical: 30,
+                }}
+              >
+                <FontAwesomeIcon size={36} icon={value as IconName} />
+                <Button mode="contained" onPress={openModalIconSelector}>
+                  Choose an icon
+                </Button>
+
+                <IconSelectorModal
+                  key={isModalIconSelectorVisible ? "visible" : "hidden"}
+                  isVisible={isModalIconSelectorVisible}
+                  selectedIcon={value}
+                  handleCloseModal={closeModalIconSelector}
+                  onIconSelect={onChange}
+                />
+              </View>
             )
           }}
           name="icon"
@@ -129,11 +159,35 @@ export const HabitEditForm: React.FC<HabitEditFormProps> = ({ habit }) => {
           mode="contained"
           onPress={handleSubmit(onSubmit)}
           loading={habitEdit.state === "loading"}
-          disabled={habitEdit.state === "loading"}
-          style={[styles.spacing, { width: "90%" }]}
+          disabled={habitEdit.state === "loading" || !isValid}
+          style={[styles.spacing, { width: "96%" }]}
         >
           Save
         </Button>
+
+        {habit.endDate == null ? (
+          <Button
+            mode="outlined"
+            onPress={async () => {
+              await habitsTrackerPresenter.habitStop(habit)
+            }}
+            loading={habitStop.state === "loading"}
+            disabled={habitStop.state === "loading"}
+            style={[styles.spacing, { width: "96%" }]}
+          >
+            🛑 Stop Habit (effective tomorrow)
+          </Button>
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              marginVertical: 20,
+              fontSize: 20,
+            }}
+          >
+            🛑 The habit has been stopped! (No further progress can be saved)
+          </Text>
+        )}
       </ScrollView>
 
       <Snackbar

@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer"
 
-import { ExternalLink } from "@/presentation/react/components/ExternalLink"
+import { ExternalLink } from "@/presentation/react-native/ui/ExternalLink"
 
 describe("<ExternalLink />", () => {
   it("renders correctly", () => {

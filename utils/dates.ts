@@ -11,7 +11,7 @@ export const getISODate = (date: Date): string => {
   return date.toISOString().slice(0, 10)
 }
 
-export const getNowDate = (): Date => {
+export const getNowDateUTC = (): Date => {
   const date = new Date()
   const milliseconds = Date.UTC(
     date.getFullYear(),
@@ -28,8 +28,8 @@ export const getNowDate = (): Date => {
  * Get the week number [1-52] for a given date.
  * @param {Date} date
  * @returns {number}
- * @example getWeekNumber(new Date(2020, 0, 1)) // 1
- * @example getWeekNumber(new Date(2020, 0, 8)) // 2
+ * @example getWeekNumber(new Date("2020-01-01")) // 1
+ * @example getWeekNumber(new Date("2020-01-08")) // 2
  */
 export const getWeekNumber = (date: Date): number => {
   const dateCopy = new Date(date.getTime())

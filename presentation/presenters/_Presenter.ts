@@ -41,10 +41,7 @@ export abstract class Presenter<State> {
 
   public unsubscribe(listener: Listener<State>): void {
     const listenerIndex = this._listeners.indexOf(listener)
-    const listenerFound = listenerIndex !== -1
-    if (listenerFound) {
-      this._listeners.splice(listenerIndex, 1)
-    }
+    this._listeners.splice(listenerIndex, 1)
   }
 
   private notifyListeners(): void {

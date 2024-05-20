@@ -117,7 +117,7 @@ VALUES
     'Wake up at 07h00',
     '#006CFF',
     'bed',
-    timezone('utc' :: text, NOW()),
+    timezone('utc' :: text, NOW() - INTERVAL '3 days'),
     NULL,
     'daily',
     NULL,
@@ -144,7 +144,7 @@ VALUES
     'Learn English',
     '#EB4034',
     'language',
-    timezone('utc' :: text, NOW()),
+    timezone('utc' :: text, NOW() - INTERVAL '3 days'),
     NULL,
     'daily',
     30,
@@ -171,7 +171,7 @@ VALUES
     'Walk',
     '#228B22',
     'person-walking',
-    timezone('utc' :: text, NOW()),
+    timezone('utc' :: text, NOW() - INTERVAL '3 days'),
     NULL,
     'daily',
     5000,
@@ -198,7 +198,7 @@ VALUES
     'Clean the house',
     '#808080',
     'broom',
-    timezone('utc' :: text, NOW()),
+    timezone('utc' :: text, NOW() - INTERVAL '3 days'),
     NULL,
     'weekly',
     NULL,
@@ -225,7 +225,7 @@ VALUES
     'Solve Programming Challenges',
     '#DE3163',
     'code',
-    timezone('utc' :: text, NOW()),
+    timezone('utc' :: text, NOW() - INTERVAL '3 days'),
     NULL,
     'monthly',
     5,
@@ -263,5 +263,5 @@ VALUES
     4733
   );
 
--- SELECT setval('habits_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits), false);
--- SELECT setval('habits_progresses_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits_progresses), false);
+SELECT setval('habits_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits), false);
+SELECT setval('habits_progresses_id_seq', (SELECT coalesce(MAX(id) + 1, 1) FROM habits_progresses), false);
