@@ -2,7 +2,7 @@
   "expo": {
     "name": "Habits Tracker",
     "slug": "p61-project",
-    "version": "1.0.0-staging.3",
+    "version": "1.0.0-staging.4",
     "orientation": "portrait",
     "icon": "./presentation/assets/images/icon.png",
     "scheme": "p61-project",
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.theoludwig.p61project",
-      "versionCode": 1
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
