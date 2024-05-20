@@ -45,7 +45,6 @@ export const HabitsMainPage: React.FC<HabitsMainPageProps> = (props) => {
           <HabitsList
             habitsTracker={habitsTracker}
             selectedDate={selectedDate}
-            frequenciesFiltered={frequenciesFiltered}
           />
         )
       }}

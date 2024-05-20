@@ -1,9 +1,10 @@
 import LottieView from "lottie-react-native"
 import { useRef, useState } from "react"
 import { Dimensions, ScrollView, View } from "react-native"
-import { Divider, List } from "react-native-paper"
+import { Divider, List, Text } from "react-native-paper"
 
-import type { GoalFrequency } from "@/domain/entities/Goal"
+import { GOAL_FREQUENCIES, type GoalFrequency } from "@/domain/entities/Goal"
+import type { HabitHistory } from "@/domain/entities/HabitHistory"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
 import { capitalize } from "@/utils/strings"
 import confettiJSON from "../../../assets/confetti.json"
@@ -12,11 +13,10 @@ import { HabitCard } from "./HabitCard"
 export interface HabitsListProps {
   habitsTracker: HabitsTracker
   selectedDate: Date
-  frequenciesFiltered: GoalFrequency[]
 }
 
 export const HabitsList: React.FC<HabitsListProps> = (props) => {
-  const { habitsTracker, selectedDate, frequenciesFiltered } = props
+  const { habitsTracker, selectedDate } = props
 
   const [accordionExpanded, setAccordionExpanded] = useState<{
     [key in GoalFrequency]: boolean
@@ -27,6 +27,25 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
   })
 
   const confettiRef = useRef<LottieView | null>(null)
+
+  const habitsHistoriesByFrequency: Record<GoalFrequency, HabitHistory[]> = {
+    daily: habitsTracker.getHabitsHistoriesByDate({
+      selectedDate,
+      frequency: "daily",
+    }),
+    weekly: habitsTracker.getHabitsHistoriesByDate({
+      selectedDate,
+      frequency: "weekly",
+    }),
+    monthly: habitsTracker.getHabitsHistoriesByDate({
+      selectedDate,
+      frequency: "monthly",
+    }),
+  }
+
+  const frequenciesFiltered = GOAL_FREQUENCIES.filter((frequency) => {
+    return habitsHistoriesByFrequency[frequency].length > 0
+  })
 
   return (
     <>
@@ -69,40 +88,45 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
       >
         <Divider />
 
-        <List.Section>
-          {frequenciesFiltered.map((frequency) => {
-            return (
-              <List.Accordion
-                expanded={accordionExpanded[frequency]}
-                onPress={() => {
-                  setAccordionExpanded((old) => {
-                    return {
-                      ...old,
-                      [frequency]: !old[frequency],
-                    }
-                  })
-                }}
-                key={frequency}
-                title={capitalize(frequency)}
-                titleStyle={[
-                  {
-                    fontSize: 26,
-                  },
-                ]}
-              >
-                {habitsTracker.habitsHistory[frequency]
-                  .filter((habitItem) => {
-                    const startDate = new Date(habitItem.habit.startDate)
-                    startDate.setHours(0, 0, 0, 0)
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 22,
+            textAlign: "center",
+            marginTop: 20,
+          }}
+        >
+          {selectedDate.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Text>
 
-                    return (
-                      startDate <= selectedDate &&
-                      (habitItem.habit.endDate == null ||
-                        (habitItem.habit.endDate != null &&
-                          habitItem.habit.endDate >= selectedDate))
-                    )
-                  })
-                  .map((item) => {
+        {frequenciesFiltered.length > 0 ? (
+          <List.Section>
+            {frequenciesFiltered.map((frequency) => {
+              return (
+                <List.Accordion
+                  expanded={accordionExpanded[frequency]}
+                  onPress={() => {
+                    setAccordionExpanded((old) => {
+                      return {
+                        ...old,
+                        [frequency]: !old[frequency],
+                      }
+                    })
+                  }}
+                  key={frequency}
+                  title={capitalize(frequency)}
+                  titleStyle={[
+                    {
+                      fontSize: 26,
+                    },
+                  ]}
+                >
+                  {habitsHistoriesByFrequency[frequency].map((item) => {
                     return (
                       <HabitCard
                         habitHistory={item}
@@ -112,10 +136,21 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
                       />
                     )
                   })}
-              </List.Accordion>
-            )
-          })}
-        </List.Section>
+                </List.Accordion>
+              )
+            })}
+          </List.Section>
+        ) : (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginVertical: 6,
+            }}
+          >
+            <Text variant="titleLarge">No habits for this date</Text>
+          </View>
+        )}
       </ScrollView>
     </>
   )
