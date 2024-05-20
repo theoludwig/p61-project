@@ -9,13 +9,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "expo:typed-routes": "expo customize tsconfig.json",
+    "build-staging:android": "eas build --platform=android --profile=staging",
     "lint:commit": "commitlint",
     "lint:prettier": "prettier . --check",
     "lint:eslint": "eslint . --max-warnings 0 --report-unused-disable-directives --ignore-path .gitignore",
     "lint:typescript": "tsc --noEmit",
     "lint:staged": "lint-staged",
     "test": "jest --reporters=default --reporters=jest-junit",
-    "supabase": "supabase --workdir \"./infrastructure\"",
+    "supabase-cli": "supabase --workdir \"./infrastructure\"",
     "postinstall": "husky"
   },
   "dependencies": {

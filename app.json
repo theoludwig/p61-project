@@ -1,26 +1,29 @@
 {
   "expo": {
-    "name": "p61-project",
+    "name": "Habits Tracker",
     "slug": "p61-project",
-    "version": "1.0.0",
+    "version": "1.0.0-staging.3",
     "orientation": "portrait",
     "icon": "./presentation/assets/images/icon.png",
     "scheme": "p61-project",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./presentation/assets/images/splashscreen.jpg",
+      "image": "./presentation/assets/images/splashscreen.png",
       "resizeMode": "cover",
       "backgroundColor": "#74b6cb"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./presentation/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.theoludwig.p61project",
+      "versionCode": 1
     },
     "web": {
       "bundler": "metro",
@@ -30,6 +33,14 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5c0a922a-564b-4d62-8231-ce5aef7ff978"
+      }
     }
   }
 }
