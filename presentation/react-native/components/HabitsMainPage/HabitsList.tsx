@@ -92,10 +92,14 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
               >
                 {habitsTracker.habitsHistory[frequency]
                   .filter((habitItem) => {
+                    const startDate = new Date(habitItem.habit.startDate)
+                    startDate.setHours(0, 0, 0, 0)
+
                     return (
-                      (habitItem.habit.endDate != null &&
-                        habitItem.habit.endDate >= selectedDate) ||
-                      habitItem.habit.endDate == null
+                      startDate <= selectedDate &&
+                      (habitItem.habit.endDate == null ||
+                        (habitItem.habit.endDate != null &&
+                          habitItem.habit.endDate >= selectedDate))
                     )
                   })
                   .map((item) => {
