@@ -1,5 +1,5 @@
 default:
-  image: "node:20.12.2"
+  image: "node:20.13.1"
 
 stages:
   - "test"

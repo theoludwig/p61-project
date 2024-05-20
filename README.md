@@ -35,7 +35,7 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 - [Node.js](https://nodejs.org/) >= 20.0.0
 - [npm](https://www.npmjs.com/) >= 10.0.0
-- [Expo Go](https://expo.io/client)
+- [Expo Go](https://expo.io/client) ~2.31.0
 - [Docker](https://www.docker.com/) (facultatif, utilisé pour lancer [Supabase](https://supabase.io/) en local)
 
 ### Installation
