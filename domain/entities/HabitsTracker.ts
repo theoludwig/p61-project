@@ -96,4 +96,29 @@ export class HabitsTracker implements HabitsTrackerData {
       )
     })
   }
+
+  public getHabitsStatisticsByDateAndFrequency({
+    selectedDate,
+    frequency,
+  }: {
+    selectedDate: Date
+    frequency: GoalFrequency
+  }): {
+    totalGoalsSuccess: number
+    totalGoals: number
+  } {
+    const habitsHistory = this.getHabitsHistoriesByDate({
+      selectedDate,
+      frequency,
+    })
+    let totalGoalsSuccess = 0
+    const totalGoals = habitsHistory.length
+    for (const habitHistory of habitsHistory) {
+      const goalProgress = habitHistory.getGoalProgressByDate(selectedDate)
+      if (goalProgress.isCompleted()) {
+        totalGoalsSuccess++
+      }
+    }
+    return { totalGoalsSuccess, totalGoals }
+  }
 }

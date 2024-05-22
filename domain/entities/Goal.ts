@@ -11,6 +11,12 @@ export const GOAL_FREQUENCIES = GOAL_FREQUENCIES_ZOD.map((frequency) => {
 })
 export type GoalFrequency = (typeof GOAL_FREQUENCIES)[number]
 
+export const GOAL_FREQUENCIES_TYPES = {
+  daily: "day",
+  weekly: "week",
+  monthly: "month",
+} as const
+
 export const GOAL_TYPES_ZOD = [
   z.literal("boolean"),
   z.literal("numeric"),
