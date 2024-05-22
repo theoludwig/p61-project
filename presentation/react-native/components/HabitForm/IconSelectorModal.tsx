@@ -39,12 +39,11 @@ const fuseOptions = {
 const fuse = new Fuse(iconNames, fuseOptions)
 
 const findIconsInLibrary = (icon: string): string[] => {
-  return fuse
-    .search(icon)
-    .map((result) => {
-      return result.item
-    })
-    .slice(0, 50)
+  const results = fuse.search(icon).map((result) => {
+    return result.item
+  })
+  const uniqueResults = Array.from(new Set(results))
+  return uniqueResults.slice(0, 50)
 }
 
 export const IconSelectorModal: React.FC<IconSelectorModalProps> = ({
