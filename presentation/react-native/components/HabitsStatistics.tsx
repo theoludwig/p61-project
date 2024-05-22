@@ -84,8 +84,13 @@ export const HabitsStatistics: React.FC<HabitsStatisticsProps> = (props) => {
                       mode="elevated"
                       style={{ marginVertical: 8, marginHorizontal: 10 }}
                     >
-                      <Card.Content>
-                        <Text variant="bodyMedium">
+                      <Card.Content
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text variant="bodyMedium" style={{ marginBottom: 5 }}>
                           {totalGoalsSuccess} achieved goals in the{" "}
                           {GOAL_FREQUENCIES_TYPES[frequency]} out of{" "}
                           {totalGoals}.
