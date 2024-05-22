@@ -1,16 +1,17 @@
 import type { IconName } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { useRouter } from "expo-router"
+import { Link, useRouter } from "expo-router"
 import type LottieView from "lottie-react-native"
 import { useState } from "react"
 import { View } from "react-native"
-import { Checkbox, List, Text } from "react-native-paper"
+import { Button, Checkbox, List, Text } from "react-native-paper"
 
 import type { GoalBoolean } from "@/domain/entities/Goal"
 import { GoalBooleanProgress } from "@/domain/entities/Goal"
 import type { HabitHistory } from "@/domain/entities/HabitHistory"
 import { useHabitsTracker } from "@/presentation/react/contexts/HabitsTracker"
 import { getColorRGBAFromHex } from "@/utils/colors"
+import { getISODate } from "@/utils/dates"
 
 export interface HabitCardProps {
   habitHistory: HabitHistory
@@ -80,14 +81,32 @@ export const HabitCard: React.FC<HabitCardProps> = (props) => {
       }}
       right={() => {
         if (goalProgress.isNumeric()) {
+          const href = {
+            pathname: "/application/habits/[habitId]/progress/[selectedDate]/",
+            params: {
+              habitId: habit.id,
+              selectedDate: getISODate(selectedDate),
+            },
+          }
           return (
-            <View>
-              <Text>
-                {goalProgress.progress.toLocaleString()} /{" "}
-                {goalProgress.goal.target.value.toLocaleString()}{" "}
-                {goalProgress.goal.target.unit}
-              </Text>
-            </View>
+            <Link href={href}>
+              <View>
+                <Text>
+                  {goalProgress.progress.toLocaleString()} /{" "}
+                  {goalProgress.goal.target.value.toLocaleString()}{" "}
+                  {goalProgress.goal.target.unit}
+                </Text>
+
+                <Button
+                  mode="elevated"
+                  onPress={() => {
+                    router.push(href)
+                  }}
+                >
+                  Edit
+                </Button>
+              </View>
+            </Link>
           )
         }
 

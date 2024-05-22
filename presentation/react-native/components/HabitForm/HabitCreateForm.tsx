@@ -185,19 +185,6 @@ export const HabitCreateForm: React.FC<HabitCreateFormProps> = ({ user }) => {
                   ]}
                 >
                   Habit Type
-                  {/* <Tooltip
-                    title="Routine habits are activities performed regularly, while Target habits involve setting specific objectives to be achieved through repeated actions."
-                    enterTouchDelay={50}
-                    leaveTouchDelay={25}
-                  >
-                    <IconButton
-                      icon="chat-question-outline"
-                      selected
-                      size={24}
-                      onPress={() => {}}
-                      style={{ alignSelf: "center" }}
-                    />
-                  </Tooltip> */}
                 </Text>
                 <SegmentedButtons
                   style={[{ width: "96%" }]}

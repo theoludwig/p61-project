@@ -51,6 +51,16 @@ export class HabitGoalProgressUpdateUseCase
       })
     }
 
+    if (goalProgress.isNumeric()) {
+      return await this.habitProgressCreateRepository.execute({
+        habitProgressData: {
+          date,
+          goalProgress,
+          habitId: habitHistory.habit.id,
+        },
+      })
+    }
+
     throw new Error("Not implemented")
   }
 }
