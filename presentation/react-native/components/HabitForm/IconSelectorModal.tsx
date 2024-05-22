@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { memo, useCallback, useEffect, useState, useTransition } from "react"
 import { Modal, ScrollView, View } from "react-native"
 import { Button, List, Text, TextInput } from "react-native-paper"
+import Fuse from "fuse.js"
 
 import { IconsList } from "./IconsList"
 
@@ -30,10 +31,18 @@ const iconNames = Object.keys(fas).map((key) => {
   return fas[key]?.iconName ?? key
 })
 
+const fuseOptions = {
+  keys: ["iconName"],
+  threshold: 0.4,
+}
+
+const fuse = new Fuse(iconNames, fuseOptions)
+
 const findIconsInLibrary = (icon: string): string[] => {
-  return iconNames
-    .filter((name, index, self) => {
-      return name.includes(icon) && self.indexOf(name) === index
+  return fuse
+    .search(icon)
+    .map((result) => {
+      return result.item
     })
     .slice(0, 50)
 }
