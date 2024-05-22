@@ -6,7 +6,7 @@ import { Divider, List, Text } from "react-native-paper"
 import { GOAL_FREQUENCIES, type GoalFrequency } from "@/domain/entities/Goal"
 import type { HabitHistory } from "@/domain/entities/HabitHistory"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
-import { capitalize } from "@/utils/strings"
+import { LOCALE, capitalize } from "@/utils/strings"
 import confettiJSON from "../../../assets/confetti.json"
 import { HabitCard } from "./HabitCard"
 
@@ -96,7 +96,7 @@ export const HabitsList: React.FC<HabitsListProps> = (props) => {
             marginTop: 20,
           }}
         >
-          {selectedDate.toLocaleDateString("en-US", {
+          {selectedDate.toLocaleDateString(LOCALE, {
             weekday: "long",
             year: "numeric",
             month: "long",

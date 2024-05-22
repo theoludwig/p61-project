@@ -45,7 +45,7 @@ const TabLayout: React.FC = () => {
         }}
       />
       <Tabs.Screen
-        name="habits/stats"
+        name="habits/statistics"
         options={{
           title: "Statistics",
           tabBarIcon: ({ color }) => {
