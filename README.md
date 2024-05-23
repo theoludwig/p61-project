@@ -21,7 +21,6 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 - [Sujet](./docs/SUJET.md) + [Cahier des charges](./docs/CAHIER-DES-CHARGES.md)
 - [Modèle Logique des Données (MLD)](./docs/MLD.md)
-- [Architecture](./docs/ARCHITECTURE.md)
 - [Conventions développement informatique](./docs/CONVENTIONS.md)
 - [Kanban Board (Trello)](https://trello.com/b/8kYlcLA8/habits-tracker)
 
