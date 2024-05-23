@@ -30,6 +30,8 @@ export const HabitProgress: React.FC<HabitProgressProps> = ({
 
   const goalProgress = habitHistory.getGoalProgressByDate(selectedDate)
 
+  const goalProgresses = habitHistory.getProgressesByDate(selectedDate)
+
   const values = {
     progress: 0,
     min: 0,
@@ -61,8 +63,8 @@ export const HabitProgress: React.FC<HabitProgressProps> = ({
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "space-between" }}>
-      <ScrollView
-        contentContainerStyle={{
+      <View
+        style={{
           justifyContent: "center",
           alignItems: "center",
           paddingHorizontal: 20,
@@ -133,8 +135,8 @@ export const HabitProgress: React.FC<HabitProgressProps> = ({
         />
 
         <Text style={{ marginVertical: 10, fontWeight: "bold", fontSize: 18 }}>
-          {goalProgress.progress.toLocaleString()} /{" "}
-          {goalProgress.goal.target.value.toLocaleString()}{" "}
+          {goalProgress.progress.toLocaleString(LOCALE)} /{" "}
+          {goalProgress.goal.target.value.toLocaleString(LOCALE)}{" "}
           {goalProgress.goal.target.unit}
         </Text>
 
@@ -195,7 +197,58 @@ export const HabitProgress: React.FC<HabitProgressProps> = ({
             marginVertical: 10,
           }}
         />
-      </ScrollView>
+
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 18,
+            margin: 15,
+          }}
+        >
+          Progress History
+        </Text>
+
+        <ScrollView
+          style={{
+            width: "100%",
+            marginVertical: 20,
+          }}
+        >
+          {goalProgresses.map((habitProgress, index) => {
+            if (!habitProgress.goalProgress.isNumeric()) {
+              return <></>
+            }
+
+            return (
+              <View
+                key={habitProgress.id + index}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingVertical: 10,
+                  paddingHorizontal: 20,
+                  borderBottomWidth: 1,
+                  borderColor: "#f57c00",
+                  width: "100%",
+                }}
+              >
+                <Text>
+                  {habitProgress.date.toLocaleDateString(LOCALE, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </Text>
+                <Text>
+                  {habitProgress.goalProgress.progress.toLocaleString(LOCALE)}{" "}
+                  {habitProgress.goalProgress.goal.target.unit}
+                </Text>
+              </View>
+            )
+          })}
+        </ScrollView>
+      </View>
 
       <Snackbar
         visible={isVisibleSnackbar}
