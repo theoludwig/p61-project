@@ -20,9 +20,15 @@ export const About: React.FC<AboutProps> = (props) => {
       style={{
         flex: 1,
         paddingHorizontal: 20,
+        justifyContent: "center",
       }}
     >
-      <View style={{ alignItems: "center", marginVertical: 20 }}>
+      <View
+        style={{
+          alignItems: "center",
+          marginVertical: 20,
+        }}
+      >
         <Text
           style={{
             fontWeight: "bold",
