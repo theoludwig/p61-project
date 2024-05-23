@@ -2,6 +2,7 @@ import { Card, Divider, Text } from "react-native-paper"
 import CircularProgress from "react-native-circular-progress-indicator"
 import { Agenda } from "react-native-calendars"
 import { useState } from "react"
+import { ScrollView } from "react-native"
 
 import { getNowDateUTC, getISODate } from "@/utils/dates"
 import type { HabitsTracker } from "@/domain/entities/HabitsTracker"
@@ -39,7 +40,7 @@ export const HabitsStatistics: React.FC<HabitsStatisticsProps> = (props) => {
       selected={selectedDateISO}
       renderList={() => {
         return (
-          <>
+          <ScrollView>
             <Divider />
 
             <Text
@@ -107,7 +108,7 @@ export const HabitsStatistics: React.FC<HabitsStatisticsProps> = (props) => {
                   )
                 },
               )}
-          </>
+          </ScrollView>
         )
       }}
     />
