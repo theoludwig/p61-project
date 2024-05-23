@@ -7,10 +7,11 @@ import { getVersion } from "@/utils/version"
 
 export interface AboutProps {
   actionButton: React.ReactNode
+  footer?: React.ReactNode
 }
 
 export const About: React.FC<AboutProps> = (props) => {
-  const { actionButton } = props
+  const { actionButton, footer } = props
 
   const version = getVersion()
 
@@ -66,6 +67,8 @@ export const About: React.FC<AboutProps> = (props) => {
       <Text variant="bodyLarge" style={{ textAlign: "center" }}>
         P61 Mobile Development
       </Text>
+
+      {footer}
 
       <View
         style={{
