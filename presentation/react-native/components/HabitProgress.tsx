@@ -2,6 +2,8 @@ import { useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import { Button, Snackbar, Text, TextInput } from "react-native-paper"
 import { SafeAreaView } from "react-native-safe-area-context"
+import type { IconName } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import type { GoalNumeric } from "@/domain/entities/Goal"
 import { GoalNumericProgress } from "@/domain/entities/Goal"
@@ -66,15 +68,34 @@ export const HabitProgress: React.FC<HabitProgressProps> = ({
           paddingHorizontal: 20,
         }}
       >
-        <Text
+        <View
           style={{
-            fontWeight: "bold",
-            fontSize: 28,
-            textAlign: "center",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 15,
           }}
         >
-          {habitHistory.habit.name}
-        </Text>
+          <FontAwesomeIcon
+            size={24}
+            icon={habitHistory.habit.icon as IconName}
+            style={[
+              {
+                width: 30,
+              },
+            ]}
+          />
+
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 28,
+              textAlign: "center",
+            }}
+          >
+            {habitHistory.habit.name}
+          </Text>
+        </View>
 
         <Text
           style={{
