@@ -45,7 +45,7 @@ Un tracker d'habitudes pour performer au boulot et dans la vie de tous les jours
 
 ```sh
 # Cloner le projet
-git clone git@git.unistra.fr:rrll/p61-project.git
+git clone git@github.com:theoludwig/p61-project.git
 
 # Se déplacer dans le répertoire du projet
 cd p61-project

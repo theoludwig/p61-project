@@ -19,7 +19,7 @@ npm run test
 npm run test -- --u
 ```
 
-Une pipeline CI ([`.gitlab-ci.yml`](../.gitlab-ci.yml)) est en place pour vérifier que le code respecte ces bonnes pratiques et que les tests passent.
+Une pipeline CI est en place pour vérifier que le code respecte ces bonnes pratiques et que les tests passent.
 
 ## GitFlow
 
